@@ -3,7 +3,13 @@
  * Handles authentication headers, URL parameter serialization, JSON parsing, and error formatting.
  */
 
-const API_BASE_URL = (import.meta.env.VITE_API_URL || '/api').replace(/\/$/, '');
+const getApiBase = (): string => {
+  const envUrl = (import.meta.env.VITE_API_URL || '').trim().replace(/\/$/, '');
+  if (!envUrl) return '/api';
+  return envUrl.endsWith('/api') ? envUrl : `${envUrl}/api`;
+};
+
+const API_BASE_URL = getApiBase();
 
 export interface ApiResponse<T = any> {
   success: boolean;
@@ -40,7 +46,7 @@ class ApiService {
   private normalizeUrl(endpoint: string, params?: Record<string, any>): string {
     let cleanEndpoint = endpoint.startsWith('/') ? endpoint : `/${endpoint}`;
     if (cleanEndpoint.startsWith('/api/')) {
-      cleanEndpoint = cleanEndpoint.replace('/api', '');
+      cleanEndpoint = cleanEndpoint.replace(/^\/api/, '');
     } else if (cleanEndpoint === '/api') {
       cleanEndpoint = '';
     }
