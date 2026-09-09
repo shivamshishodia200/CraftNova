@@ -16,7 +16,7 @@ import { calculateHaversineDistanceMeters } from './peopleControllers';
 import { DEFAULT_ORG_ID } from '../database/migration';
 
 // Upload Directory for Work Session Video Chunks
-export const RECORDINGS_DIR = path.resolve(__dirname, '../../craftmedia_backend/uploads/recordings');
+export const RECORDINGS_DIR = path.resolve(__dirname, '../uploads/recordings');
 if (!fs.existsSync(RECORDINGS_DIR)) {
   try {
     fs.mkdirSync(RECORDINGS_DIR, { recursive: true });
