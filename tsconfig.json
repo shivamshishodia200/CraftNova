@@ -30,7 +30,12 @@
   "include": [
     "src",
     "craftmedia_admin",
-    "craftmedia-super admin",
-    "craftmedia_backend"
+    "craftmedia-super admin"
+  ],
+  "exclude": [
+    "craftmedia_backend",
+    "desktop_tracker",
+    "node_modules",
+    "dist"
   ]
 }
