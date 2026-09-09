@@ -37,6 +37,16 @@ export async function createBackendApp() {
   app.use(express.json({ limit: '50mb' }));
   app.use(express.urlencoded({ extended: true, limit: '50mb' }));
 
+  // Root welcome endpoint
+  app.get('/', (req, res) => {
+    res.json({
+      status: 'online',
+      service: 'Craft Media Hub CRM Enterprise Server API',
+      health: '/api/health',
+      version: '1.0.0'
+    });
+  });
+
   // API Health check endpoint
   app.get('/api/health', (req, res) => {
     res.json({
