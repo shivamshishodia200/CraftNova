@@ -1,0 +1,16 @@
+[
+  {
+    "_id": "cn_1",
+    "creditNoteNumber": "CN-2026-0003",
+    "customerId": "cust_1",
+    "customerName": "Shree Cement Infrastructure Corp",
+    "invoiceId": "inv_1",
+    "amount": 5000,
+    "reason": "Volume discount rebate as agreed in contract",
+    "date": "2026-02-06",
+    "status": "ACTIVE",
+    "createdAt": "2026-02-06T15:00:00.000Z",
+    "organizationId": "org_craftmedia",
+    "updatedAt": "2026-09-04T11:45:05.311Z"
+  }
+]

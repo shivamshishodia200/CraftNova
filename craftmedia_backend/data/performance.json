@@ -1,0 +1,44 @@
+[
+  {
+    "_id": "perf_1",
+    "employeeId": "emp_1",
+    "employeeName": "Vikram Mehta",
+    "reviewPeriod": "Q4 2025",
+    "rating": 5,
+    "comments": "Exceeded sales target by 140%. Excellent client retention and quotation conversion rates.",
+    "goalsAchieved": "Closed Rs 1.8 Cr enterprise contracts across Gujarat and Rajasthan",
+    "reviewerName": "Rohan Sharma (Admin)",
+    "reviewDate": "2026-01-10",
+    "createdAt": "2026-01-10T12:00:00.000Z",
+    "organizationId": "org_craftmedia",
+    "updatedAt": "2026-09-04T11:45:05.315Z"
+  },
+  {
+    "_id": "perf_2",
+    "employeeId": "emp_2",
+    "employeeName": "Anjali Verma",
+    "reviewPeriod": "Q4 2025",
+    "rating": 4,
+    "comments": "Maintained 99.4% stock accuracy during annual inventory count. Minimal wastage.",
+    "goalsAchieved": "Optimized warehouse racking layout, reducing dispatch turnaround by 25%",
+    "reviewerName": "Rohan Sharma (Admin)",
+    "reviewDate": "2026-01-12",
+    "createdAt": "2026-01-12T14:00:00.000Z",
+    "organizationId": "org_craftmedia",
+    "updatedAt": "2026-09-04T11:45:05.315Z"
+  },
+  {
+    "_id": "perf_arjun",
+    "employeeId": "emp_arjun",
+    "employeeName": "Arjun Singh",
+    "reviewPeriod": "Q4 2025",
+    "rating": 4.8,
+    "comments": "Outstanding calling consistency and high client conversion on high-pressure valves catalog. Excellent punctuality.",
+    "goalsAchieved": "Closed 12 new industrial valve orders worth Rs 45 Lakhs in Q4",
+    "reviewerName": "Rohan Sharma (Admin)",
+    "reviewDate": "2026-01-15",
+    "createdAt": "2026-01-15T10:00:00.000Z",
+    "organizationId": "org_craftmedia",
+    "updatedAt": "2026-09-04T11:45:05.315Z"
+  }
+]

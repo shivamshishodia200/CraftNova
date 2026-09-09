@@ -1,0 +1,34 @@
+[
+  {
+    "_id": "msg_1",
+    "leadId": "lead_emp_1",
+    "recipientName": "Vikramaditya Solanki",
+    "recipientPhone": "+91 98240 77112",
+    "employeeId": "emp_arjun",
+    "employeeName": "Arjun Singh",
+    "message": "Respected Solanki ji, Greetings from Shiv Shakti Enterprises! As requested on call, please find our ISO certified valve catalog link: https://shivshakticrm.in/catalog/valves2026.pdf",
+    "messageType": "WHATSAPP",
+    "direction": "OUTBOUND",
+    "status": "DELIVERED",
+    "timestamp": "2026-02-16T11:25:00.000Z",
+    "createdAt": "2026-02-16T11:25:00.000Z",
+    "organizationId": "org_craftmedia",
+    "updatedAt": "2026-09-04T11:45:05.316Z"
+  },
+  {
+    "_id": "msg_2",
+    "leadId": "lead_emp_2",
+    "recipientName": "Sunita Sharma",
+    "recipientPhone": "+91 94140 33221",
+    "employeeId": "emp_arjun",
+    "employeeName": "Arjun Singh",
+    "message": "Hello Sunita Ma'am, we have ready dispatch stock of 40 units SS-316 valves at our Ahmedabad plant. Formal quote sent to your email.",
+    "messageType": "WHATSAPP",
+    "direction": "OUTBOUND",
+    "status": "READ",
+    "timestamp": "2026-02-16T15:10:00.000Z",
+    "createdAt": "2026-02-16T15:10:00.000Z",
+    "organizationId": "org_craftmedia",
+    "updatedAt": "2026-09-04T11:45:05.316Z"
+  }
+]

@@ -1,18 +1,19 @@
 {
-  "name": "360crm-desktop-tracker",
+  "name": "craftmedia-desktop-tracker",
   "version": "1.0.0",
-  "description": "360CRM Enterprise Desktop Attendance & Active Screen Time Tracker Agent",
+  "description": "Craft Media Hub CRM Enterprise Desktop Attendance & Active Screen Time Tracker Agent",
   "main": "main.js",
   "scripts": {
     "start": "electron ."
   },
   "keywords": [
-    "360crm",
+    "craftmediahub",
+    "craftmedia",
     "attendance",
     "screen-time",
     "activity-tracker",
     "electron"
   ],
-  "author": "360CRM Enterprise Solutions",
+  "author": "Craft Media Hub CRM Solutions",
   "license": "ISC"
 }

@@ -1,7 +1,12 @@
 node_modules/
 dist/
+**/node_modules/
+**/dist/
 360_backend/dist/
 360_backend/node_modules/
+craftmedia_backend/dist/
+craftmedia_backend/node_modules/
+craftmedia_backend/uploads/recordings/
 desktop_tracker/node_modules/
 desktop_tracker/offline_queue.json
 .env
@@ -9,3 +14,4 @@ desktop_tracker/offline_queue.json
 !.env.example
 *.log
 .vscode/
+

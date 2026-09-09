@@ -1,5 +1,5 @@
 /**
- * Central API Service for 360CRM Enterprise
+ * Central API Service for Craft Media Hub CRM Enterprise
  * Handles authentication headers, URL parameter serialization, JSON parsing, and error formatting.
  */
 
@@ -16,21 +16,23 @@ class ApiService {
   private token: string | null = null;
 
   constructor() {
-    this.token = localStorage.getItem('360crm_token');
+    this.token = localStorage.getItem('craftmedia_crm_token') || localStorage.getItem('360crm_token');
   }
 
   public setToken(token: string | null) {
     this.token = token;
     if (token) {
+      localStorage.setItem('craftmedia_crm_token', token);
       localStorage.setItem('360crm_token', token);
     } else {
+      localStorage.removeItem('craftmedia_crm_token');
       localStorage.removeItem('360crm_token');
     }
   }
 
   public getToken(): string | null {
     if (!this.token) {
-      this.token = localStorage.getItem('360crm_token');
+      this.token = localStorage.getItem('craftmedia_crm_token') || localStorage.getItem('360crm_token');
     }
     return this.token;
   }
@@ -122,6 +124,26 @@ class ApiService {
       return await this.parseResponse(res);
     } catch (err: any) {
       console.error(`API POST ${endpoint} Error:`, err);
+      return { success: false, message: err.message || 'Network request failed' };
+    }
+  }
+
+  public async postFormData<T = any>(endpoint: string, formData: FormData): Promise<ApiResponse<T>> {
+    try {
+      const url = this.normalizeUrl(endpoint);
+      const headers: Record<string, string> = {};
+      const token = this.getToken();
+      if (token) {
+        headers['Authorization'] = `Bearer ${token}`;
+      }
+      const res = await fetch(url, {
+        method: 'POST',
+        headers,
+        body: formData,
+      });
+      return await this.parseResponse(res);
+    } catch (err: any) {
+      console.error(`API POST FormData ${endpoint} Error:`, err);
       return { success: false, message: err.message || 'Network request failed' };
     }
   }

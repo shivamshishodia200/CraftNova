@@ -29,7 +29,8 @@
   },
   "include": [
     "src",
-    "360crm_admin",
-    "360crm_superadmin"
+    "craftmedia_admin",
+    "craftmedia-super admin",
+    "craftmedia_backend"
   ]
 }

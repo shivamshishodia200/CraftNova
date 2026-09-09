@@ -1,5 +1,6 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import { api } from '../services/api';
+import { navigateTo } from '../utils/routeUtils';
 
 export interface UserProfile {
   id?: string;
@@ -23,7 +24,14 @@ interface AuthContextType {
   isLoading: boolean;
   activePortal: 'admin' | 'superadmin';
   setActivePortal: (portal: 'admin' | 'superadmin') => void;
-  login: (credentials: { email: string; password: string }) => Promise<{ success: boolean; message?: string }>;
+  login: (credentials: {
+    email?: string;
+    identifier?: string;
+    employeeId?: string;
+    password: string;
+    expectedPortal?: 'SUPER_ADMIN' | 'ADMIN' | 'EMPLOYEE';
+    organizationSlug?: string;
+  }) => Promise<{ success: boolean; message?: string }>;
   logout: () => void;
   switchUser: (email: string) => Promise<{ success: boolean; message?: string }>;
   hasPermission: (permissionCode: string) => boolean;
@@ -34,11 +42,11 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [user, setUser] = useState<UserProfile | null>(() => {
-    const saved = localStorage.getItem('360crm_user');
+    const saved = localStorage.getItem('craftmedia_crm_user') || localStorage.getItem('360crm_user');
     return saved ? JSON.parse(saved) : null;
   });
   const [token, setToken] = useState<string | null>(() => {
-    return localStorage.getItem('360crm_token');
+    return localStorage.getItem('craftmedia_crm_token') || localStorage.getItem('360crm_token');
   });
   const [isLoading, setIsLoading] = useState(true);
   const [activePortal, setActivePortalState] = useState<'admin' | 'superadmin'>('admin');
@@ -56,7 +64,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
   const refreshUser = async () => {
     try {
-      const storedToken = localStorage.getItem('360crm_token');
+      const storedToken = localStorage.getItem('craftmedia_crm_token') || localStorage.getItem('360crm_token');
       if (!storedToken) {
         setIsLoading(false);
         return;
@@ -66,6 +74,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       if (res.success && res.data) {
         const u = res.data;
         setUser(u);
+        localStorage.setItem('craftmedia_crm_user', JSON.stringify(u));
         localStorage.setItem('360crm_user', JSON.stringify(u));
       } else {
         // Clear invalid session
@@ -82,16 +91,38 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     refreshUser();
   }, []);
 
-  const login = async (credentials: { email: string; password: string }) => {
+  const login = async (credentials: {
+    email?: string;
+    identifier?: string;
+    employeeId?: string;
+    password: string;
+    expectedPortal?: 'SUPER_ADMIN' | 'ADMIN' | 'EMPLOYEE';
+    organizationSlug?: string;
+  }) => {
     try {
-      const res = await api.post('/auth/login', credentials);
+      let endpoint = '/auth/login';
+      if (credentials.expectedPortal === 'SUPER_ADMIN') {
+        endpoint = '/auth/super-admin/login';
+      } else if (credentials.expectedPortal === 'ADMIN') {
+        endpoint = '/auth/admin/login';
+      } else if (credentials.expectedPortal === 'EMPLOYEE') {
+        endpoint = '/auth/employee/login';
+      }
+
+      const res = await api.post(endpoint, credentials);
       if (res.success && res.data) {
         const { token: newToken, user: newUser } = res.data;
         setToken(newToken);
         setUser(newUser);
         api.setToken(newToken);
+        localStorage.setItem('craftmedia_crm_token', newToken);
+        localStorage.setItem('craftmedia_crm_user', JSON.stringify(newUser));
         localStorage.setItem('360crm_token', newToken);
         localStorage.setItem('360crm_user', JSON.stringify(newUser));
+
+        try {
+          sessionStorage.removeItem('craftmedia_preview_org');
+        } catch {}
 
         if (newUser.role === 'SUPER_ADMIN') {
           setActivePortalState('superadmin');
@@ -114,6 +145,8 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         setToken(newToken);
         setUser(newUser);
         api.setToken(newToken);
+        localStorage.setItem('craftmedia_crm_token', newToken);
+        localStorage.setItem('craftmedia_crm_user', JSON.stringify(newUser));
         localStorage.setItem('360crm_token', newToken);
         localStorage.setItem('360crm_user', JSON.stringify(newUser));
 
@@ -134,9 +167,27 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     setToken(null);
     setUser(null);
     api.setToken(null);
+    localStorage.removeItem('craftmedia_crm_token');
+    localStorage.removeItem('craftmedia_crm_user');
     localStorage.removeItem('360crm_token');
     localStorage.removeItem('360crm_user');
+
+    // Clean up cached organization themes to prevent tenant bleed
+    try {
+      const keysToRemove: string[] = [];
+      for (let i = 0; i < localStorage.length; i++) {
+        const key = localStorage.key(i);
+        if (key && key.startsWith('theme:')) {
+          keysToRemove.push(key);
+        }
+      }
+      keysToRemove.forEach(k => localStorage.removeItem(k));
+    } catch (e) {
+      console.warn('Could not clear theme cache:', e);
+    }
+
     setActivePortalState('admin');
+    navigateTo('/login');
   };
 
   const hasPermission = (permissionCode: string): boolean => {

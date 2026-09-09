@@ -5,7 +5,7 @@
 
 @layer base {
   body {
-    @apply bg-slate-900 text-slate-100 font-sans;
+    @apply bg-slate-950 text-slate-100 font-sans;
     font-feature-settings: "cv02", "cv03", "cv04", "cv11";
   }
 }
@@ -26,27 +26,247 @@
 }
 
 ::-webkit-scrollbar-track {
-  background: rgba(241, 245, 249, 0.5);
+  background: rgba(15, 23, 42, 0.6);
 }
 
 ::-webkit-scrollbar-thumb {
-  background: rgba(148, 163, 184, 0.5);
+  background: rgba(245, 158, 11, 0.3);
   border-radius: 4px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: rgba(100, 116, 139, 0.8);
+  background: rgba(245, 158, 11, 0.6);
 }
 
 /* Glassmorphism helpers */
 .glass-panel {
-  background: rgba(255, 255, 255, 0.85);
+  background: rgba(255, 255, 255, 0.9);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
 }
 
 .glass-dark {
-  background: rgba(15, 23, 42, 0.85);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
+  background: rgba(13, 21, 39, 0.88);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
 }
+
+/* Craft Media Theme Gradients & Glows */
+.craft-gradient {
+  background: linear-gradient(135deg, #f59e0b 0%, #ea580c 50%, #dc2626 100%);
+}
+
+.craft-gradient-subtle {
+  background: linear-gradient(135deg, rgba(245, 158, 11, 0.12) 0%, rgba(234, 88, 12, 0.08) 50%, rgba(220, 38, 38, 0.12) 100%);
+}
+
+.craft-text-gradient {
+  background: linear-gradient(135deg, #fbbf24 0%, #f97316 50%, #f43f5e 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.craft-glow {
+  box-shadow: 0 0 25px -5px rgba(245, 158, 11, 0.35);
+}
+
+.craft-glow-crimson {
+  box-shadow: 0 0 25px -5px rgba(220, 38, 38, 0.35);
+}
+
+/* ========================================================
+   SUPER ADMINISTRATOR EXECUTIVE LIGHT THEME
+   ======================================================== */
+.superadmin-light {
+  background-color: #f8fafc !important;
+  color: #1e293b !important;
+}
+
+/* Header */
+.superadmin-light header {
+  background-color: rgba(255, 255, 255, 0.95) !important;
+  border-bottom: 1px solid #e2e8f0 !important;
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.05) !important;
+}
+.superadmin-light header h1 {
+  color: #0f172a !important;
+}
+.superadmin-light header p {
+  color: #64748b !important;
+}
+
+/* Center tab navigation */
+.superadmin-light header .hidden.md\:flex {
+  background-color: #f1f5f9 !important;
+  border-color: #e2e8f0 !important;
+}
+.superadmin-light header .hidden.md\:flex button:not(.bg-gradient-to-r) {
+  color: #475569 !important;
+}
+.superadmin-light header .hidden.md\:flex button:not(.bg-gradient-to-r):hover {
+  color: #0f172a !important;
+  background-color: rgba(255, 255, 255, 0.8) !important;
+}
+
+/* Cards, Panels and Containers */
+.superadmin-light .bg-slate-800\/80,
+.superadmin-light .bg-slate-800\/90,
+.superadmin-light .bg-slate-800\/60,
+.superadmin-light .bg-slate-800,
+.superadmin-light .bg-slate-900\/80,
+.superadmin-light .bg-slate-900\/60,
+.superadmin-light .bg-slate-900\/90,
+.superadmin-light .bg-slate-900,
+.superadmin-light .bg-slate-950\/30,
+.superadmin-light .bg-slate-950\/40,
+.superadmin-light .bg-slate-950\/60,
+.superadmin-light .bg-slate-950\/80,
+.superadmin-light .bg-slate-950 {
+  background-color: #ffffff !important;
+  border-color: #e2e8f0 !important;
+  color: #1e293b !important;
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.05), 0 1px 2px -1px rgba(0, 0, 0, 0.05) !important;
+}
+
+/* Headings and primary text */
+.superadmin-light h1,
+.superadmin-light h2,
+.superadmin-light h3,
+.superadmin-light h4,
+.superadmin-light h5,
+.superadmin-light h6,
+.superadmin-light .text-white {
+  color: #0f172a !important;
+}
+
+/* Subheadings and body text */
+.superadmin-light .text-slate-100,
+.superadmin-light .text-slate-200,
+.superadmin-light .text-slate-300 {
+  color: #334155 !important;
+}
+
+/* Muted / subtitle labels */
+.superadmin-light .text-slate-400 {
+  color: #64748b !important;
+}
+.superadmin-light .text-slate-500 {
+  color: #64748b !important;
+}
+
+/* Border overrides */
+.superadmin-light .border-slate-800,
+.superadmin-light .border-slate-700\/80,
+.superadmin-light .border-slate-700\/70,
+.superadmin-light .border-slate-700\/60,
+.superadmin-light .border-slate-700\/50,
+.superadmin-light .border-slate-700 {
+  border-color: #e2e8f0 !important;
+}
+
+/* Tables */
+.superadmin-light table {
+  background-color: #ffffff !important;
+}
+.superadmin-light thead,
+.superadmin-light thead tr,
+.superadmin-light thead th {
+  background-color: #f8fafc !important;
+  color: #475569 !important;
+  border-bottom: 1px solid #e2e8f0 !important;
+}
+.superadmin-light tbody tr {
+  border-bottom: 1px solid #f1f5f9 !important;
+}
+.superadmin-light tbody tr:hover {
+  background-color: #f8fafc !important;
+}
+
+/* Inputs, Textareas, and Selects */
+.superadmin-light input:not([type="checkbox"]):not([type="radio"]):not([type="color"]),
+.superadmin-light textarea,
+.superadmin-light select {
+  background-color: #ffffff !important;
+  border: 1px solid #cbd5e1 !important;
+  color: #0f172a !important;
+}
+.superadmin-light input::placeholder,
+.superadmin-light textarea::placeholder {
+  color: #94a3b8 !important;
+}
+.superadmin-light input:focus,
+.superadmin-light textarea:focus,
+.superadmin-light select:focus {
+  border-color: #f59e0b !important;
+  outline: 2px solid rgba(245, 158, 11, 0.2) !important;
+}
+
+/* Secondary & Action Buttons in light mode */
+.superadmin-light button.bg-slate-800,
+.superadmin-light button.bg-slate-900 {
+  background-color: #ffffff !important;
+  border: 1px solid #e2e8f0 !important;
+  color: #334155 !important;
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05) !important;
+}
+.superadmin-light button.bg-slate-800:hover,
+.superadmin-light button.bg-slate-900:hover {
+  background-color: #f8fafc !important;
+  color: #0f172a !important;
+  border-color: #cbd5e1 !important;
+}
+
+/* Modals */
+.superadmin-light .fixed.inset-0.bg-black\/80 {
+  background-color: rgba(15, 23, 42, 0.4) !important;
+  backdrop-filter: blur(4px) !important;
+}
+.superadmin-light .fixed .bg-slate-900,
+.superadmin-light .fixed .bg-slate-950 {
+  background-color: #ffffff !important;
+  border-color: #e2e8f0 !important;
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1) !important;
+}
+.superadmin-light .fixed .border-b,
+.superadmin-light .fixed .border-t {
+  border-color: #e2e8f0 !important;
+}
+
+/* Stepper buttons in wizard */
+.superadmin-light .bg-slate-950\/30 {
+  background-color: #f8fafc !important;
+  border-color: #e2e8f0 !important;
+}
+
+/* Badges / code pills */
+.superadmin-light span.bg-slate-900,
+.superadmin-light span.bg-slate-950,
+.superadmin-light div.bg-slate-900,
+.superadmin-light div.bg-slate-950 {
+  background-color: #f1f5f9 !important;
+  border-color: #e2e8f0 !important;
+  color: #334155 !important;
+}
+
+/* Active buttons and gradient buttons retain their gradient & text */
+.superadmin-light .bg-gradient-to-r,
+.superadmin-light .bg-gradient-to-tr {
+  color: #ffffff !important;
+}
+.superadmin-light .bg-gradient-to-r *,
+.superadmin-light .bg-gradient-to-tr * {
+  color: inherit !important;
+}
+
+/* Light scrollbar */
+.superadmin-light ::-webkit-scrollbar-track {
+  background: #f1f5f9 !important;
+}
+.superadmin-light ::-webkit-scrollbar-thumb {
+  background: #cbd5e1 !important;
+}
+.superadmin-light ::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8 !important;
+}
+
+

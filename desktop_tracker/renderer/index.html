@@ -3,57 +3,50 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>360CRM Desktop Tracker</title>
+  <title>Craft Media Hub Desktop Tracker</title>
   <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-    }
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
     body {
-      background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 100%);
+      background: #080d1a;
       color: #f8fafc;
-      padding: 24px;
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
+      padding: 16px;
       user-select: none;
+      -webkit-app-region: drag;
     }
     .header {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-      padding-bottom: 16px;
+      border-bottom: 1px solid rgba(245, 158, 11, 0.2);
+      padding-bottom: 12px;
+      margin-bottom: 12px;
     }
     .brand {
       display: flex;
       align-items: center;
-      gap: 12px;
+      gap: 10px;
     }
     .logo-badge {
-      width: 36px;
-      height: 36px;
-      border-radius: 10px;
-      background: linear-gradient(135deg, #3b82f6, #6366f1);
+      width: 32px;
+      height: 32px;
+      border-radius: 8px;
+      background: linear-gradient(135deg, #f59e0b, #ea580c, #dc2626);
       display: flex;
       align-items: center;
       justify-content: center;
       font-weight: 900;
-      font-size: 14px;
-      box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+      color: #fff;
+      font-size: 13px;
+      box-shadow: 0 4px 12px rgba(245, 158, 11, 0.3);
     }
     .brand-title {
-      font-size: 14px;
       font-weight: 800;
-      color: #ffffff;
-      letter-spacing: -0.2px;
+      font-size: 13px;
+      color: #fff;
     }
     .brand-sub {
       font-size: 10px;
-      color: #94a3b8;
+      color: #fbbf24;
     }
     .pulse-dot {
       width: 8px;
@@ -61,33 +54,32 @@
       border-radius: 50%;
       background: #10b981;
       box-shadow: 0 0 10px #10b981;
-      animation: pulse 2s infinite;
+      animation: pulse 1.5s infinite;
     }
     @keyframes pulse {
-      0% { opacity: 1; transform: scale(1); }
-      50% { opacity: 0.4; transform: scale(1.2); }
-      100% { opacity: 1; transform: scale(1); }
+      0% { opacity: 0.4; }
+      50% { opacity: 1; }
+      100% { opacity: 0.4; }
     }
     .status-card {
-      background: rgba(15, 23, 42, 0.6);
-      border: 1px solid rgba(255, 255, 255, 0.08);
-      border-radius: 16px;
-      padding: 16px;
-      margin-top: 16px;
-      backdrop-filter: blur(10px);
+      background: #0f172a;
+      border: 1px solid #1e293b;
+      border-radius: 12px;
+      padding: 12px;
+      margin-bottom: 12px;
     }
     .status-label {
       font-size: 10px;
       text-transform: uppercase;
-      font-weight: 700;
-      color: #64748b;
       letter-spacing: 0.5px;
+      color: #94a3b8;
+      margin-bottom: 4px;
+      font-weight: 600;
     }
     .status-val {
-      font-size: 15px;
-      font-weight: 800;
-      color: #38bdf8;
-      margin-top: 4px;
+      font-size: 12px;
+      font-weight: 600;
+      color: #f1f5f9;
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
@@ -95,38 +87,36 @@
     .metrics-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 10px;
-      margin-top: 12px;
+      gap: 8px;
+      margin-bottom: 12px;
     }
     .metric-box {
-      background: rgba(30, 41, 59, 0.7);
-      border: 1px solid rgba(255, 255, 255, 0.05);
-      border-radius: 12px;
-      padding: 12px;
+      background: #0f172a;
+      border: 1px solid #1e293b;
+      border-radius: 10px;
+      padding: 10px;
     }
     .metric-num {
-      font-size: 18px;
-      font-weight: 900;
-      font-family: monospace;
-      color: #f1f5f9;
+      font-size: 16px;
+      font-weight: 800;
+      font-family: ui-monospace, monospace;
       margin-top: 2px;
     }
-    .footer {
-      font-size: 10px;
-      color: #64748b;
-      text-align: center;
-      border-top: 1px solid rgba(255, 255, 255, 0.08);
-      padding-top: 12px;
+    .footer-bar {
       display: flex;
       justify-content: space-between;
       align-items: center;
+      font-size: 10px;
+      color: #64748b;
+      border-top: 1px solid #1e293b;
+      padding-top: 8px;
     }
-    .badge-privacy {
-      background: rgba(16, 185, 129, 0.1);
-      border: 1px solid rgba(16, 185, 129, 0.3);
-      color: #34d399;
-      padding: 2px 8px;
-      border-radius: 999px;
+    .badge-tag {
+      background: rgba(245, 158, 11, 0.15);
+      color: #fbbf24;
+      border: 1px solid rgba(245, 158, 11, 0.3);
+      padding: 2px 6px;
+      border-radius: 4px;
       font-weight: 700;
       font-size: 9px;
     }
@@ -136,9 +126,9 @@
   <div>
     <div class="header">
       <div class="brand">
-        <div class="logo-badge">360</div>
+        <div class="logo-badge">CM</div>
         <div>
-          <div class="brand-title">360CRM Desktop Tracker</div>
+          <div class="brand-title">Craft Media Hub Tracker</div>
           <div class="brand-sub">Enterprise Active Telemetry</div>
         </div>
       </div>
@@ -150,7 +140,7 @@
 
     <div class="status-card">
       <div class="status-label">Current Active Window</div>
-      <div class="status-val" id="activeWindowText">Google Chrome - 360CRM Workspace</div>
+      <div class="status-val" id="activeWindowText">Google Chrome - Craft Media Hub CRM</div>
     </div>
 
     <div class="metrics-grid">

@@ -1,4 +1,4 @@
-export * from '../../360_backend/database/types';
+export * from '../../craftmedia_backend/database/types';
 
 // Frontend Convenience Type Aliases
 import {
@@ -11,7 +11,7 @@ import {
   AttendanceSettingsDoc, OfficeLocation, ActivitySessionDoc, DeviceDoc, AttendanceBreak, VerificationStamp,
   LatestLocationDoc, LocationHistoryDoc, GeofenceDoc, GeofenceEventDoc, TrackingPolicyDoc,
   DailyTrackingSummaryDoc, TrackingAlertDoc
-} from '../../360_backend/database/types';
+} from '../../craftmedia_backend/database/types';
 
 export type User = UserDoc;
 export type Role = RoleDoc;

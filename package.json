@@ -1,5 +1,5 @@
 {
-  "name": "360project",
+  "name": "craftmedia-hub-crm",
   "private": true,
   "version": "1.0.0",
   "type": "module",
@@ -7,7 +7,7 @@
     "dev": "vite",
     "build": "tsc && vite build",
     "preview": "vite preview",
-    "start:backend": "cd 360_backend && npm run dev",
+    "start:backend": "cd craftmedia_backend && npm run dev",
     "start:all": "concurrently \"npm run start:backend\" \"npm run dev\""
   },
   "dependencies": {

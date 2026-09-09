@@ -387,7 +387,7 @@ function recordSystemEvent(eventType, details) {
 // Startup Agent
 function startAgent() {
   console.log('================================================================');
-  console.log('🚀 360CRM Desktop Attendance & Active Screen Time Tracker Agent');
+  console.log('🚀 Craft Media Hub CRM Desktop Attendance & Active Screen Time Tracker Agent');
   console.log('================================================================');
   console.log(`👤 Employee: ${config.employeeName} (${config.employeeId})`);
   console.log(`💻 Device:   ${config.deviceName} [${config.deviceId}]`);
@@ -396,7 +396,7 @@ function startAgent() {
   console.log('🔒 Zero-Surveillance Compliance: Active Window & Idle Telemetry ONLY');
   console.log('================================================================\n');
 
-  recordSystemEvent('AGENT_START', '360CRM Desktop Tracker Agent Initialized');
+  recordSystemEvent('AGENT_START', 'Craft Media Hub CRM Desktop Tracker Agent Initialized');
 
   // Run initial heartbeat
   sendHeartbeat();
@@ -438,7 +438,7 @@ if (isElectron) {
     mainWindow = new BrowserWindow({
       width: 440,
       height: 520,
-      title: '360CRM Desktop Tracker',
+      title: 'Craft Media Hub CRM Desktop Tracker',
       resizable: false,
       autoHideMenuBar: true,
       webPreferences: {
@@ -451,7 +451,7 @@ if (isElectron) {
     if (fs.existsSync(htmlPath)) {
       mainWindow.loadFile(htmlPath);
     } else {
-      mainWindow.loadURL(`data:text/html;charset=utf-8,<html><body style="background:%230f172a;color:white;font-family:sans-serif;padding:24px;text-align:center;"><h2>360CRM Desktop Tracker</h2><p style="color:%2338bdf8;">🟢 Active Screen Time Tracking Running</p><p style="font-size:12px;color:%2394a3b8;">Device: ${config.deviceName}</p></body></html>`);
+      mainWindow.loadURL(`data:text/html;charset=utf-8,<html><body style="background:%230f172a;color:white;font-family:sans-serif;padding:24px;text-align:center;"><h2>Craft Media Hub CRM Desktop Tracker</h2><p style="color:%23f59e0b;">🟢 Active Screen Time Tracking Running</p><p style="font-size:12px;color:%2394a3b8;">Device: ${config.deviceName}</p></body></html>`);
     }
 
     mainWindow.on('close', event => {
@@ -465,7 +465,7 @@ if (isElectron) {
 
   app.on('before-quit', () => {
     app.isQuitting = true;
-    recordSystemEvent('AGENT_STOP', '360CRM Desktop Tracker Agent Terminated');
+    recordSystemEvent('AGENT_STOP', 'Craft Media Hub CRM Desktop Tracker Agent Terminated');
   });
 
   app.on('window-all-closed', () => {
@@ -474,7 +474,7 @@ if (isElectron) {
 } else {
   // Standalone Node CLI runner
   process.on('SIGINT', () => {
-    recordSystemEvent('AGENT_STOP', '360CRM Desktop Tracker Agent Stopped');
+    recordSystemEvent('AGENT_STOP', 'Craft Media Hub CRM Desktop Tracker Agent Stopped');
     setTimeout(() => process.exit(0), 300);
   });
   startAgent();

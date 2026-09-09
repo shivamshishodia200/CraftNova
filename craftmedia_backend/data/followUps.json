@@ -1,0 +1,67 @@
+[
+  {
+    "_id": "fup_1",
+    "leadId": "lead_1",
+    "type": "Call",
+    "title": "Discuss Technical Specs for SS-316 Valves",
+    "description": "Clarify ASME standard flanges requirement with plant engineering team",
+    "scheduledAt": "2026-02-17T11:00:00.000Z",
+    "status": "PENDING",
+    "assignedTo": "Vikram Mehta (Sales Admin)",
+    "createdAt": "2026-02-02T12:00:00.000Z",
+    "updatedAt": "2026-09-04T11:45:05.316Z",
+    "organizationId": "org_craftmedia"
+  },
+  {
+    "_id": "fup_2",
+    "leadId": "lead_2",
+    "type": "Meeting",
+    "title": "Quotation Review & Delivery Terms",
+    "description": "Virtual meeting via Google Meet with Harpreet Singh",
+    "scheduledAt": "2026-02-18T15:30:00.000Z",
+    "status": "PENDING",
+    "assignedTo": "Vikram Mehta (Sales Admin)",
+    "createdAt": "2026-02-04T10:00:00.000Z",
+    "updatedAt": "2026-09-04T11:45:05.316Z",
+    "organizationId": "org_craftmedia"
+  },
+  {
+    "_id": "fup_emp_1",
+    "leadId": "lead_emp_1",
+    "type": "Call",
+    "title": "Technical review of SS Valve flanges with Plant Engineer",
+    "description": "Call Vikramaditya to review ASME flange ratings and dispatch schedule",
+    "scheduledAt": "2026-02-17T11:30:00.000Z",
+    "status": "PENDING",
+    "assignedTo": "Arjun Singh",
+    "createdAt": "2026-02-15T12:00:00.000Z",
+    "updatedAt": "2026-09-04T11:45:05.317Z",
+    "organizationId": "org_craftmedia"
+  },
+  {
+    "_id": "fup_emp_2",
+    "leadId": "lead_emp_2",
+    "type": "WhatsApp",
+    "title": "Share updated GST tax invoice & material test certificates",
+    "description": "Send Sunita Sharma MTC batch certs for SS-316 ball valves via WhatsApp",
+    "scheduledAt": "2026-02-17T15:00:00.000Z",
+    "status": "PENDING",
+    "assignedTo": "Arjun Singh",
+    "createdAt": "2026-02-16T10:30:00.000Z",
+    "updatedAt": "2026-09-04T11:45:05.317Z",
+    "organizationId": "org_craftmedia"
+  },
+  {
+    "_id": "fup_emp_3",
+    "leadId": "lead_emp_3",
+    "type": "Meeting",
+    "title": "Commercial proposal negotiation over Google Meet",
+    "description": "Discuss 5% volume discount terms with Manoj Trivedi for unit 2 revamp",
+    "scheduledAt": "2026-02-22T16:00:00.000Z",
+    "status": "PENDING",
+    "assignedTo": "Arjun Singh",
+    "createdAt": "2026-02-16T15:30:00.000Z",
+    "updatedAt": "2026-09-04T11:45:05.317Z",
+    "organizationId": "org_craftmedia"
+  }
+]

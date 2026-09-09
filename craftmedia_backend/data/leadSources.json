@@ -1,0 +1,57 @@
+[
+  {
+    "_id": "lsrc_1",
+    "name": "TradeIndia B2B Portal",
+    "type": "Portal",
+    "status": "ACTIVE",
+    "leadsCount": 101,
+    "conversionRate": 28,
+    "createdAt": "2026-01-01T00:00:00.000Z",
+    "updatedAt": "2026-09-05T14:06:58.822Z",
+    "organizationId": "org_craftmedia"
+  },
+  {
+    "_id": "lsrc_2",
+    "name": "Official Website Inquiries",
+    "type": "Website",
+    "status": "ACTIVE",
+    "leadsCount": 36,
+    "conversionRate": 32,
+    "createdAt": "2026-01-01T00:00:00.000Z",
+    "updatedAt": "2026-09-04T11:45:05.316Z",
+    "organizationId": "org_craftmedia"
+  },
+  {
+    "_id": "lsrc_3",
+    "name": "IndiaMART Directory",
+    "type": "Portal",
+    "status": "ACTIVE",
+    "leadsCount": 31,
+    "conversionRate": 22,
+    "createdAt": "2026-01-01T00:00:00.000Z",
+    "updatedAt": "2026-09-04T11:45:05.316Z",
+    "organizationId": "org_craftmedia"
+  },
+  {
+    "_id": "lsrc_4",
+    "name": "WhatsApp Business Inbound",
+    "type": "Messaging",
+    "status": "ACTIVE",
+    "leadsCount": 27,
+    "conversionRate": 38,
+    "createdAt": "2026-01-01T00:00:00.000Z",
+    "updatedAt": "2026-09-04T11:45:05.316Z",
+    "organizationId": "org_craftmedia"
+  },
+  {
+    "_id": "lsrc_5",
+    "name": "Direct Referral & Exhibitions",
+    "type": "Referral",
+    "status": "ACTIVE",
+    "leadsCount": 18,
+    "conversionRate": 50,
+    "createdAt": "2026-01-01T00:00:00.000Z",
+    "organizationId": "org_craftmedia",
+    "updatedAt": "2026-09-04T11:45:05.316Z"
+  }
+]

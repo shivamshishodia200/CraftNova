@@ -1,0 +1,34 @@
+[
+  {
+    "_id": "lev_1",
+    "employeeId": "emp_arjun",
+    "employeeName": "Arjun Singh",
+    "leaveType": "CASUAL",
+    "startDate": "2026-01-22",
+    "endDate": "2026-01-23",
+    "totalDays": 2,
+    "reason": "Family function in native town",
+    "status": "APPROVED",
+    "approvedBy": "Rohan Sharma (Admin)",
+    "appliedAt": "2026-01-18T10:00:00.000Z",
+    "createdAt": "2026-01-18T10:00:00.000Z",
+    "organizationId": "org_craftmedia",
+    "updatedAt": "2026-09-04T11:45:05.316Z"
+  },
+  {
+    "_id": "lev_2",
+    "employeeId": "emp_arjun",
+    "employeeName": "Arjun Singh",
+    "leaveType": "SICK",
+    "startDate": "2026-02-09",
+    "endDate": "2026-02-09",
+    "totalDays": 1,
+    "reason": "Viral fever & medical rest",
+    "status": "APPROVED",
+    "approvedBy": "Neha Kapoor (HR)",
+    "appliedAt": "2026-02-09T08:30:00.000Z",
+    "createdAt": "2026-02-09T08:30:00.000Z",
+    "organizationId": "org_craftmedia",
+    "updatedAt": "2026-09-04T11:45:05.316Z"
+  }
+]

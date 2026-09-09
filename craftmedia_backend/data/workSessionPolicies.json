@@ -1,0 +1,28 @@
+[
+  {
+    "_id": "work_session_policy_default",
+    "requireGeofencePunchIn": true,
+    "requireSelfiePunchIn": true,
+    "requireScreenRecording": true,
+    "requireMicrophoneRecording": false,
+    "allowPunchInWithoutRecording": true,
+    "requireTrackingConsent": true,
+    "screenRecordingEnabled": true,
+    "microphoneRecordingEnabled": false,
+    "recordingChunkMinutes": 10,
+    "maxChunkSizeMB": 50,
+    "trackingFrequencySeconds": 30,
+    "maxGpsAccuracyMeters": 250,
+    "recordingRetentionDays": 15,
+    "locationRetentionDays": 30,
+    "showRecordingIndicator": true,
+    "allowRecordingPause": true,
+    "autoStopRecordingOnPunchOut": true,
+    "autoStopTrackingOnPunchOut": true,
+    "privacyPolicyVersion": "1.0.0",
+    "privacyMaskingEnabled": true,
+    "legalHold": false,
+    "updatedAt": "2026-09-04T11:45:05.321Z",
+    "organizationId": "org_craftmedia"
+  }
+]
