@@ -62,7 +62,7 @@ export const SuperAdminPortal: React.FC = () => {
   const [loading, setLoading] = useState(false);
   const [isLightMode, setIsLightMode] = useState<boolean>(() => {
     const saved = localStorage.getItem('superadmin_theme');
-    return saved !== null ? saved === 'light' : true; // DEFAULT TO LIGHT MODE
+    return saved !== null ? saved === 'light' : false; // DEFAULT TO MODERN EXECUTIVE DARK MODE
   });
 
 
@@ -444,165 +444,238 @@ export const SuperAdminPortal: React.FC = () => {
   };
 
   return (
-    <div className={`min-h-screen flex flex-col transition-colors duration-150 ${isLightMode ? 'superadmin-light bg-[#f8fafc] text-slate-800' : 'superadmin-dark bg-slate-900 text-slate-100'}`}>
-      {/* Top Super Admin Navigation Bar */}
-      <header className="bg-slate-950/90 backdrop-blur-md border-b border-slate-800 px-6 py-3.5 flex items-center justify-between sticky top-0 z-40 relative overflow-hidden">
-
-        <div className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-amber-500 via-orange-500 to-rose-600" />
-        
-        <div className="flex items-center gap-4">
-          <div className="flex items-center gap-2.5">
-            <CraftMediaLogo size={36} />
-            <div>
-              <div className="flex items-center gap-2">
-                <h1 className="text-sm font-black text-white uppercase tracking-wider">CRAFT MEDIA HUB SUPER ADMIN</h1>
-                <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-amber-500/20 text-amber-400 border border-amber-500/30">
-                  ROOT CONTROL
-                </span>
-              </div>
-              <p className="text-[11px] text-slate-400 font-medium">Enterprise RBAC, Multi-Admin Governance & Audit Vault</p>
+    <div className={`min-h-screen flex transition-colors duration-150 ${isLightMode ? 'superadmin-light bg-[#f8fafc] text-slate-800' : 'superadmin-dark bg-slate-950 text-slate-100'}`}>
+      
+      {/* 1. LEFT SIDEBAR */}
+      <aside className="w-64 bg-slate-950 border-r border-slate-800/90 flex flex-col shrink-0 sticky top-0 h-screen z-30 select-none">
+        {/* Brand Header */}
+        <div className="p-4 border-b border-slate-800/80 flex items-center gap-3">
+          <CraftMediaLogo size={36} />
+          <div className="min-w-0 flex-1">
+            <div className="flex items-center gap-1.5">
+              <h1 className="text-xs font-black text-white uppercase tracking-wider truncate">Craft Media Hub</h1>
+            </div>
+            <div className="flex items-center gap-1.5 mt-0.5">
+              <span className="px-1.5 py-0.5 rounded text-[9px] font-extrabold bg-gradient-to-r from-amber-500 to-rose-600 text-slate-950 uppercase tracking-wider">
+                SUPER ADMIN
+              </span>
+              <span className="text-[10px] text-slate-400 font-semibold truncate">Root Authority</span>
             </div>
           </div>
         </div>
 
-        {/* Center Tabs */}
-        <div className="hidden md:flex items-center bg-slate-900 p-1 rounded-xl border border-slate-800">
-          <button
-            onClick={() => setActiveTab('overview')}
-            className={`flex items-center gap-2 px-3.5 py-1.5 rounded-lg text-xs font-semibold transition-all ${
-              activeTab === 'overview'
-                ? 'bg-gradient-to-r from-amber-500 via-orange-600 to-rose-600 text-white shadow-xs'
-                : 'text-slate-400 hover:text-slate-200'
-            }`}
-          >
-            <Activity className="w-3.5 h-3.5" />
-            Overview
-          </button>
-          <button
-            onClick={() => setActiveTab('organizations')}
-            className={`flex items-center gap-2 px-3.5 py-1.5 rounded-lg text-xs font-semibold transition-all ${
-              activeTab === 'organizations'
-                ? 'bg-gradient-to-r from-amber-500 via-orange-600 to-rose-600 text-white shadow-xs'
-                : 'text-slate-400 hover:text-slate-200'
-            }`}
-          >
-            <Building2 className="w-3.5 h-3.5" />
-            Clients & White-Label
-          </button>
-          <button
-            onClick={() => setActiveTab('admins')}
+        {/* Navigation Section */}
+        <div className="flex-1 overflow-y-auto p-3 space-y-5 custom-scrollbar">
+          {/* Section 1: Dashboard */}
+          <div className="space-y-1">
+            <p className="px-3 text-[10px] font-bold text-slate-400 uppercase tracking-wider">Core Operations</p>
+            <button
+              onClick={() => setActiveTab('overview')}
+              className={`w-full flex items-center justify-between px-3 py-2.5 rounded-xl text-xs font-semibold transition-all cursor-pointer ${
+                activeTab === 'overview'
+                  ? 'bg-gradient-to-r from-amber-500 via-orange-500 to-rose-600 text-white font-bold shadow-md shadow-amber-500/10'
+                  : 'text-slate-400 hover:text-slate-100 hover:bg-slate-900'
+              }`}
+            >
+              <div className="flex items-center gap-2.5">
+                <Activity className="w-4 h-4" />
+                <span>Overview</span>
+              </div>
+            </button>
 
-            className={`flex items-center gap-2 px-3.5 py-1.5 rounded-lg text-xs font-semibold transition-all ${
-              activeTab === 'admins'
-                ? 'bg-gradient-to-r from-amber-500 via-orange-600 to-rose-600 text-white shadow-xs'
-                : 'text-slate-400 hover:text-slate-200'
-            }`}
-          >
-            <Users className="w-3.5 h-3.5" />
-            Admins & Users
-          </button>
-          <button
-            onClick={() => setActiveTab('access')}
-            className={`flex items-center gap-2 px-3.5 py-1.5 rounded-lg text-xs font-semibold transition-all ${
-              activeTab === 'access'
-                ? 'bg-gradient-to-r from-amber-500 via-orange-600 to-rose-600 text-white shadow-xs'
-                : 'text-slate-400 hover:text-slate-200'
-            }`}
-          >
-            <ShieldCheck className="w-3.5 h-3.5" />
-            Admin Access
-          </button>
-          <button
-            onClick={() => setActiveTab('roles')}
-            className={`flex items-center gap-2 px-3.5 py-1.5 rounded-lg text-xs font-semibold transition-all ${
-              activeTab === 'roles'
-                ? 'bg-gradient-to-r from-amber-500 via-orange-600 to-rose-600 text-white shadow-xs'
-                : 'text-slate-400 hover:text-slate-200'
-            }`}
-          >
-            <KeyRound className="w-3.5 h-3.5" />
-            Roles & Matrix
-          </button>
-          <button
-            onClick={() => setActiveTab('audit')}
-            className={`flex items-center gap-2 px-3.5 py-1.5 rounded-lg text-xs font-semibold transition-all ${
-              activeTab === 'audit'
-                ? 'bg-gradient-to-r from-amber-500 via-orange-600 to-rose-600 text-white shadow-xs'
-                : 'text-slate-400 hover:text-slate-200'
-            }`}
-          >
-            <FileText className="w-3.5 h-3.5" />
-            Audit Logs
-          </button>
-          <button
-            onClick={() => setActiveTab('attendance')}
-            className={`flex items-center gap-2 px-3.5 py-1.5 rounded-lg text-xs font-semibold transition-all ${
-              activeTab === 'attendance'
-                ? 'bg-gradient-to-r from-amber-500 via-orange-600 to-rose-600 text-white shadow-xs'
-                : 'text-slate-400 hover:text-slate-200'
-            }`}
-          >
-            <MapPin className="w-3.5 h-3.5" />
-            Attendance Security
-          </button>
-          <button
-            onClick={() => setActiveTab('system')}
-            className={`flex items-center gap-2 px-3.5 py-1.5 rounded-lg text-xs font-semibold transition-all ${
-              activeTab === 'system'
-                ? 'bg-gradient-to-r from-amber-500 via-orange-600 to-rose-600 text-white shadow-xs'
-                : 'text-slate-400 hover:text-slate-200'
-            }`}
-          >
-            <Server className="w-3.5 h-3.5" />
-            System & Node
-          </button>
+            <button
+              onClick={() => setActiveTab('organizations')}
+              className={`w-full flex items-center justify-between px-3 py-2.5 rounded-xl text-xs font-semibold transition-all cursor-pointer ${
+                activeTab === 'organizations'
+                  ? 'bg-gradient-to-r from-amber-500 via-orange-500 to-rose-600 text-white font-bold shadow-md shadow-amber-500/10'
+                  : 'text-slate-400 hover:text-slate-100 hover:bg-slate-900'
+              }`}
+            >
+              <div className="flex items-center gap-2.5">
+                <Building2 className="w-4 h-4" />
+                <span>Clients & White-Label</span>
+              </div>
+              <span className={`text-[10px] px-1.5 py-0.5 rounded font-bold ${activeTab === 'organizations' ? 'bg-slate-950/40 text-white' : 'bg-slate-800 text-amber-400'}`}>
+                Tenants
+              </span>
+            </button>
+          </div>
+
+          {/* Section 2: Access & RBAC */}
+          <div className="space-y-1">
+            <p className="px-3 text-[10px] font-bold text-slate-400 uppercase tracking-wider">Access & Governance</p>
+            
+            <button
+              onClick={() => setActiveTab('admins')}
+              className={`w-full flex items-center justify-between px-3 py-2.5 rounded-xl text-xs font-semibold transition-all cursor-pointer ${
+                activeTab === 'admins'
+                  ? 'bg-gradient-to-r from-amber-500 via-orange-500 to-rose-600 text-white font-bold shadow-md shadow-amber-500/10'
+                  : 'text-slate-400 hover:text-slate-100 hover:bg-slate-900'
+              }`}
+            >
+              <div className="flex items-center gap-2.5">
+                <Users className="w-4 h-4" />
+                <span>Admins & Users</span>
+              </div>
+            </button>
+
+            <button
+              onClick={() => setActiveTab('access')}
+              className={`w-full flex items-center justify-between px-3 py-2.5 rounded-xl text-xs font-semibold transition-all cursor-pointer ${
+                activeTab === 'access'
+                  ? 'bg-gradient-to-r from-amber-500 via-orange-500 to-rose-600 text-white font-bold shadow-md shadow-amber-500/10'
+                  : 'text-slate-400 hover:text-slate-100 hover:bg-slate-900'
+              }`}
+            >
+              <div className="flex items-center gap-2.5">
+                <ShieldCheck className="w-4 h-4" />
+                <span>Admin Access</span>
+              </div>
+            </button>
+
+            <button
+              onClick={() => setActiveTab('roles')}
+              className={`w-full flex items-center justify-between px-3 py-2.5 rounded-xl text-xs font-semibold transition-all cursor-pointer ${
+                activeTab === 'roles'
+                  ? 'bg-gradient-to-r from-amber-500 via-orange-500 to-rose-600 text-white font-bold shadow-md shadow-amber-500/10'
+                  : 'text-slate-400 hover:text-slate-100 hover:bg-slate-900'
+              }`}
+            >
+              <div className="flex items-center gap-2.5">
+                <KeyRound className="w-4 h-4" />
+                <span>Roles & Matrix</span>
+              </div>
+            </button>
+
+            <button
+              onClick={() => setActiveTab('attendance')}
+              className={`w-full flex items-center justify-between px-3 py-2.5 rounded-xl text-xs font-semibold transition-all cursor-pointer ${
+                activeTab === 'attendance'
+                  ? 'bg-gradient-to-r from-amber-500 via-orange-500 to-rose-600 text-white font-bold shadow-md shadow-amber-500/10'
+                  : 'text-slate-400 hover:text-slate-100 hover:bg-slate-900'
+              }`}
+            >
+              <div className="flex items-center gap-2.5">
+                <MapPin className="w-4 h-4" />
+                <span>Attendance Security</span>
+              </div>
+            </button>
+          </div>
+
+          {/* Section 3: System & Audit */}
+          <div className="space-y-1">
+            <p className="px-3 text-[10px] font-bold text-slate-400 uppercase tracking-wider">System & Audit</p>
+
+            <button
+              onClick={() => setActiveTab('audit')}
+              className={`w-full flex items-center justify-between px-3 py-2.5 rounded-xl text-xs font-semibold transition-all cursor-pointer ${
+                activeTab === 'audit'
+                  ? 'bg-gradient-to-r from-amber-500 via-orange-500 to-rose-600 text-white font-bold shadow-md shadow-amber-500/10'
+                  : 'text-slate-400 hover:text-slate-100 hover:bg-slate-900'
+              }`}
+            >
+              <div className="flex items-center gap-2.5">
+                <FileText className="w-4 h-4" />
+                <span>Audit Logs</span>
+              </div>
+            </button>
+
+            <button
+              onClick={() => setActiveTab('system')}
+              className={`w-full flex items-center justify-between px-3 py-2.5 rounded-xl text-xs font-semibold transition-all cursor-pointer ${
+                activeTab === 'system'
+                  ? 'bg-gradient-to-r from-amber-500 via-orange-500 to-rose-600 text-white font-bold shadow-md shadow-amber-500/10'
+                  : 'text-slate-400 hover:text-slate-100 hover:bg-slate-900'
+              }`}
+            >
+              <div className="flex items-center gap-2.5">
+                <Server className="w-4 h-4" />
+                <span>System & Node</span>
+              </div>
+            </button>
+          </div>
         </div>
 
-        {/* Right Switch to CRM View & Theme Toggle */}
-        <div className="flex items-center gap-3">
-          <button
-            onClick={() => {
-              setIsLightMode(prev => {
-                const next = !prev;
-                localStorage.setItem('superadmin_theme', next ? 'light' : 'dark');
-                return next;
-              });
-            }}
-            className={`flex items-center gap-1.5 px-3 py-1.5 rounded-xl border text-xs font-semibold transition-all shadow-2xs ${
-              isLightMode
-                ? 'bg-amber-500/10 text-amber-600 border-amber-300/40 hover:bg-amber-500/20'
-                : 'bg-slate-800 text-slate-300 border-slate-700 hover:bg-slate-700'
-            }`}
-            title={isLightMode ? "Switch to Dark Mode" : "Switch to Light Mode"}
-          >
-            {isLightMode ? <Sun className="w-3.5 h-3.5 text-amber-500" /> : <Moon className="w-3.5 h-3.5 text-slate-400" />}
-            <span>{isLightMode ? 'Light' : 'Dark'}</span>
-          </button>
-
+        {/* Sidebar Footer */}
+        <div className="p-3 border-t border-slate-800/80 space-y-2.5 bg-slate-950/60">
           <button
             onClick={() => setActivePortal('admin')}
-
-            className="flex items-center gap-2 px-3.5 py-1.5 bg-slate-800 hover:bg-slate-700 text-amber-400 text-xs font-semibold rounded-xl border border-slate-700 transition-all active:scale-95 shadow-2xs"
+            className="w-full flex items-center justify-center gap-2 px-3 py-2 bg-slate-900 hover:bg-slate-800 text-amber-400 hover:text-amber-300 text-xs font-bold rounded-xl border border-slate-800 transition-all cursor-pointer active:scale-98"
           >
             <ArrowLeft className="w-3.5 h-3.5 text-amber-400" />
             <span>Switch to CRM Portal</span>
           </button>
-          <button
-            onClick={logout}
-            className="flex items-center gap-2 px-3.5 py-1.5 bg-rose-500/10 hover:bg-rose-500/20 text-rose-300 text-xs font-semibold rounded-xl border border-rose-500/30 transition-all"
-            title="Logout"
-          >
-            <Lock className="w-3.5 h-3.5" />
-            <span>Logout</span>
-          </button>
-          <div className="w-8 h-8 rounded-full bg-gradient-to-tr from-amber-500 to-rose-600 text-white flex items-center justify-center text-xs font-bold ring-2 ring-amber-400/30">
-            {user?.avatar || 'SA'}
+
+          <div className="flex items-center justify-between p-2 rounded-xl bg-slate-900/90 border border-slate-800/80">
+            <div className="flex items-center gap-2 min-w-0">
+              <div className="w-7 h-7 rounded-lg bg-gradient-to-tr from-amber-500 to-rose-600 text-white flex items-center justify-center text-[11px] font-black shrink-0 shadow-xs">
+                {user?.avatar || 'SA'}
+              </div>
+              <div className="min-w-0">
+                <p className="text-xs font-bold text-white truncate leading-tight">{user?.name || 'Super Admin'}</p>
+                <p className="text-[10px] text-amber-400 font-semibold truncate leading-tight">Root Authority</p>
+              </div>
+            </div>
+            <button
+              onClick={logout}
+              className="p-1.5 rounded-lg text-slate-400 hover:text-rose-400 hover:bg-rose-500/10 transition-colors cursor-pointer"
+              title="Sign Out"
+            >
+              <Lock className="w-3.5 h-3.5" />
+            </button>
           </div>
         </div>
-      </header>
+      </aside>
 
-      {/* Main Content Area */}
-      <main className="flex-1 p-6 md:p-8 max-w-7xl mx-auto w-full space-y-8 animate-in fade-in duration-150">
+      {/* 2. RIGHT MAIN STAGE */}
+      <div className="flex-1 flex flex-col min-w-0 bg-slate-900 overflow-hidden">
+        {/* Top Header */}
+        <header className="bg-slate-950/80 backdrop-blur-md border-b border-slate-800 px-6 py-3 flex items-center justify-between sticky top-0 z-20 shrink-0">
+          <div className="flex items-center gap-2 text-xs">
+            <span className="text-slate-400 font-medium">Super Admin</span>
+            <span className="text-slate-600">/</span>
+            <h2 className="text-sm font-bold text-white capitalize">
+              {activeTab === 'organizations' ? 'Clients & White-Label' : activeTab === 'admins' ? 'Admins & Users' : activeTab === 'access' ? 'Admin Access' : activeTab === 'roles' ? 'Roles & Matrix' : activeTab === 'audit' ? 'Audit Trail Logs' : activeTab === 'attendance' ? 'Attendance Security' : activeTab === 'system' ? 'System & Node' : 'Overview'}
+            </h2>
+          </div>
+
+          <div className="flex items-center gap-3">
+            <div className="hidden sm:flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-xs font-semibold">
+              <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+              <span>Root Telemetry Operational</span>
+            </div>
+
+            <button
+              onClick={fetchStats}
+              className="p-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 border border-slate-700 text-xs transition-colors cursor-pointer"
+              title="Refresh Telemetry"
+            >
+              <RefreshCw className={`w-3.5 h-3.5 ${loading ? 'animate-spin text-amber-400' : ''}`} />
+            </button>
+
+            <button
+              onClick={() => {
+                setIsLightMode(prev => {
+                  const next = !prev;
+                  localStorage.setItem('superadmin_theme', next ? 'light' : 'dark');
+                  return next;
+                });
+              }}
+              className={`flex items-center gap-1.5 px-3 py-1.5 rounded-xl border text-xs font-semibold transition-all cursor-pointer ${
+                isLightMode
+                  ? 'bg-amber-500/10 text-amber-600 border-amber-300/40 hover:bg-amber-500/20'
+                  : 'bg-slate-800 text-slate-300 border-slate-700 hover:bg-slate-700'
+              }`}
+              title={isLightMode ? "Switch to Dark Mode" : "Switch to Light Mode"}
+            >
+              {isLightMode ? <Sun className="w-3.5 h-3.5 text-amber-500" /> : <Moon className="w-3.5 h-3.5 text-slate-400" />}
+              <span>{isLightMode ? 'Light' : 'Dark'}</span>
+            </button>
+          </div>
+        </header>
+
+        {/* Main Content Area */}
+        <main className="flex-1 p-6 md:p-8 max-w-7xl mx-auto w-full space-y-8 overflow-y-auto animate-in fade-in duration-150">
         {/* ============================================================== */}
         {/* 0. ORGANIZATIONS / CLIENTS TAB */}
         {/* ============================================================== */}
@@ -1836,6 +1909,7 @@ export const SuperAdminPortal: React.FC = () => {
           </div>
         )}
       </main>
+      </div>
 
       {/* ============================================================== */}
       {/* MODAL 1: ADD / EDIT USER */}
