@@ -290,6 +290,10 @@ export async function getAllOrganizations(req: AuthenticatedRequest, res: Respon
 export async function getOrganizationById(req: AuthenticatedRequest, res: Response) {
   try {
     const id = req.params.id;
+    if (req.user?.role !== 'SUPER_ADMIN' && req.user?.organizationId !== id) {
+      return res.status(403).json({ success: false, message: 'Unauthorized to view this organization details' });
+    }
+
     const org = db.organizations.findById(id);
     if (!org) {
       return res.status(404).json({ success: false, message: 'Organization not found' });
@@ -587,6 +591,10 @@ export async function toggleOrganizationStatus(req: AuthenticatedRequest, res: R
 export async function uploadOrganizationAsset(req: AuthenticatedRequest, res: Response) {
   try {
     const id = req.params.id;
+    if (req.user?.role !== 'SUPER_ADMIN' && req.user?.organizationId !== id) {
+      return res.status(403).json({ success: false, message: 'Unauthorized to upload assets for this organization' });
+    }
+
     const org = db.organizations.findById(id);
     if (!org) {
       return res.status(404).json({ success: false, message: 'Organization not found' });

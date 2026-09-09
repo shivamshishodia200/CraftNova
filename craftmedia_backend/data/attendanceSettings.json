@@ -55,8 +55,27 @@
         "maxAccuracyMeters": 50,
         "address": "GIDC Industrial Estate, Vatva, Ahmedabad, Gujarat 382445",
         "enabled": true
+      },
+      {
+        "id": "loc_1788937752644_hgxo",
+        "name": "Sydney Central Office",
+        "lat": -33.8688,
+        "lng": 151.2093,
+        "radiusMeters": 200,
+        "address": "George St, Sydney NSW 2000",
+        "enabled": true
+      },
+      {
+        "id": "loc_1788938015903_le74",
+        "name": "Sydney Central Office",
+        "lat": -33.8688,
+        "lng": 151.2093,
+        "radiusMeters": 200,
+        "address": "George St, Sydney NSW 2000",
+        "enabled": true
       }
     ],
-    "updatedAt": "2026-01-01T00:00:00.000Z"
+    "updatedAt": "2026-09-09T07:13:35.903Z",
+    "organizationId": "org_deliveryplus"
   }
 ]

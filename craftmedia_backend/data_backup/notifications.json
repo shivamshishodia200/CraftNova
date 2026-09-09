@@ -1,0 +1,68 @@
+[
+  {
+    "_id": "not_1",
+    "userId": "usr_employee_arjun",
+    "title": "New Lead Assigned",
+    "message": "Ramesh Choudhary from Marwar Steel & Rolling Mills has been assigned to you.",
+    "type": "LEAD_ASSIGNED",
+    "isRead": false,
+    "createdAt": "2026-02-16T09:30:00.000Z",
+    "organizationId": "org_craftmedia",
+    "updatedAt": "2026-09-04T11:45:05.319Z"
+  },
+  {
+    "_id": "not_2",
+    "userId": "usr_employee_arjun",
+    "title": "Follow-up Reminder",
+    "message": "Call scheduled with Vikramaditya Solanki (Solanki Chem) today at 11:30 AM.",
+    "type": "FOLLOWUP_REMINDER",
+    "isRead": false,
+    "createdAt": "2026-02-16T09:00:00.000Z",
+    "organizationId": "org_craftmedia",
+    "updatedAt": "2026-09-04T11:45:05.319Z"
+  },
+  {
+    "_id": "not_3",
+    "userId": "usr_employee_arjun",
+    "title": "Salary Credited",
+    "message": "January 2026 salary slip of ₹43,400 has been processed and credited to your account.",
+    "type": "SALARY_PUBLISHED",
+    "isRead": true,
+    "createdAt": "2026-02-01T10:00:00.000Z",
+    "organizationId": "org_craftmedia",
+    "updatedAt": "2026-09-04T11:45:05.319Z"
+  },
+  {
+    "recipientId": "emp_arjun",
+    "title": "New Lead Assignment",
+    "message": "Lead 'Non' (Non) has been assigned to you.",
+    "type": "LEAD_ASSIGNED",
+    "isRead": false,
+    "createdAt": "2026-09-01T06:33:29.478Z",
+    "_id": "not_1788244409478_4srrw",
+    "organizationId": "org_craftmedia",
+    "updatedAt": "2026-09-04T11:45:05.319Z"
+  },
+  {
+    "userId": "usr_superadmin",
+    "title": "🚨 SOS EMERGENCY ALERT: Arjun Singh",
+    "message": "Arjun Singh triggered an emergency SOS: \"Vehicle breakdown on SG Highway. Need mechanic support.\"",
+    "type": "ADMIN_ALERT",
+    "isRead": false,
+    "createdAt": "2026-09-02T05:22:35.647Z",
+    "_id": "not_1788326555647_au9ph",
+    "organizationId": "org_craftmedia",
+    "updatedAt": "2026-09-04T11:45:05.319Z"
+  },
+  {
+    "userId": "usr_admin_main",
+    "title": "🚨 SOS EMERGENCY ALERT: Arjun Singh",
+    "message": "Arjun Singh triggered an emergency SOS: \"Vehicle breakdown on SG Highway. Need mechanic support.\"",
+    "type": "ADMIN_ALERT",
+    "isRead": false,
+    "createdAt": "2026-09-02T05:22:35.647Z",
+    "_id": "not_1788326555647_g6wj7",
+    "organizationId": "org_craftmedia",
+    "updatedAt": "2026-09-04T11:45:05.319Z"
+  }
+]

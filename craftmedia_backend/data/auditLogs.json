@@ -5182,5 +5182,367 @@
     "timestamp": "2026-09-05T10:14:13.502Z",
     "createdAt": "2026-09-05T10:14:13.502Z",
     "_id": "aud_1788603253502_7j5bn"
+  },
+  {
+    "userId": "system",
+    "userName": "System / Visitor",
+    "userRole": "SUPER_ADMIN",
+    "organizationId": "org-craftmedia-root",
+    "action": "CREATE",
+    "module": "users",
+    "description": "Admin User Created",
+    "recordId": "usr_1788939573367_fhvl",
+    "newData": {
+      "name": "Alpha Primary Director",
+      "email": "director_1788939572387@alpha.com",
+      "role": "ADMIN",
+      "organizationId": "test-org-alpha-1788939570543",
+      "organizationName": "Alpha Logistics Enterprise"
+    },
+    "ipAddress": "127.0.0.1",
+    "userAgent": "360CRM-Client",
+    "timestamp": "2026-09-09T07:39:33.386Z",
+    "createdAt": "2026-09-09T07:39:33.386Z",
+    "_id": "aud_1788939573386_l0zil"
+  },
+  {
+    "userId": "system",
+    "userName": "System / Visitor",
+    "userRole": "SUPER_ADMIN",
+    "organizationId": "org-craftmedia-root",
+    "action": "CREATE",
+    "module": "users",
+    "description": "Admin User Created",
+    "recordId": "usr_1788939576050_tny8",
+    "newData": {
+      "name": "Alpha Secondary Admin",
+      "email": "secadmin_1788939574523@alpha.com",
+      "role": "ADMIN",
+      "organizationId": "test-org-alpha-1788939570543",
+      "organizationName": "Alpha Logistics Enterprise"
+    },
+    "ipAddress": "127.0.0.1",
+    "userAgent": "360CRM-Client",
+    "timestamp": "2026-09-09T07:39:36.051Z",
+    "createdAt": "2026-09-09T07:39:36.051Z",
+    "_id": "aud_1788939576051_a6coq"
+  },
+  {
+    "userId": "system",
+    "userName": "System / Visitor",
+    "userRole": "SUPER_ADMIN",
+    "organizationId": "org-craftmedia-root",
+    "action": "CREATE",
+    "module": "employees",
+    "description": "Employee Created",
+    "recordId": "emp_1788939576484_wfvq",
+    "newData": {
+      "name": "Suresh Raina",
+      "email": "suresh_1788939576066@alpha.com",
+      "employeeId": "ALPHA-EMP-6108",
+      "organizationId": "test-org-alpha-1788939570543",
+      "organizationName": "Alpha Logistics Enterprise"
+    },
+    "ipAddress": "127.0.0.1",
+    "userAgent": "360CRM-Client",
+    "timestamp": "2026-09-09T07:39:36.486Z",
+    "createdAt": "2026-09-09T07:39:36.486Z",
+    "_id": "aud_1788939576486_uq5zl"
+  },
+  {
+    "userId": "system",
+    "userName": "System / Visitor",
+    "userRole": "SUPER_ADMIN",
+    "organizationId": "org-craftmedia-root",
+    "action": "ADMIN_PASSWORD_RESET",
+    "module": "security",
+    "description": "Super Admin reset password for suresh_1788939576066@alpha.com",
+    "recordId": "usr_1788939576483_bu02",
+    "newData": {
+      "targetUser": "suresh_1788939576066@alpha.com",
+      "organizationId": "test-org-alpha-1788939570543"
+    },
+    "ipAddress": "127.0.0.1",
+    "userAgent": "360CRM-Client",
+    "timestamp": "2026-09-09T07:39:36.815Z",
+    "createdAt": "2026-09-09T07:39:36.815Z",
+    "_id": "aud_1788939576815_3oqvd"
+  },
+  {
+    "userId": "system",
+    "userName": "System / Visitor",
+    "userRole": "SUPER_ADMIN",
+    "organizationId": "org-craftmedia-root",
+    "action": "UPDATE",
+    "module": "permissions",
+    "description": "Updated custom permissions for suresh_1788939576066@alpha.com",
+    "recordId": "usr_1788939576483_bu02",
+    "oldData": {
+      "prevPermissions": [],
+      "prevMode": "ROLE"
+    },
+    "newData": {
+      "permissionMode": "ROLE"
+    },
+    "ipAddress": "127.0.0.1",
+    "userAgent": "360CRM-Client",
+    "timestamp": "2026-09-09T07:39:36.962Z",
+    "createdAt": "2026-09-09T07:39:36.962Z",
+    "_id": "aud_1788939576962_aj53m"
+  },
+  {
+    "userId": "system",
+    "userName": "System / Visitor",
+    "userRole": "SUPER_ADMIN",
+    "organizationId": "test-org-alpha-1788941507220",
+    "action": "CREATE",
+    "module": "users",
+    "description": "Admin User Created",
+    "recordId": "usr_1788941507420_e236",
+    "newData": {
+      "name": "Alpha Primary Director",
+      "email": "director_1788941507279@alpha.com",
+      "role": "ADMIN",
+      "organizationId": "test-org-alpha-1788941507220",
+      "organizationName": "Alpha Logistics Enterprise"
+    },
+    "ipAddress": "127.0.0.1",
+    "userAgent": "360CRM-Client",
+    "timestamp": "2026-09-09T08:11:47.421Z",
+    "createdAt": "2026-09-09T08:11:47.421Z",
+    "_id": "aud_1788941507421_z0pvr"
+  },
+  {
+    "userId": "system",
+    "userName": "System / Visitor",
+    "userRole": "SUPER_ADMIN",
+    "organizationId": "test-org-alpha-1788941507220",
+    "action": "CREATE",
+    "module": "users",
+    "description": "Admin User Created",
+    "recordId": "usr_1788941507586_82sb",
+    "newData": {
+      "name": "Alpha Secondary Admin",
+      "email": "secadmin_1788941507494@alpha.com",
+      "role": "ADMIN",
+      "organizationId": "test-org-alpha-1788941507220",
+      "organizationName": "Alpha Logistics Enterprise"
+    },
+    "ipAddress": "127.0.0.1",
+    "userAgent": "360CRM-Client",
+    "timestamp": "2026-09-09T08:11:47.587Z",
+    "createdAt": "2026-09-09T08:11:47.587Z",
+    "_id": "aud_1788941507587_6ua5i"
+  },
+  {
+    "userId": "system",
+    "userName": "System / Visitor",
+    "userRole": "SUPER_ADMIN",
+    "organizationId": "test-org-alpha-1788941507220",
+    "action": "CREATE",
+    "module": "employees",
+    "description": "Employee Created",
+    "recordId": "emp_1788941507686_che4",
+    "newData": {
+      "name": "Suresh Raina",
+      "email": "suresh_1788941507588@alpha.com",
+      "employeeId": "ALPHA-EMP-7591",
+      "organizationId": "test-org-alpha-1788941507220",
+      "organizationName": "Alpha Logistics Enterprise"
+    },
+    "ipAddress": "127.0.0.1",
+    "userAgent": "360CRM-Client",
+    "timestamp": "2026-09-09T08:11:47.687Z",
+    "createdAt": "2026-09-09T08:11:47.687Z",
+    "_id": "aud_1788941507687_o0xfv"
+  },
+  {
+    "userId": "system",
+    "userName": "System / Visitor",
+    "userRole": "SUPER_ADMIN",
+    "organizationId": "test-org-alpha-1788941507220",
+    "action": "ADMIN_PASSWORD_RESET",
+    "module": "security",
+    "description": "Super Admin reset password for suresh_1788941507588@alpha.com",
+    "recordId": "usr_1788941507686_38cs",
+    "newData": {
+      "targetUser": "suresh_1788941507588@alpha.com",
+      "organizationId": "test-org-alpha-1788941507220"
+    },
+    "ipAddress": "127.0.0.1",
+    "userAgent": "360CRM-Client",
+    "timestamp": "2026-09-09T08:11:47.795Z",
+    "createdAt": "2026-09-09T08:11:47.795Z",
+    "_id": "aud_1788941507795_lbffk"
+  },
+  {
+    "userId": "system",
+    "userName": "System / Visitor",
+    "userRole": "SUPER_ADMIN",
+    "organizationId": "test-org-alpha-1788941769090",
+    "action": "CREATE",
+    "module": "users",
+    "description": "Admin User Created",
+    "recordId": "usr_1788941769347_aoc8",
+    "newData": {
+      "name": "Alpha Primary Director",
+      "email": "director_1788941769174@alpha.com",
+      "role": "ADMIN",
+      "organizationId": "test-org-alpha-1788941769090",
+      "organizationName": "Alpha Logistics Enterprise"
+    },
+    "ipAddress": "127.0.0.1",
+    "userAgent": "360CRM-Client",
+    "timestamp": "2026-09-09T08:16:09.349Z",
+    "createdAt": "2026-09-09T08:16:09.349Z",
+    "_id": "aud_1788941769349_18u94"
+  },
+  {
+    "userId": "system",
+    "userName": "System / Visitor",
+    "userRole": "SUPER_ADMIN",
+    "organizationId": "test-org-alpha-1788941769090",
+    "action": "CREATE",
+    "module": "users",
+    "description": "Admin User Created",
+    "recordId": "usr_1788941769560_jixt",
+    "newData": {
+      "name": "Alpha Secondary Admin",
+      "email": "secadmin_1788941769463@alpha.com",
+      "role": "ADMIN",
+      "organizationId": "test-org-alpha-1788941769090",
+      "organizationName": "Alpha Logistics Enterprise"
+    },
+    "ipAddress": "127.0.0.1",
+    "userAgent": "360CRM-Client",
+    "timestamp": "2026-09-09T08:16:09.561Z",
+    "createdAt": "2026-09-09T08:16:09.561Z",
+    "_id": "aud_1788941769561_8dms0"
+  },
+  {
+    "userId": "system",
+    "userName": "System / Visitor",
+    "userRole": "SUPER_ADMIN",
+    "organizationId": "test-org-alpha-1788941769090",
+    "action": "CREATE",
+    "module": "employees",
+    "description": "Employee Created",
+    "recordId": "emp_1788941769670_tkpn",
+    "newData": {
+      "name": "Suresh Raina",
+      "email": "suresh_1788941769563@alpha.com",
+      "employeeId": "ALPHA-EMP-9567",
+      "organizationId": "test-org-alpha-1788941769090",
+      "organizationName": "Alpha Logistics Enterprise"
+    },
+    "ipAddress": "127.0.0.1",
+    "userAgent": "360CRM-Client",
+    "timestamp": "2026-09-09T08:16:09.670Z",
+    "createdAt": "2026-09-09T08:16:09.670Z",
+    "_id": "aud_1788941769670_fypds"
+  },
+  {
+    "userId": "system",
+    "userName": "System / Visitor",
+    "userRole": "SUPER_ADMIN",
+    "organizationId": "test-org-alpha-1788941769090",
+    "action": "ADMIN_PASSWORD_RESET",
+    "module": "security",
+    "description": "Super Admin reset password for suresh_1788941769563@alpha.com",
+    "recordId": "usr_1788941769670_07qu",
+    "newData": {
+      "targetUser": "suresh_1788941769563@alpha.com",
+      "organizationId": "test-org-alpha-1788941769090"
+    },
+    "ipAddress": "127.0.0.1",
+    "userAgent": "360CRM-Client",
+    "timestamp": "2026-09-09T08:16:09.771Z",
+    "createdAt": "2026-09-09T08:16:09.771Z",
+    "_id": "aud_1788941769771_bddz3"
+  },
+  {
+    "userId": "super-admin-root-001",
+    "userName": "Super Admin",
+    "userRole": "SUPER_ADMIN",
+    "organizationId": "test-org-alpha-1788941941792",
+    "action": "CREATE",
+    "module": "users",
+    "description": "Admin User Created",
+    "recordId": "usr_1788941942005_2lun",
+    "newData": {
+      "name": "Alpha Primary Director",
+      "email": "director_1788941941867@alpha.com",
+      "role": "ADMIN",
+      "organizationId": "test-org-alpha-1788941941792",
+      "organizationName": "Alpha Logistics Enterprise"
+    },
+    "ipAddress": "127.0.0.1",
+    "userAgent": "360CRM-Client",
+    "timestamp": "2026-09-09T08:19:02.008Z",
+    "createdAt": "2026-09-09T08:19:02.008Z",
+    "_id": "aud_1788941942008_xwu5s"
+  },
+  {
+    "userId": "super-admin-root-001",
+    "userName": "Super Admin",
+    "userRole": "SUPER_ADMIN",
+    "organizationId": "test-org-alpha-1788941941792",
+    "action": "CREATE",
+    "module": "users",
+    "description": "Admin User Created",
+    "recordId": "usr_1788941942187_9uba",
+    "newData": {
+      "name": "Alpha Secondary Admin",
+      "email": "secadmin_1788941942096@alpha.com",
+      "role": "ADMIN",
+      "organizationId": "test-org-alpha-1788941941792",
+      "organizationName": "Alpha Logistics Enterprise"
+    },
+    "ipAddress": "127.0.0.1",
+    "userAgent": "360CRM-Client",
+    "timestamp": "2026-09-09T08:19:02.187Z",
+    "createdAt": "2026-09-09T08:19:02.187Z",
+    "_id": "aud_1788941942187_rxkbs"
+  },
+  {
+    "userId": "super-admin-root-001",
+    "userName": "Super Admin",
+    "userRole": "SUPER_ADMIN",
+    "organizationId": "test-org-alpha-1788941941792",
+    "action": "CREATE",
+    "module": "employees",
+    "description": "Employee Created",
+    "recordId": "emp_1788941942295_x640",
+    "newData": {
+      "name": "Suresh Raina",
+      "email": "suresh_1788941942188@alpha.com",
+      "employeeId": "ALPHA-EMP-2194",
+      "organizationId": "test-org-alpha-1788941941792",
+      "organizationName": "Alpha Logistics Enterprise"
+    },
+    "ipAddress": "127.0.0.1",
+    "userAgent": "360CRM-Client",
+    "timestamp": "2026-09-09T08:19:02.295Z",
+    "createdAt": "2026-09-09T08:19:02.295Z",
+    "_id": "aud_1788941942295_uryf5"
+  },
+  {
+    "userId": "super-admin-root-001",
+    "userName": "Super Admin",
+    "userRole": "SUPER_ADMIN",
+    "organizationId": "test-org-alpha-1788941941792",
+    "action": "ADMIN_PASSWORD_RESET",
+    "module": "security",
+    "description": "Super Admin reset password for suresh_1788941942188@alpha.com",
+    "recordId": "usr_1788941942295_5lfy",
+    "newData": {
+      "targetUser": "suresh_1788941942188@alpha.com",
+      "organizationId": "test-org-alpha-1788941941792"
+    },
+    "ipAddress": "127.0.0.1",
+    "userAgent": "360CRM-Client",
+    "timestamp": "2026-09-09T08:19:02.397Z",
+    "createdAt": "2026-09-09T08:19:02.397Z",
+    "_id": "aud_1788941942397_he9rx"
   }
 ]

@@ -1,0 +1,15 @@
+[
+  {
+    "employeeId": "emp_arjun",
+    "employeeName": "Arjun Singh",
+    "date": "2026-09-02",
+    "handoverNotes": "All 3 installations completed. 1 pending quote for Apollo Hospitals awaiting client signature.",
+    "pendingLeadIds": [],
+    "pendingTaskIds": [
+      "tas_1788326555531_4rrxd"
+    ],
+    "followUpIds": [],
+    "createdAt": "2026-09-02T05:22:35.607Z",
+    "_id": "shi_1788326555607_nqjpu"
+  }
+]

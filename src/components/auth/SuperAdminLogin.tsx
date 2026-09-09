@@ -5,8 +5,8 @@ import { navigateTo } from '../../utils/routeUtils';
 
 export const SuperAdminLogin: React.FC = () => {
   const { login } = useAuth();
-  const [email, setEmail] = useState('shivam.craftmedia@gmail.com');
-  const [password, setPassword] = useState('Password@123');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
 

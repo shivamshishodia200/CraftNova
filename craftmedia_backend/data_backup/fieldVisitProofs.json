@@ -1,0 +1,20 @@
+[
+  {
+    "employeeId": "emp_arjun",
+    "employeeName": "Arjun Singh",
+    "taskId": "tas_1788326555531_4rrxd",
+    "latitude": 23.0502,
+    "longitude": 72.6001,
+    "accuracy": 12,
+    "sitePhotoUrls": [
+      "https://cdn.example.com/site_photo_1.jpg"
+    ],
+    "customerSignatureUrl": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJ...",
+    "signedByName": "Dr. R. Sharma (Facility Manager)",
+    "notes": "Inspection completed smoothly. No faults detected.",
+    "verificationStatus": "VERIFIED",
+    "timestamp": "2026-09-02T05:22:35.560Z",
+    "createdAt": "2026-09-02T05:22:35.560Z",
+    "_id": "fie_1788326555560_uzmpv"
+  }
+]

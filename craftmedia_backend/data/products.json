@@ -103,5 +103,33 @@
     "createdAt": "2026-01-10T00:00:00.000Z",
     "updatedAt": "2026-09-04T11:45:05.311Z",
     "organizationId": "org_craftmedia"
+  },
+  {
+    "_id": "prod_dp_test_01",
+    "organizationId": "org_deliveryplus",
+    "name": "GPS Tracker Device v2",
+    "sku": "DP-GPS-002",
+    "category": "Electronics",
+    "purchasePrice": 50,
+    "sellingPrice": 120,
+    "currentStock": 100,
+    "minStockLevel": 10,
+    "status": "ACTIVE",
+    "createdAt": "2026-09-09T07:04:56.925Z",
+    "updatedAt": "2026-09-09T07:04:56.925Z"
+  },
+  {
+    "_id": "prod_ss_test_01",
+    "organizationId": "org_shivshakti",
+    "name": "Premium Basmati Rice 25kg",
+    "sku": "SS-RICE-025",
+    "category": "Food",
+    "purchasePrice": 1800,
+    "sellingPrice": 2400,
+    "currentStock": 50,
+    "minStockLevel": 5,
+    "status": "ACTIVE",
+    "createdAt": "2026-09-09T07:04:56.925Z",
+    "updatedAt": "2026-09-09T07:04:56.925Z"
   }
 ]

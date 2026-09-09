@@ -3,7 +3,7 @@ import bcrypt from 'bcryptjs';
 import { db } from '../database/db';
 import { AuthenticatedRequest } from '../middleware/auth';
 import { recordAuditLog } from '../middleware/audit';
-import { filterByWorkspace, attachWorkspaceContext } from '../middleware/workspace';
+import { filterByWorkspace, attachWorkspaceContext, assertTenantOwnership } from '../middleware/workspace';
 
 function parseAttendanceTime(value?: string) {
   if (!value) return null;
@@ -232,7 +232,7 @@ export async function updateEmployee(req: AuthenticatedRequest, res: Response) {
   try {
     const id = req.params.id;
     const existing = db.employees.findById(id);
-    if (!existing) return res.status(404).json({ success: false, message: 'Employee not found' });
+    if (!assertTenantOwnership(existing, req, res, 'Employee')) return;
 
     const {
       name, email, phone, department, designation, salary, status, joiningDate, password,
@@ -300,7 +300,7 @@ export async function deleteEmployee(req: AuthenticatedRequest, res: Response) {
   try {
     const id = req.params.id;
     const existing = db.employees.findById(id);
-    if (!existing) return res.status(404).json({ success: false, message: 'Employee not found' });
+    if (!assertTenantOwnership(existing, req, res, 'Employee')) return;
 
     db.employees.deleteById(id);
 
@@ -391,7 +391,7 @@ export function calculateHaversineDistanceMeters(lat1: number, lon1: number, lat
   return Math.round(R * c);
 }
 
-export function validateAttendanceSecurity(selfie?: string, location?: any, mode: 'IN' | 'OUT' = 'IN'): {
+export function validateAttendanceSecurity(selfie?: string, location?: any, mode: 'IN' | 'OUT' = 'IN', orgId?: string): {
   valid: boolean;
   message?: string;
   verifiedLocation?: {
@@ -404,7 +404,7 @@ export function validateAttendanceSecurity(selfie?: string, location?: any, mode
     officeLocationId?: string;
   };
 } {
-  const settings = db.getAttendanceSecurityConfig();
+  const settings = db.getAttendanceSecurityConfig(orgId);
 
   const isSelfieRequired = mode === 'IN'
     ? (settings.requireSelfieClockIn ?? settings.requireSelfie)
@@ -419,7 +419,7 @@ export function validateAttendanceSecurity(selfie?: string, location?: any, mode
     if (!selfie || typeof selfie !== 'string' || !selfie.startsWith('data:image/')) {
       return {
         valid: false,
-        message: `Selfie verification is required for Clock-${mode === 'IN' ? 'In' : 'Out'} by Super Admin security policy. Please capture a live photo.`
+        message: `Selfie verification is required for Clock-${mode === 'IN' ? 'In' : 'Out'} by organization security policy. Please capture a live photo.`
       };
     }
   }
@@ -502,9 +502,11 @@ export function validateAttendanceSecurity(selfie?: string, location?: any, mode
 // EMPLOYEE CLOCK-IN
 export async function clockIn(req: AuthenticatedRequest, res: Response) {
   try {
-    const { employeeId, employeeName, selfie, location, remarks } = req.body;
+    const { employeeId, employeeName, selfie, selfieImage, photo, location, remarks } = req.body;
     const empId = employeeId || (req.user as any)?.employeeId || req.user?.userId;
     const empName = employeeName || req.user?.name || 'Employee';
+    const orgId = req.user?.organizationId;
+    const selfieData = selfie || selfieImage || photo;
 
     if (!empId) {
       return res.status(400).json({ success: false, message: 'Employee identification is required' });
@@ -517,10 +519,10 @@ export async function clockIn(req: AuthenticatedRequest, res: Response) {
       address: req.body.address
     } : undefined);
 
-    const settings = db.getAttendanceSecurityConfig();
+    const settings = db.getAttendanceSecurityConfig(orgId);
 
-    // Validate against Super Admin Security Policy
-    const securityCheck = validateAttendanceSecurity(selfie, loc, 'IN');
+    // Validate against Organization Security Policy
+    const securityCheck = validateAttendanceSecurity(selfieData, loc, 'IN', orgId);
     if (!securityCheck.valid) {
       return res.status(403).json({ success: false, message: securityCheck.message });
     }
@@ -548,7 +550,8 @@ export async function clockIn(req: AuthenticatedRequest, res: Response) {
       (a.employeeId === empId ||
         a.employeeId === (req.user as any)?.userId ||
         (!!empName && a.employeeName.toLowerCase() === empName.toLowerCase())) &&
-      a.date === today
+      a.date === today &&
+      (!orgId || !a.organizationId || a.organizationId === orgId)
     );
 
     if (existing) {
@@ -580,7 +583,7 @@ export async function clockIn(req: AuthenticatedRequest, res: Response) {
       });
     }
 
-    const newRecord = db.attendance.insertOne({
+    const newRecord = db.attendance.insertOne(attachWorkspaceContext({
       employeeId: empId,
       employeeName: empName,
       date: today,
@@ -594,7 +597,7 @@ export async function clockIn(req: AuthenticatedRequest, res: Response) {
       breaks: [],
       workHours: 0,
       createdAt: new Date().toISOString()
-    });
+    }, req));
 
     recordAuditLog(req, 'CREATE', 'attendance', 'Employee Clock In Verified', newRecord._id, undefined, {
       employeeName: empName,
@@ -615,9 +618,11 @@ export async function clockIn(req: AuthenticatedRequest, res: Response) {
 // EMPLOYEE CLOCK-OUT
 export async function clockOut(req: AuthenticatedRequest, res: Response) {
   try {
-    const { employeeId, employeeName, selfie, location, remarks } = req.body;
+    const { employeeId, employeeName, selfie, selfieImage, photo, location, remarks } = req.body;
     const empId = employeeId || (req.user as any)?.employeeId || req.user?.userId;
     const empName = employeeName || req.user?.name || 'Employee';
+    const orgId = req.user?.organizationId;
+    const selfieData = selfie || selfieImage || photo;
 
     if (!empId) {
       return res.status(400).json({ success: false, message: 'Employee identification is required' });
@@ -630,10 +635,10 @@ export async function clockOut(req: AuthenticatedRequest, res: Response) {
       address: req.body.address
     } : undefined);
 
-    const settings = db.getAttendanceSecurityConfig();
+    const settings = db.getAttendanceSecurityConfig(orgId);
 
-    // Validate against Super Admin Security Policy for Clock-Out
-    const securityCheck = validateAttendanceSecurity(selfie, loc, 'OUT');
+    // Validate against Security Policy for Clock-Out
+    const securityCheck = validateAttendanceSecurity(selfieData, loc, 'OUT', orgId);
     if (!securityCheck.valid) {
       return res.status(403).json({ success: false, message: securityCheck.message });
     }
@@ -646,7 +651,8 @@ export async function clockOut(req: AuthenticatedRequest, res: Response) {
       (a.employeeId === empId ||
         a.employeeId === (req.user as any)?.userId ||
         (!!empName && a.employeeName.toLowerCase() === empName.toLowerCase())) &&
-      a.date === today
+      a.date === today &&
+      (!orgId || !a.organizationId || a.organizationId === orgId)
     );
     if (!existing || !existing.checkIn) {
       return res.status(400).json({ success: false, message: 'You must clock in before clocking out.' });
@@ -1004,9 +1010,7 @@ export async function updateLeaveStatus(req: AuthenticatedRequest, res: Response
     }
 
     const leave = db.leaves.findById(id);
-    if (!leave) {
-      return res.status(404).json({ success: false, message: 'Leave request not found' });
-    }
+    if (!assertTenantOwnership(leave, req, res, 'Leave request')) return;
 
     const previousStatus = leave.status;
     const updated = db.leaves.updateById(id, {
@@ -1043,11 +1047,12 @@ export async function updateLeaveStatus(req: AuthenticatedRequest, res: Response
   }
 }
 
-// ==================== SUPER ADMIN ATTENDANCE SECURITY SETTINGS ====================
+// ==================== SUPER ADMIN / TENANT ATTENDANCE SECURITY SETTINGS ====================
 
 export async function getAttendanceSettings(req: AuthenticatedRequest, res: Response) {
   try {
-    const config = db.getAttendanceSecurityConfig();
+    const orgId = (req.user?.role === 'SUPER_ADMIN' ? (req.query?.organizationId as string) : req.user?.organizationId) || undefined;
+    const config = db.getAttendanceSecurityConfig(orgId);
     return res.json({
       success: true,
       data: config
@@ -1060,6 +1065,7 @@ export async function getAttendanceSettings(req: AuthenticatedRequest, res: Resp
 export async function updateAttendanceSettings(req: AuthenticatedRequest, res: Response) {
   try {
     const {
+      organizationId,
       requireSelfie,
       requireLocation,
       requireSelfieClockIn,
@@ -1077,9 +1083,13 @@ export async function updateAttendanceSettings(req: AuthenticatedRequest, res: R
       allowedLocations
     } = req.body;
 
-    let config = db.attendanceSettings.findById('attendance_security_config');
+    const orgId = (req.user?.role === 'SUPER_ADMIN' ? (organizationId || req.query?.organizationId as string) : req.user?.organizationId) || undefined;
+    const configKey = orgId ? `attendance_security_${orgId}` : 'attendance_security_config';
+
+    let config = db.getAttendanceSecurityConfig(orgId);
 
     const updates: any = {
+      organizationId: orgId || undefined,
       requireSelfie: typeof requireSelfie === 'boolean' ? requireSelfie : (config?.requireSelfie ?? true),
       requireLocation: typeof requireLocation === 'boolean' ? requireLocation : (config?.requireLocation ?? true),
       requireSelfieClockIn: typeof requireSelfieClockIn === 'boolean' ? requireSelfieClockIn : (config?.requireSelfieClockIn ?? true),
@@ -1111,17 +1121,15 @@ export async function updateAttendanceSettings(req: AuthenticatedRequest, res: R
       }));
     }
 
-    let saved;
-    if (config) {
-      saved = db.attendanceSettings.updateById('attendance_security_config', updates);
-    } else {
+    let saved = db.attendanceSettings.updateById(configKey, updates);
+    if (!saved) {
       saved = db.attendanceSettings.insertOne({
-        _id: 'attendance_security_config',
+        _id: configKey,
         ...updates
       });
     }
 
-    recordAuditLog(req, 'UPDATE', 'attendance_settings', 'Attendance Security Settings', 'attendance_security_config', config, updates);
+    recordAuditLog(req, 'UPDATE', 'attendance_settings', 'Attendance Security Settings', configKey, config, updates);
 
     return res.json({
       success: true,
@@ -1135,31 +1143,46 @@ export async function updateAttendanceSettings(req: AuthenticatedRequest, res: R
 
 export async function addAllowedLocation(req: AuthenticatedRequest, res: Response) {
   try {
-    const { name, lat, lng, radiusMeters, address, enabled } = req.body;
-    if (!name || isNaN(Number(lat)) || isNaN(Number(lng))) {
+    const { name, lat, lng, latitude, longitude, radiusMeters, address, enabled, organizationId } = req.body;
+    const finalLat = lat !== undefined ? Number(lat) : Number(latitude);
+    const finalLng = lng !== undefined ? Number(lng) : Number(longitude);
+
+    if (!name || isNaN(finalLat) || isNaN(finalLng)) {
       return res.status(400).json({ success: false, message: 'Location name, latitude, and longitude are required' });
     }
 
-    let config = db.getAttendanceSecurityConfig();
+    const orgId = (req.user?.role === 'SUPER_ADMIN' ? (organizationId || req.query?.organizationId as string) : req.user?.organizationId) || undefined;
+    const configKey = orgId ? `attendance_security_${orgId}` : 'attendance_security_config';
+
+    let config = db.getAttendanceSecurityConfig(orgId);
     const newLocation = {
       id: `loc_${Date.now()}_${Math.random().toString(36).substring(2, 6)}`,
       name,
-      lat: Number(lat),
-      lng: Number(lng),
+      lat: finalLat,
+      lng: finalLng,
       radiusMeters: Number(radiusMeters) || 100,
       address: address || '',
       enabled: enabled !== false
     };
 
-    const updatedLocations = [...(config.allowedLocations || []), newLocation];
-    const saved = db.attendanceSettings.updateById('attendance_security_config', {
-      allowedLocations: updatedLocations,
-      updatedAt: new Date().toISOString()
-    }) || db.attendanceSettings.insertOne({
-      _id: 'attendance_security_config',
-      ...config,
-      allowedLocations: updatedLocations
-    });
+    // Filter out fallback locations from other defaults when adding first tenant location
+    const currentLocs = (config.allowedLocations || []).filter(l => l.id !== 'loc_delhi_hq' && l.id !== 'loc_noida_hub' && l.id !== 'loc_craftmedia_main');
+    const updatedLocations = [...currentLocs, newLocation];
+
+    const existingDoc = db.attendanceSettings.findById(configKey);
+    const saved = existingDoc
+      ? db.attendanceSettings.updateById(configKey, {
+          organizationId: orgId || undefined,
+          allowedLocations: updatedLocations,
+          updatedAt: new Date().toISOString()
+        })
+      : db.attendanceSettings.insertOne({
+          _id: configKey,
+          ...config,
+          organizationId: orgId || undefined,
+          allowedLocations: updatedLocations,
+          updatedAt: new Date().toISOString()
+        });
 
     recordAuditLog(req, 'CREATE', 'attendance_locations', 'Add Allowed Location', newLocation.id, undefined, newLocation);
 
@@ -1176,8 +1199,11 @@ export async function addAllowedLocation(req: AuthenticatedRequest, res: Respons
 export async function updateAllowedLocation(req: AuthenticatedRequest, res: Response) {
   try {
     const { id } = req.params;
-    const { name, lat, lng, radiusMeters, address, enabled } = req.body;
-    let config = db.getAttendanceSecurityConfig();
+    const { name, lat, lng, radiusMeters, address, enabled, organizationId } = req.body;
+    const orgId = (req.user?.role === 'SUPER_ADMIN' ? (organizationId || req.query?.organizationId as string) : req.user?.organizationId) || undefined;
+    const configKey = orgId ? `attendance_security_${orgId}` : 'attendance_security_config';
+
+    let config = db.getAttendanceSecurityConfig(orgId);
 
     const locationIndex = (config.allowedLocations || []).findIndex(l => l.id === id);
     if (locationIndex === -1) {
@@ -1197,7 +1223,7 @@ export async function updateAllowedLocation(req: AuthenticatedRequest, res: Resp
 
     config.allowedLocations[locationIndex] = updatedLoc;
 
-    const saved = db.attendanceSettings.updateById('attendance_security_config', {
+    const saved = db.attendanceSettings.updateById(configKey, {
       allowedLocations: config.allowedLocations,
       updatedAt: new Date().toISOString()
     });
@@ -1217,14 +1243,17 @@ export async function updateAllowedLocation(req: AuthenticatedRequest, res: Resp
 export async function deleteAllowedLocation(req: AuthenticatedRequest, res: Response) {
   try {
     const { id } = req.params;
-    let config = db.getAttendanceSecurityConfig();
+    const orgId = (req.user?.role === 'SUPER_ADMIN' ? (req.query?.organizationId as string || req.body?.organizationId as string) : req.user?.organizationId) || undefined;
+    const configKey = orgId ? `attendance_security_${orgId}` : 'attendance_security_config';
+
+    let config = db.getAttendanceSecurityConfig(orgId);
 
     const filtered = (config.allowedLocations || []).filter(l => l.id !== id);
     if (filtered.length === config.allowedLocations.length) {
       return res.status(404).json({ success: false, message: 'Office location not found' });
     }
 
-    const saved = db.attendanceSettings.updateById('attendance_security_config', {
+    const saved = db.attendanceSettings.updateById(configKey, {
       allowedLocations: filtered,
       updatedAt: new Date().toISOString()
     });

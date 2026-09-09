@@ -1,0 +1,19 @@
+[
+  {
+    "employeeId": "emp_arjun",
+    "employeeName": "Arjun Singh",
+    "date": "2026-09-02",
+    "distanceKm": 873.5,
+    "ratePerKm": 8.5,
+    "calculatedAmount": 7424.75,
+    "manualAdjustment": 0,
+    "totalClaimAmount": 7424.75,
+    "notes": "Field visit to Apollo Hospitals and site surveys.",
+    "routeStart": "10:51 AM",
+    "routeEnd": "10:47 AM",
+    "status": "DRAFT",
+    "createdAt": "2026-09-02T05:22:35.581Z",
+    "updatedAt": "2026-09-02T05:22:35.581Z",
+    "_id": "tra_1788326555581_5af7p"
+  }
+]

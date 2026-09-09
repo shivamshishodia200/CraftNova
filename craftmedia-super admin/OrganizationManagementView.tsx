@@ -33,10 +33,17 @@ import {
   UploadCloud,
   Image as ImageIcon,
   Trash2,
-  Link as LinkIcon
+  Link as LinkIcon,
+  Users,
+  KeyRound,
+  ShieldAlert,
+  Sliders,
+  UserPlus
 } from 'lucide-react';
 import { getContrastRatio, getAccessibleTextColor, isContrastAccessible, deriveThemeTokens } from '@/src/utils/colorUtils';
 import { getAdminLoginUrl, getEmployeeLoginUrl } from '@/src/utils/routeUtils';
+import { ClientAccessCenter } from './ClientAccessCenter';
+
 
 
 interface Organization {
@@ -182,6 +189,10 @@ export const OrganizationManagementView: React.FC = () => {
   const [searchQuery, setSearchQuery] = useState<string>('');
   const [statusFilter, setStatusFilter] = useState<string>('ALL');
   const [copiedSlug, setCopiedSlug] = useState<string | null>(null);
+
+  // Client Access & User Management Center State
+  const [selectedOrgForAccess, setSelectedOrgForAccess] = useState<Organization | null>(null);
+  const [initialAccessTab, setInitialAccessTab] = useState<'admins' | 'employees' | 'permissions' | 'modules' | 'security' | 'activity'>('admins');
 
   // Wizard / Edit Modals
   const [isWizardOpen, setIsWizardOpen] = useState<boolean>(false);
@@ -992,14 +1003,72 @@ export const OrganizationManagementView: React.FC = () => {
                   </div>
                 </div>
 
-                {/* Card Footer Actions */}
-                <div className="px-4 py-3 bg-slate-900/60 border-t border-slate-700/70 flex items-center justify-between gap-2">
+                {/* Access & User Management Direct Actions */}
+                <div className="px-4 pt-3 pb-2.5 bg-slate-950/40 border-t border-slate-700/60 space-y-2">
+                  {/* Primary Manage Users & Access Action Button */}
+                  <button
+                    onClick={() => {
+                      setSelectedOrgForAccess(org);
+                      setInitialAccessTab('admins');
+                    }}
+                    className="w-full flex items-center justify-center gap-2 px-3 py-2 bg-gradient-to-r from-amber-500/20 via-orange-500/20 to-amber-600/20 hover:from-amber-500/30 hover:to-orange-500/30 text-amber-300 hover:text-amber-200 text-xs font-bold rounded-xl border border-amber-500/40 shadow-sm transition-all group"
+                  >
+                    <Users className="w-4 h-4 text-amber-400 group-hover:scale-110 transition-transform" />
+                    <span>Manage Users & Access</span>
+                    <span className="ml-auto text-[10px] px-1.5 py-0.5 rounded bg-amber-500/20 text-amber-300 font-mono">
+                      6 Tabs
+                    </span>
+                  </button>
+
+                  {/* Portal Quick Links & Credential Shortcuts */}
+                  <div className="grid grid-cols-3 gap-1.5">
+                    <a
+                      href={getAdminLoginUrl(org.slug)}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="flex items-center justify-center gap-1 px-2 py-1.5 bg-slate-800/80 hover:bg-slate-700/80 text-slate-300 hover:text-white text-[11px] font-semibold rounded-lg border border-slate-700 transition-colors"
+                      title="Open Client Admin Login Portal"
+                    >
+                      <Shield className="w-3 h-3 text-amber-400" />
+                      <span className="truncate">Admin</span>
+                      <ExternalLink className="w-2.5 h-2.5 opacity-60" />
+                    </a>
+
+                    <a
+                      href={getEmployeeLoginUrl(org.slug)}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="flex items-center justify-center gap-1 px-2 py-1.5 bg-slate-800/80 hover:bg-slate-700/80 text-slate-300 hover:text-white text-[11px] font-semibold rounded-lg border border-slate-700 transition-colors"
+                      title="Open Client Employee Login Desk"
+                    >
+                      <UserCheck className="w-3 h-3 text-blue-400" />
+                      <span className="truncate">Employee</span>
+                      <ExternalLink className="w-2.5 h-2.5 opacity-60" />
+                    </a>
+
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setSelectedOrgForAccess(org);
+                        setInitialAccessTab('security');
+                      }}
+                      className="flex items-center justify-center gap-1 px-2 py-1.5 bg-slate-800/80 hover:bg-slate-700/80 text-slate-300 hover:text-white text-[11px] font-semibold rounded-lg border border-slate-700 transition-colors"
+                      title="View Credentials and Security Policies"
+                    >
+                      <KeyRound className="w-3 h-3 text-emerald-400" />
+                      <span className="truncate">Pass / Policy</span>
+                    </button>
+                  </div>
+                </div>
+
+                {/* Card Configuration & Preview Footer Actions */}
+                <div className="px-4 py-2.5 bg-slate-900/90 border-t border-slate-700/70 flex items-center justify-between gap-2">
                   <button
                     onClick={() => handlePreviewWorkspace(org)}
-                    className="flex-1 flex items-center justify-center gap-1.5 px-3 py-1.5 bg-amber-500/10 hover:bg-amber-500/20 text-amber-300 text-xs font-semibold rounded-lg border border-amber-500/30 transition-colors"
+                    className="flex-1 flex items-center justify-center gap-1.5 px-3 py-1.5 bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white text-xs font-semibold rounded-lg border border-slate-700 transition-colors"
                     title="Preview workspace with this client's branding & feature matrix"
                   >
-                    <Eye className="w-3.5 h-3.5" />
+                    <Eye className="w-3.5 h-3.5 text-slate-400" />
                     <span>Preview</span>
                   </button>
 
@@ -1007,7 +1076,7 @@ export const OrganizationManagementView: React.FC = () => {
                     onClick={() => openEditModal(org)}
                     className="flex-1 flex items-center justify-center gap-1.5 px-3 py-1.5 bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-semibold rounded-lg border border-slate-700 transition-colors"
                   >
-                    <Edit2 className="w-3.5 h-3.5" />
+                    <Edit2 className="w-3.5 h-3.5 text-amber-400" />
                     <span>Configure</span>
                   </button>
 
@@ -2741,29 +2810,118 @@ export const OrganizationManagementView: React.FC = () => {
                       </div>
                     </div>
 
-                    {/* PRIMARY ADMINISTRATOR CREDENTIALS */}
-                    {formData.initialAdmin.email && (
-                      <div className="p-3.5 bg-slate-50 rounded-xl border border-slate-200/80 flex items-center justify-between text-xs">
-                        <div className="flex items-center gap-3">
-                          <div className="w-8 h-8 rounded-full bg-slate-200 text-slate-700 font-bold flex items-center justify-center shrink-0">
-                            {formData.initialAdmin.name ? formData.initialAdmin.name.slice(0, 2).toUpperCase() : 'AD'}
+                    {/* ACCESS & USERS MANAGEMENT SECTION */}
+                    <div className="rounded-2xl p-4 bg-slate-900 border border-slate-700/80 shadow-md space-y-3">
+                      <div className="flex items-center justify-between">
+                        <div className="flex items-center gap-2">
+                          <div className="p-1.5 rounded-lg bg-amber-500/20 text-amber-400">
+                            <Users className="w-4 h-4" />
                           </div>
                           <div>
-                            <span className="text-slate-500 text-[11px] block">Primary Client Administrator:</span>
-                            <span className="font-bold text-slate-900">{formData.initialAdmin.name || 'Administrator'}</span>
-                            <span className="text-slate-500 font-mono text-[11px] ml-2">({formData.initialAdmin.email})</span>
-                          </div>
-                        </div>
-                        {formData.initialAdmin.password && !isEditing && (
-                          <div className="text-right">
-                            <span className="text-slate-400 text-[10px] block">Initial Password:</span>
-                            <span className="font-mono text-slate-700 bg-white px-2 py-0.5 rounded border border-slate-200 text-[11px]">
-                              {formData.initialAdmin.password}
+                            <span className="text-xs font-bold text-white uppercase tracking-wider block">
+                              Access & User Governance
+                            </span>
+                            <span className="text-[11px] text-slate-400">
+                              Organization-scoped role inheritance, security controls and staff accounts
                             </span>
                           </div>
-                        )}
+                        </div>
+                        <span className="text-[10px] font-mono font-bold px-2 py-0.5 rounded bg-slate-800 text-slate-300 border border-slate-700">
+                          Tenant Scoped
+                        </span>
                       </div>
-                    )}
+
+                      {/* Primary Administrator Credentials Preview */}
+                      {formData.initialAdmin.email ? (
+                        <div className="p-3 bg-slate-800/80 rounded-xl border border-slate-700/80 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 text-xs">
+                          <div className="flex items-center gap-3">
+                            <div className="w-9 h-9 rounded-xl bg-gradient-to-tr from-amber-500 to-orange-600 text-white font-black flex items-center justify-center shrink-0 shadow-sm">
+                              {formData.initialAdmin.name ? formData.initialAdmin.name.slice(0, 2).toUpperCase() : 'AD'}
+                            </div>
+                            <div>
+                              <div className="flex items-center gap-2">
+                                <span className="font-bold text-white">{formData.initialAdmin.name || 'Primary Administrator'}</span>
+                                <span className="px-1.5 py-0.2 rounded text-[10px] font-bold bg-amber-500/20 text-amber-300 border border-amber-500/30">
+                                  Primary Admin
+                                </span>
+                              </div>
+                              <span className="text-slate-400 font-mono text-[11px] block mt-0.5">
+                                {formData.initialAdmin.email}
+                              </span>
+                            </div>
+                          </div>
+
+                          {formData.initialAdmin.password && !isEditing ? (
+                            <div className="text-right bg-slate-900/90 px-3 py-1.5 rounded-lg border border-slate-700">
+                              <span className="text-slate-400 text-[10px] block">Initial Password:</span>
+                              <span className="font-mono text-amber-400 font-bold text-[11px]">
+                                {formData.initialAdmin.password}
+                              </span>
+                            </div>
+                          ) : (
+                            <div className="text-right">
+                              <span className="text-slate-400 text-[10px] block">Password Security:</span>
+                              <span className="font-mono text-slate-300 text-[11px]">Bcrypt Hashed • One-time Reveal</span>
+                            </div>
+                          )}
+                        </div>
+                      ) : (
+                        <div className="p-3 bg-slate-800/40 rounded-xl border border-slate-800 text-xs text-slate-400 flex items-center justify-between">
+                          <span>No initial admin specified. Administrators and staff can be added anytime in the Client Access Center.</span>
+                        </div>
+                      )}
+
+                      {/* Client Access Management Shortcuts (if editing existing org) */}
+                      {isEditing && selectedOrgId && (
+                        <div className="pt-2 border-t border-slate-800 flex flex-wrap items-center gap-2">
+                          <span className="text-[11px] font-semibold text-slate-400">Direct Actions:</span>
+                          <button
+                            type="button"
+                            onClick={() => {
+                              const existingOrg = organizations.find(o => (o.id || o._id) === selectedOrgId);
+                              if (existingOrg) {
+                                setSelectedOrgForAccess(existingOrg);
+                                setInitialAccessTab('admins');
+                              }
+                            }}
+                            className="flex items-center gap-1.5 px-2.5 py-1 bg-amber-500/10 hover:bg-amber-500/20 text-amber-300 text-[11px] font-bold rounded-lg border border-amber-500/30 transition-colors"
+                          >
+                            <Shield className="w-3 h-3" />
+                            <span>Manage Admins</span>
+                          </button>
+
+                          <button
+                            type="button"
+                            onClick={() => {
+                              const existingOrg = organizations.find(o => (o.id || o._id) === selectedOrgId);
+                              if (existingOrg) {
+                                setSelectedOrgForAccess(existingOrg);
+                                setInitialAccessTab('employees');
+                              }
+                            }}
+                            className="flex items-center gap-1.5 px-2.5 py-1 bg-blue-500/10 hover:bg-blue-500/20 text-blue-300 text-[11px] font-bold rounded-lg border border-blue-500/30 transition-colors"
+                          >
+                            <UserCheck className="w-3 h-3" />
+                            <span>Manage Employees</span>
+                          </button>
+
+                          <button
+                            type="button"
+                            onClick={() => {
+                              const existingOrg = organizations.find(o => (o.id || o._id) === selectedOrgId);
+                              if (existingOrg) {
+                                setSelectedOrgForAccess(existingOrg);
+                                setInitialAccessTab('permissions');
+                              }
+                            }}
+                            className="flex items-center gap-1.5 px-2.5 py-1 bg-purple-500/10 hover:bg-purple-500/20 text-purple-300 text-[11px] font-bold rounded-lg border border-purple-500/30 transition-colors"
+                          >
+                            <Sliders className="w-3 h-3" />
+                            <span>Manage Permissions</span>
+                          </button>
+                        </div>
+                      )}
+                    </div>
                   </div>
                 );
               })()}
@@ -2948,6 +3106,15 @@ export const OrganizationManagementView: React.FC = () => {
             </div>
           </div>
         </div>
+      )}
+
+      {/* Client Access & User Management Center Modal Drawer */}
+      {selectedOrgForAccess && (
+        <ClientAccessCenter
+          org={selectedOrgForAccess}
+          initialTab={initialAccessTab}
+          onClose={() => setSelectedOrgForAccess(null)}
+        />
       )}
     </div>
   );

@@ -1,0 +1,32 @@
+[
+  {
+    "_id": "wh_main",
+    "name": "Main Plant Warehouse (Unit 1)",
+    "code": "WH-01",
+    "address": "Plot 42, GIDC Industrial Estate",
+    "city": "Ahmedabad",
+    "state": "Gujarat",
+    "contactPerson": "Mukesh Bhai",
+    "phone": "+91 97123 11223",
+    "status": "ACTIVE",
+    "capacityUsage": 68,
+    "createdAt": "2026-01-01T00:00:00.000Z",
+    "updatedAt": "2026-09-04T11:45:05.312Z",
+    "organizationId": "org_craftmedia"
+  },
+  {
+    "_id": "wh_depot",
+    "name": "North Logistics Hub",
+    "code": "WH-02",
+    "address": "Sector 18, Udyog Vihar",
+    "city": "Gurugram",
+    "state": "Haryana",
+    "contactPerson": "Davinder Singh",
+    "phone": "+91 98111 22334",
+    "status": "ACTIVE",
+    "capacityUsage": 45,
+    "createdAt": "2026-01-01T00:00:00.000Z",
+    "updatedAt": "2026-09-04T11:45:05.312Z",
+    "organizationId": "org_craftmedia"
+  }
+]

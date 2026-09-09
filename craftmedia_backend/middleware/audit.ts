@@ -8,18 +8,26 @@ export function recordAuditLog(
   description: string,
   recordId?: string,
   oldData?: any,
-  newData?: any
+  newData?: any,
+  overrideOrgId?: string
 ) {
   try {
-    const userId = req.user?.userId || 'system';
+    const userId = req.user?.userId || (req.user as any)?.id || 'system';
     const userName = req.user?.name || 'System / Visitor';
     const userRole = req.user?.role || 'SYSTEM';
+    const organizationId = overrideOrgId ||
+      newData?.organizationId ||
+      oldData?.organizationId ||
+      req.params?.orgId ||
+      req.user?.organizationId ||
+      (req.user?.role === 'SUPER_ADMIN' ? 'GLOBAL' : 'org_craftmedia');
     const ipAddress = (req.headers?.['x-forwarded-for'] as string) || req.socket?.remoteAddress || req.ip || '127.0.0.1';
 
     db.auditLogs.insertOne({
       userId,
       userName,
       userRole,
+      organizationId,
       action,
       module,
       description,

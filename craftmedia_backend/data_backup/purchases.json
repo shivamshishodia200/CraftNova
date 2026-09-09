@@ -1,0 +1,73 @@
+[
+  {
+    "_id": "po_1",
+    "purchaseNumber": "PO-2026-0015",
+    "supplierId": "sup_1",
+    "supplierName": "Jindal Steel & Alloys Ltd",
+    "warehouseId": "wh_main",
+    "warehouseName": "Main Plant Warehouse (Unit 1)",
+    "purchaseDate": "2026-01-20",
+    "expectedDate": "2026-01-28",
+    "items": [
+      {
+        "productId": "prod_3",
+        "productName": "Seamless CS Pipe SCH 40 3\"",
+        "sku": "CSPIPE-SCH40-3IN",
+        "quantity": 200,
+        "unitPrice": 650,
+        "taxPercent": 18,
+        "discountPercent": 0,
+        "total": 153400
+      }
+    ],
+    "subTotal": 130000,
+    "taxAmount": 23400,
+    "discountAmount": 0,
+    "shipping": 3500,
+    "grandTotal": 156900,
+    "paidAmount": 50000,
+    "dueAmount": 106900,
+    "paymentStatus": "PARTIAL",
+    "status": "RECEIVED",
+    "receivedAt": "2026-01-27T16:00:00.000Z",
+    "notes": "Pipes delivered in good condition and quality inspected.",
+    "createdAt": "2026-01-20T10:00:00.000Z",
+    "updatedAt": "2026-09-04T11:45:05.312Z",
+    "organizationId": "org_craftmedia"
+  },
+  {
+    "_id": "po_2",
+    "purchaseNumber": "PO-2026-0016",
+    "supplierId": "sup_2",
+    "supplierName": "Apex Valve Foundry Works",
+    "warehouseId": "wh_main",
+    "warehouseName": "Main Plant Warehouse (Unit 1)",
+    "purchaseDate": "2026-02-05",
+    "expectedDate": "2026-02-18",
+    "items": [
+      {
+        "productId": "prod_1",
+        "productName": "SS-316 Flanged Ball Valve 2\"",
+        "sku": "SSBV-316-2IN",
+        "quantity": 50,
+        "unitPrice": 2800,
+        "taxPercent": 18,
+        "discountPercent": 2,
+        "total": 161896
+      }
+    ],
+    "subTotal": 140000,
+    "taxAmount": 24696,
+    "discountAmount": 2800,
+    "shipping": 2000,
+    "grandTotal": 163896,
+    "paidAmount": 0,
+    "dueAmount": 163896,
+    "paymentStatus": "UNPAID",
+    "status": "ORDERED",
+    "notes": "Delivery expected mid-February for batch restocking.",
+    "createdAt": "2026-02-05T14:00:00.000Z",
+    "updatedAt": "2026-09-04T11:45:05.312Z",
+    "organizationId": "org_craftmedia"
+  }
+]

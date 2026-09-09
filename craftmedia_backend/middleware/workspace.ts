@@ -1,3 +1,4 @@
+import { Response } from 'express';
 import { AuthenticatedRequest } from './auth';
 import { DEFAULT_ORG_ID } from '../database/migration';
 
@@ -35,6 +36,54 @@ export function isItemInWorkspace(item: any, req: AuthenticatedRequest): boolean
   }
 
   return false;
+}
+
+/**
+ * Asserts that a given resource belongs to the requesting user's tenant.
+ * If not, sends a standardized HTTP 404 / 403 response and returns false.
+ */
+export function assertTenantOwnership(
+  resource: any,
+  req: AuthenticatedRequest,
+  res: Response,
+  resourceName: string = 'Resource'
+): boolean {
+  if (!resource) {
+    res.status(404).json({
+      success: false,
+      code: 'NOT_FOUND',
+      message: `${resourceName} not found`
+    });
+    return false;
+  }
+
+  if (!isItemInWorkspace(resource, req)) {
+    res.status(403).json({
+      success: false,
+      code: 'FORBIDDEN_TENANT_ACCESS',
+      message: `Access denied: ${resourceName} does not belong to your organization workspace.`
+    });
+    return false;
+  }
+
+  return true;
+}
+
+/**
+ * Safely fetches a resource by ID from a collection and asserts tenant ownership in one step.
+ */
+export function requireTenantResource<T extends { _id: string; organizationId?: string }>(
+  collection: { findById: (id: string) => T | null },
+  id: string,
+  req: AuthenticatedRequest,
+  res: Response,
+  resourceName: string = 'Resource'
+): T | null {
+  const item = collection.findById(id);
+  if (!assertTenantOwnership(item, req, res, resourceName)) {
+    return null;
+  }
+  return item;
 }
 
 /**

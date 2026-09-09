@@ -3,6 +3,7 @@ import bcrypt from 'bcryptjs';
 import { db } from '../database/db';
 import { AuthenticatedRequest } from '../middleware/auth';
 import { recordAuditLog } from '../middleware/audit';
+import { assertTenantOwnership, filterByWorkspace } from '../middleware/workspace';
 
 export async function getAllUsers(req: AuthenticatedRequest, res: Response) {
   try {
@@ -53,16 +54,8 @@ export async function getUserById(req: AuthenticatedRequest, res: Response) {
     const { id } = req.params;
     const user = db.users.findById(id);
 
-    if (!user) {
-      return res.status(404).json({ success: false, message: 'User not found' });
-    }
-
-    // Tenant Isolation
-    if (req.user?.role !== 'SUPER_ADMIN') {
-      const userOrgId = req.user?.organizationId || 'org_craftmedia';
-      if (user.organizationId !== userOrgId) {
-        return res.status(404).json({ success: false, message: 'User not found' });
-      }
+    if (!user || !assertTenantOwnership(user, req, res, 'User')) {
+      return;
     }
 
     const { passwordHash, ...rest } = user;
@@ -169,16 +162,8 @@ export async function updateUser(req: AuthenticatedRequest, res: Response) {
     const { name, phone, role, roleId, organization, status, customPermissions, permissionMode, showLoginCredentials, showOnLogin } = req.body;
 
     const user = db.users.findById(id);
-    if (!user) {
-      return res.status(404).json({ success: false, message: 'User not found' });
-    }
-
-    // Tenant Isolation
-    if (req.user?.role !== 'SUPER_ADMIN') {
-      const userOrgId = req.user?.organizationId || 'org_craftmedia';
-      if (user.organizationId !== userOrgId) {
-        return res.status(404).json({ success: false, message: 'User not found' });
-      }
+    if (!user || !assertTenantOwnership(user, req, res, 'User')) {
+      return;
     }
 
     const updates: any = {};
@@ -186,7 +171,7 @@ export async function updateUser(req: AuthenticatedRequest, res: Response) {
     if (phone !== undefined) updates.phone = phone;
     if (role) updates.role = role;
     if (roleId) updates.roleId = roleId;
-    if (organization) updates.organization = organization;
+    if (organization && req.user?.role === 'SUPER_ADMIN') updates.organization = organization;
     if (status) updates.status = status;
     if (customPermissions !== undefined) updates.customPermissions = customPermissions;
     if (permissionMode === 'ROLE' || permissionMode === 'REPLACE') updates.permissionMode = permissionMode;
@@ -217,8 +202,8 @@ export async function updateUserPermissions(req: AuthenticatedRequest, res: Resp
     const { customPermissions, showLoginCredentials, showOnLogin } = req.body;
 
     const user = db.users.findById(id);
-    if (!user) {
-      return res.status(404).json({ success: false, message: 'User not found' });
+    if (!user || !assertTenantOwnership(user, req, res, 'User')) {
+      return;
     }
 
     const updates: any = {
@@ -265,8 +250,8 @@ export async function toggleUserStatus(req: AuthenticatedRequest, res: Response)
     const { status } = req.body; // 'ACTIVE' | 'INACTIVE' | 'SUSPENDED'
 
     const user = db.users.findById(id);
-    if (!user) {
-      return res.status(404).json({ success: false, message: 'User not found' });
+    if (!user || !assertTenantOwnership(user, req, res, 'User')) {
+      return;
     }
 
     const nextStatus = status || (user.status === 'ACTIVE' ? 'INACTIVE' : 'ACTIVE');
@@ -298,8 +283,8 @@ export async function resetUserPassword(req: AuthenticatedRequest, res: Response
     }
 
     const user = db.users.findById(id);
-    if (!user) {
-      return res.status(404).json({ success: false, message: 'User not found' });
+    if (!user || !assertTenantOwnership(user, req, res, 'User')) {
+      return;
     }
 
     const passwordHash = await bcrypt.hash(newPassword, 10);

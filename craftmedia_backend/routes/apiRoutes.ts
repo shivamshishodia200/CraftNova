@@ -18,11 +18,25 @@ import * as intCtrl from '../controllers/integrationController';
 import * as whCtrl from '../controllers/webhookController';
 import * as trackingCtrl from '../controllers/employeeTrackingController';
 import * as orgCtrl from '../controllers/organizationController';
+import * as clientAccessCtrl from '../controllers/clientAccessController';
 import { requireFeature } from '../middleware/featureGuard';
+import rateLimit from 'express-rate-limit';
 import employeeRouter from './employeeRoutes';
 import { employeeWorkSessionRouter, hrWorkSessionRouter } from './workSessionRoutes';
 
 const router = Router();
+
+// Rate limiter for authentication endpoints to prevent brute-force attacks
+const authLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000, // 15 minutes
+  max: 50, // Limit each IP to 50 requests per window
+  standardHeaders: true,
+  legacyHeaders: false,
+  message: {
+    success: false,
+    message: 'Too many authentication attempts from this IP address, please try again after 15 minutes.'
+  }
+});
 
 // ==================== APP BOOTSTRAP & PUBLIC BRANDING ====================
 router.get('/app/bootstrap', authenticateToken, orgCtrl.getAppBootstrap);
@@ -40,6 +54,28 @@ router.put('/superadmin/organizations/:id/status', authenticateToken, requireRol
 router.post('/superadmin/organizations/:id/upload', authenticateToken, orgCtrl.uploadAsset.single('file'), orgCtrl.uploadOrganizationAsset);
 router.post('/superadmin/upload-asset', authenticateToken, requireRole('SUPER_ADMIN'), orgCtrl.uploadAsset.single('file'), orgCtrl.uploadGenericAsset);
 
+// ==================== SUPER ADMIN CLIENT ACCESS & USER MANAGEMENT ====================
+router.get('/superadmin/organizations/:orgId/users', authenticateToken, requireRole('SUPER_ADMIN'), clientAccessCtrl.getOrganizationUsers);
+router.get('/superadmin/organizations/:orgId/admins', authenticateToken, requireRole('SUPER_ADMIN'), clientAccessCtrl.getOrganizationAdmins);
+router.get('/superadmin/organizations/:orgId/employees', authenticateToken, requireRole('SUPER_ADMIN'), clientAccessCtrl.getOrganizationEmployees);
+router.post('/superadmin/organizations/:orgId/admins', authenticateToken, requireRole('SUPER_ADMIN'), clientAccessCtrl.createOrganizationAdmin);
+router.post('/superadmin/organizations/:orgId/employees', authenticateToken, requireRole('SUPER_ADMIN'), clientAccessCtrl.createOrganizationEmployee);
+router.put('/superadmin/organizations/:orgId/features', authenticateToken, requireRole('SUPER_ADMIN'), clientAccessCtrl.updateOrganizationFeatures);
+router.put('/superadmin/organizations/:orgId/module-access', authenticateToken, requireRole('SUPER_ADMIN'), clientAccessCtrl.updateOrganizationFeatures);
+router.put('/superadmin/organizations/:orgId/primary-admin', authenticateToken, requireRole('SUPER_ADMIN'), clientAccessCtrl.setPrimaryAdmin);
+router.post('/superadmin/organizations/:orgId/force-logout-all', authenticateToken, requireRole('SUPER_ADMIN'), clientAccessCtrl.forceLogoutAllOrgUsers);
+router.post('/superadmin/organizations/:orgId/force-password-reset-all', authenticateToken, requireRole('SUPER_ADMIN'), clientAccessCtrl.forcePasswordResetAllOrgUsers);
+router.get('/superadmin/organizations/:orgId/activity', authenticateToken, requireRole('SUPER_ADMIN'), clientAccessCtrl.getOrganizationActivityLogs);
+
+// Super Admin User Direct Operations
+router.put('/superadmin/users/:id', authenticateToken, requireRole('SUPER_ADMIN'), clientAccessCtrl.updateUser);
+router.patch('/superadmin/users/:id/status', authenticateToken, requireRole('SUPER_ADMIN'), clientAccessCtrl.toggleUserStatus);
+router.post('/superadmin/users/:id/reset-password', authenticateToken, requireRole('SUPER_ADMIN'), clientAccessCtrl.resetUserPassword);
+router.get('/superadmin/users/:id/permissions', authenticateToken, requireRole('SUPER_ADMIN'), clientAccessCtrl.getUserPermissions);
+router.get('/superadmin/users/:id/effective-permissions', authenticateToken, requireRole('SUPER_ADMIN'), clientAccessCtrl.getUserPermissions);
+router.put('/superadmin/users/:id/permissions', authenticateToken, requireRole('SUPER_ADMIN'), clientAccessCtrl.updateUserPermissions);
+router.post('/superadmin/users/:id/force-logout', authenticateToken, requireRole('SUPER_ADMIN'), clientAccessCtrl.forceLogoutUser);
+
 // ==================== DEDICATED EMPLOYEE WORK SESSIONS & RECORDINGS ====================
 
 router.use('/employee/work-session', authenticateToken, requireFeature('hr.workRecording'), employeeWorkSessionRouter);
@@ -50,10 +86,10 @@ router.use('/hr/work-sessions', authenticateToken, requireFeature('hr.workRecord
 router.use('/employee', employeeRouter);
 
 // ==================== AUTHENTICATION ====================
-router.post('/auth/super-admin/login', authCtrl.superAdminLogin);
-router.post('/auth/admin/login', authCtrl.adminLogin);
-router.post('/auth/employee/login', authCtrl.employeeLogin);
-router.post('/auth/login', authCtrl.login);
+router.post('/auth/super-admin/login', authLimiter, authCtrl.superAdminLogin);
+router.post('/auth/admin/login', authLimiter, authCtrl.adminLogin);
+router.post('/auth/employee/login', authLimiter, authCtrl.employeeLogin);
+router.post('/auth/login', authLimiter, authCtrl.login);
 router.get('/auth/demo-users', authCtrl.getDemoUsers);
 router.get('/auth/me', authenticateToken, authCtrl.getCurrentUser);
 router.post('/auth/switch-demo', authCtrl.switchDemoUser);
@@ -191,12 +227,19 @@ router.get('/admin/reports/attendance', authenticateToken, requirePermission('re
 router.get('/admin/activity/export', authenticateToken, requirePermission('reports.view'), actCtrl.exportActivityReport);
 router.get('/activity/export', authenticateToken, actCtrl.exportActivityReport);
 
-// Attendance Security Settings & Geofencing (Super Admin)
+// Attendance Security Settings & Geofencing (Tenant Admin & Super Admin)
 router.get('/attendance/settings', authenticateToken, hrCtrl.getAttendanceSettings);
-router.put('/attendance/settings', authenticateToken, requireRole('SUPER_ADMIN'), hrCtrl.updateAttendanceSettings);
-router.post('/attendance/settings/locations', authenticateToken, requireRole('SUPER_ADMIN'), hrCtrl.addAllowedLocation);
-router.put('/attendance/settings/locations/:id', authenticateToken, requireRole('SUPER_ADMIN'), hrCtrl.updateAllowedLocation);
-router.delete('/attendance/settings/locations/:id', authenticateToken, requireRole('SUPER_ADMIN'), hrCtrl.deleteAllowedLocation);
+router.put('/attendance/settings', authenticateToken, requirePermission('settings.update'), hrCtrl.updateAttendanceSettings);
+router.post('/attendance/settings/locations', authenticateToken, requirePermission('settings.update'), hrCtrl.addAllowedLocation);
+router.put('/attendance/settings/locations/:id', authenticateToken, requirePermission('settings.update'), hrCtrl.updateAllowedLocation);
+router.delete('/attendance/settings/locations/:id', authenticateToken, requirePermission('settings.update'), hrCtrl.deleteAllowedLocation);
+
+// Aliases for attendance settings
+router.get('/attendance-settings', authenticateToken, hrCtrl.getAttendanceSettings);
+router.put('/attendance-settings', authenticateToken, requirePermission('settings.update'), hrCtrl.updateAttendanceSettings);
+router.post('/attendance-settings/locations', authenticateToken, requirePermission('settings.update'), hrCtrl.addAllowedLocation);
+router.put('/attendance-settings/locations/:id', authenticateToken, requirePermission('settings.update'), hrCtrl.updateAllowedLocation);
+router.delete('/attendance-settings/locations/:id', authenticateToken, requirePermission('settings.update'), hrCtrl.deleteAllowedLocation);
 
 router.get('/salary', authenticateToken, requirePermission('salary.view'), hrCtrl.getSalaries);
 router.post('/salary', authenticateToken, requirePermission('salary.create'), hrCtrl.generateSalary);

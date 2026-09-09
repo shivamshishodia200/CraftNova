@@ -1,0 +1,23 @@
+[
+  {
+    "_id": "tracking_policy_config",
+    "enabled": true,
+    "trackingMode": "WORKING_HOURS",
+    "updateFrequencySeconds": 60,
+    "stationaryFrequencySeconds": 300,
+    "minAcceptableAccuracyMeters": 100,
+    "maxAllowableSpeedKmh": 140,
+    "stopRadiusMeters": 60,
+    "stopMinDurationMinutes": 10,
+    "storeRouteHistory": true,
+    "routeRetentionDays": 30,
+    "enableGeofencing": true,
+    "notifyEmployeeWhenTracking": true,
+    "requireEmployeeConsent": true,
+    "allowOfflineQueue": true,
+    "maxOfflineQueueItems": 50,
+    "updatedAt": "2026-09-04T11:45:05.325Z",
+    "updatedBy": "Rohan Sharma (Admin)",
+    "organizationId": "org_craftmedia"
+  }
+]

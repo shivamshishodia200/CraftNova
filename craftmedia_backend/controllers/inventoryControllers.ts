@@ -2,7 +2,7 @@ import { Response } from 'express';
 import { db } from '../database/db';
 import { AuthenticatedRequest } from '../middleware/auth';
 import { recordAuditLog } from '../middleware/audit';
-import { filterByWorkspace, attachWorkspaceContext } from '../middleware/workspace';
+import { filterByWorkspace, attachWorkspaceContext, assertTenantOwnership } from '../middleware/workspace';
 
 // ==================== PRODUCTS ====================
 export async function getProducts(req: AuthenticatedRequest, res: Response) {
@@ -44,9 +44,9 @@ export async function createProduct(req: AuthenticatedRequest, res: Response) {
       return res.status(400).json({ success: false, message: 'Name, SKU, purchase price, and selling price are required.' });
     }
 
-    const existing = db.products.findOne(p => p.sku.toLowerCase() === sku.toLowerCase());
+    const existing = db.products.findOne(p => p.sku.toLowerCase() === sku.toLowerCase() && (!req.user?.organizationId || p.organizationId === req.user.organizationId));
     if (existing) {
-      return res.status(400).json({ success: false, message: `Product with SKU '${sku}' already exists.` });
+      return res.status(400).json({ success: false, message: `Product with SKU '${sku}' already exists in your catalog.` });
     }
 
     const currentStock = Number(initialStock) || 0;
@@ -70,7 +70,7 @@ export async function createProduct(req: AuthenticatedRequest, res: Response) {
     }, req));
 
     if (currentStock > 0) {
-      db.stockTransactions.insertOne({
+      db.stockTransactions.insertOne(attachWorkspaceContext({
         productId: newProduct._id,
         productName: newProduct.name,
         sku: newProduct.sku,
@@ -84,7 +84,7 @@ export async function createProduct(req: AuthenticatedRequest, res: Response) {
         performedBy: req.user?.name || 'Admin',
         date: new Date().toISOString(),
         notes: 'Initial opening stock allocation'
-      });
+      }, req));
     }
 
     recordAuditLog(req, 'CREATE', 'Inventory', `Created product ${name} (${sku})`, newProduct._id, undefined, newProduct);
@@ -99,9 +99,7 @@ export async function updateProduct(req: AuthenticatedRequest, res: Response) {
   try {
     const { id } = req.params;
     const product = db.products.findById(id);
-    if (!product) {
-      return res.status(404).json({ success: false, message: 'Product not found' });
-    }
+    if (!assertTenantOwnership(product, req, res, 'Product')) return;
 
     const updated = db.products.updateById(id, {
       ...req.body,
@@ -120,9 +118,7 @@ export async function deleteProduct(req: AuthenticatedRequest, res: Response) {
   try {
     const { id } = req.params;
     const product = db.products.findById(id);
-    if (!product) {
-      return res.status(404).json({ success: false, message: 'Product not found' });
-    }
+    if (!assertTenantOwnership(product, req, res, 'Product')) return;
 
     db.products.deleteById(id);
     recordAuditLog(req, 'DELETE', 'Inventory', `Deleted product ${product.name}`, id);
@@ -136,7 +132,7 @@ export async function deleteProduct(req: AuthenticatedRequest, res: Response) {
 // ==================== CATEGORIES ====================
 export async function getCategories(req: AuthenticatedRequest, res: Response) {
   try {
-    const categories = db.categories.getAll();
+    const categories = filterByWorkspace(db.categories.getAll(), req);
     return res.json({ success: true, data: categories });
   } catch (err: any) {
     return res.status(500).json({ success: false, message: err.message });
@@ -150,12 +146,12 @@ export async function createCategory(req: AuthenticatedRequest, res: Response) {
       return res.status(400).json({ success: false, message: 'Category name is required' });
     }
 
-    const newCat = db.categories.insertOne({
+    const newCat = db.categories.insertOne(attachWorkspaceContext({
       name,
       description: description || '',
       parentId: parentId || undefined,
       createdAt: new Date().toISOString()
-    });
+    }, req));
 
     recordAuditLog(req, 'CREATE', 'Inventory', `Created category ${name}`, newCat._id);
     return res.json({ success: true, message: 'Category created', data: newCat });
@@ -397,9 +393,7 @@ export async function updateSupplier(req: AuthenticatedRequest, res: Response) {
   try {
     const { id } = req.params;
     const supplier = db.suppliers.findById(id);
-    if (!supplier) {
-      return res.status(404).json({ success: false, message: 'Supplier not found' });
-    }
+    if (!assertTenantOwnership(supplier, req, res, 'Supplier')) return;
 
     const updated = db.suppliers.updateById(id, req.body);
     recordAuditLog(req, 'UPDATE', 'Suppliers', `Updated supplier ${supplier.name}`, id, supplier, updated);
@@ -483,9 +477,7 @@ export async function receivePurchase(req: AuthenticatedRequest, res: Response) 
   try {
     const { id } = req.params;
     const po = db.purchases.findById(id);
-    if (!po) {
-      return res.status(404).json({ success: false, message: 'Purchase order not found' });
-    }
+    if (!assertTenantOwnership(po, req, res, 'Purchase Order')) return;
 
     if (po.status === 'RECEIVED') {
       return res.status(400).json({ success: false, message: 'This PO has already been received into stock.' });
@@ -498,7 +490,7 @@ export async function receivePurchase(req: AuthenticatedRequest, res: Response) 
         const nextStock = (product.currentStock || 0) + item.quantity;
         db.products.updateById(item.productId, { currentStock: nextStock });
 
-        db.stockTransactions.insertOne({
+        db.stockTransactions.insertOne(attachWorkspaceContext({
           productId: product._id,
           productName: product.name,
           sku: product.sku,
@@ -512,7 +504,7 @@ export async function receivePurchase(req: AuthenticatedRequest, res: Response) 
           performedBy: req.user?.name || 'Staff',
           date: new Date().toISOString(),
           notes: `Received from PO ${po.purchaseNumber}`
-        });
+        }, req));
       }
     }
 

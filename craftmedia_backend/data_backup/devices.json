@@ -1,0 +1,32 @@
+[
+  {
+    "_id": "dev_1",
+    "employeeId": "emp_arjun",
+    "employeeName": "Arjun Singh",
+    "deviceId": "dev_arjun_win11",
+    "deviceName": "DESKTOP-ARJUN-W11",
+    "os": "Windows 11 Pro 64-bit",
+    "platform": "win32",
+    "agentVersion": "1.0.0",
+    "status": "ONLINE",
+    "lastSeenAt": "2026-08-29T11:14:00.450Z",
+    "lastHeartbeatAt": "2026-08-29T11:14:00.450Z",
+    "createdAt": "2026-01-10T08:00:00.000Z",
+    "updatedAt": "2026-08-29T11:14:00.450Z"
+  },
+  {
+    "_id": "dev_2",
+    "employeeId": "emp_1",
+    "employeeName": "Vikram Mehta",
+    "deviceId": "dev_vikram_dell",
+    "deviceName": "LAPTOP-VIKRAM-DELL",
+    "os": "Windows 10 Enterprise",
+    "platform": "win32",
+    "agentVersion": "1.0.0",
+    "status": "ONLINE",
+    "lastSeenAt": "2026-08-29T11:14:00.450Z",
+    "lastHeartbeatAt": "2026-08-29T11:14:00.450Z",
+    "createdAt": "2026-01-15T09:00:00.000Z",
+    "updatedAt": "2026-08-29T11:14:00.450Z"
+  }
+]

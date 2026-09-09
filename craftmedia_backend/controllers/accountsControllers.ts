@@ -2,7 +2,7 @@ import { Response } from 'express';
 import { db } from '../database/db';
 import { AuthenticatedRequest } from '../middleware/auth';
 import { recordAuditLog } from '../middleware/audit';
-import { filterByWorkspace, attachWorkspaceContext } from '../middleware/workspace';
+import { filterByWorkspace, attachWorkspaceContext, assertTenantOwnership } from '../middleware/workspace';
 
 // ==================== INVOICES ====================
 export async function getInvoices(req: AuthenticatedRequest, res: Response) {
@@ -32,7 +32,7 @@ export async function getInvoiceById(req: AuthenticatedRequest, res: Response) {
   try {
     const id = req.params.id;
     const inv = db.invoices.findById(id) || db.invoices.findOne(i => i.invoiceNumber === id || i.salesOrderId === id);
-    if (!inv) return res.status(404).json({ success: false, message: 'Invoice not found' });
+    if (!assertTenantOwnership(inv, req, res, 'Invoice')) return;
 
     const customer = db.customers.findById(inv.customerId) || db.customers.findOne(c => c.name === inv.customerName);
 
@@ -166,6 +166,7 @@ export async function createPayment(req: AuthenticatedRequest, res: Response) {
     if (invoiceId) {
       const invoice = db.invoices.findById(invoiceId);
       if (invoice) {
+        if (!assertTenantOwnership(invoice, req, res, 'Invoice')) return;
         linkedInvoiceNumber = invoice.invoiceNumber;
         if (!pPartyId && invoice.customerId) {
           pPartyId = invoice.customerId;

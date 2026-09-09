@@ -542,62 +542,9 @@ export async function getCurrentUser(req: AuthenticatedRequest, res: Response) {
 }
 
 export async function switchDemoUser(req: Request, res: Response) {
-  try {
-    const { email, role } = req.body;
-    let user = null;
-
-    if (email) {
-      const normalizedInput = email.toLowerCase().trim();
-      const aliasInput = normalizedInput.includes('@craftmediahub.com')
-        ? normalizedInput.replace('@craftmediahub.com', '@360crm.com')
-        : normalizedInput.replace('@360crm.com', '@craftmediahub.com');
-
-      user = db.users.findOne(u => {
-        const uEmail = u.email.toLowerCase();
-        return uEmail === normalizedInput || uEmail === aliasInput;
-      });
-    } else if (role) {
-      user = db.users.findOne(u => u.role === role);
-    }
-
-    if (!user) {
-      user = db.users.getAll()[0];
-    }
-
-    if (!user) {
-      return res.status(404).json({ success: false, message: 'No users found to switch to.' });
-    }
-
-    const roleDoc = db.roles.findById(user.roleId) || db.roles.findOne(r => r.code === user.role);
-    const rolePerms = user.permissionMode === 'REPLACE' ? [] : (roleDoc?.permissions || []);
-    const customPerms = user.customPermissions || [];
-    const permissions = Array.from(new Set([...rolePerms, ...customPerms]));
-
-    const userOrgId = user.role === 'SUPER_ADMIN' ? null : (user.organizationId || 'org_craftmedia');
-
-    const authenticatedUser = {
-      userId: user._id,
-      email: user.email,
-      name: user.name,
-      role: user.role,
-      roleId: user.roleId,
-      permissions,
-      organizationId: userOrgId,
-      organization: user.organization,
-      avatar: user.avatar
-    };
-
-    const token = generateToken(authenticatedUser);
-
-    return res.json({
-      success: true,
-      message: `Switched session to ${user.name} (${user.role})`,
-      data: {
-        token,
-        user: authenticatedUser
-      }
-    });
-  } catch (err: any) {
-    return res.status(500).json({ success: false, message: err.message });
-  }
+  return res.status(403).json({
+    success: false,
+    code: 'FEATURE_DISABLED',
+    message: 'Demo switching is permanently disabled in production mode. Please use official login portals.'
+  });
 }

@@ -16,6 +16,13 @@ export interface UserDoc {
   showOnLogin?: boolean; // Controls whether this account appears in the login quick-access list
   organizationId?: string | null;
   organization?: string;
+  department?: string;
+  designation?: string;
+  isPrimaryAdmin?: boolean;
+  mustChangePassword?: boolean;
+  tokenInvalidBefore?: string;
+  lastPasswordResetAt?: string;
+  failedLoginCount?: number;
   status: 'ACTIVE' | 'INACTIVE' | 'SUSPENDED';
   lastLogin?: string;
   avatar?: string;
@@ -189,6 +196,7 @@ export interface LeadDoc {
 
 export interface CustomerDoc {
   _id: string;
+  organizationId?: string | null;
   customerCode?: string;
   name: string;
   companyName: string;
@@ -280,6 +288,7 @@ export interface LeadSourceDoc {
 
 export interface ProductDoc {
   _id: string;
+  organizationId?: string | null;
   name: string;
   sku: string;
   barcode?: string;
@@ -708,7 +717,8 @@ export interface OfficeLocation {
 }
 
 export interface AttendanceSettingsDoc {
-  _id: string; // 'attendance_security_config'
+  _id: string; // 'attendance_security_config' or `attendance_security_${orgId}`
+  organizationId?: string | null;
   requireSelfie: boolean;
   requireLocation: boolean;
   requireSelfieClockIn: boolean;
@@ -724,6 +734,7 @@ export interface AttendanceSettingsDoc {
   allowOfflineTracking: boolean;
   maxGpsAccuracyMeters: number; // e.g. 100 meters
   allowedLocations: OfficeLocation[];
+  createdAt?: string;
   updatedAt?: string;
   updatedBy?: string;
 }
@@ -906,6 +917,7 @@ export interface PerformanceDoc {
 
 export interface AuditLogDoc {
   _id: string;
+  organizationId?: string | null;
   userId: string;
   userName: string;
   userEmail?: string;

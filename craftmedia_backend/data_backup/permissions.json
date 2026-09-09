@@ -1,0 +1,965 @@
+[
+  {
+    "_id": "perm_dashboard_view",
+    "module": "Dashboard",
+    "action": "View",
+    "code": "dashboard.view",
+    "name": "View Dashboard Stats",
+    "description": "Access main system overview and KPI metrics",
+    "category": "Dashboard"
+  },
+  {
+    "_id": "perm_leads_view",
+    "module": "Leads",
+    "action": "View",
+    "code": "leads.view",
+    "name": "View Leads",
+    "description": "View sales leads and pipelines",
+    "category": "Sales"
+  },
+  {
+    "_id": "perm_leads_create",
+    "module": "Leads",
+    "action": "Create",
+    "code": "leads.create",
+    "name": "Create Leads",
+    "description": "Add new prospective client leads",
+    "category": "Sales"
+  },
+  {
+    "_id": "perm_leads_update",
+    "module": "Leads",
+    "action": "Update",
+    "code": "leads.update",
+    "name": "Update Leads",
+    "description": "Edit and update lead details & stages",
+    "category": "Sales"
+  },
+  {
+    "_id": "perm_leads_delete",
+    "module": "Leads",
+    "action": "Delete",
+    "code": "leads.delete",
+    "name": "Delete Leads",
+    "description": "Remove leads from CRM",
+    "category": "Sales"
+  },
+  {
+    "_id": "perm_leads_assign",
+    "module": "Leads",
+    "action": "Assign",
+    "code": "leads.assign",
+    "name": "Assign Leads",
+    "description": "Reassign leads to sales representatives",
+    "category": "Sales"
+  },
+  {
+    "_id": "perm_customers_view",
+    "module": "Customers",
+    "action": "View",
+    "code": "customers.view",
+    "name": "View Customers",
+    "description": "View customer accounts and directories",
+    "category": "Sales"
+  },
+  {
+    "_id": "perm_customers_create",
+    "module": "Customers",
+    "action": "Create",
+    "code": "customers.create",
+    "name": "Create Customers",
+    "description": "Register new customers and accounts",
+    "category": "Sales"
+  },
+  {
+    "_id": "perm_customers_update",
+    "module": "Customers",
+    "action": "Update",
+    "code": "customers.update",
+    "name": "Update Customers",
+    "description": "Modify customer information",
+    "category": "Sales"
+  },
+  {
+    "_id": "perm_customers_delete",
+    "module": "Customers",
+    "action": "Delete",
+    "code": "customers.delete",
+    "name": "Delete Customers",
+    "description": "Delete customer accounts",
+    "category": "Sales"
+  },
+  {
+    "_id": "perm_quotations_view",
+    "module": "Quotations",
+    "action": "View",
+    "code": "quotations.view",
+    "name": "View Quotations",
+    "description": "View estimates and price quotes",
+    "category": "Sales"
+  },
+  {
+    "_id": "perm_quotations_create",
+    "module": "Quotations",
+    "action": "Create",
+    "code": "quotations.create",
+    "name": "Create Quotations",
+    "description": "Generate new price quotations",
+    "category": "Sales"
+  },
+  {
+    "_id": "perm_quotations_update",
+    "module": "Quotations",
+    "action": "Update",
+    "code": "quotations.update",
+    "name": "Update Quotations",
+    "description": "Edit price quotes and terms",
+    "category": "Sales"
+  },
+  {
+    "_id": "perm_quotations_convert",
+    "module": "Quotations",
+    "action": "Convert",
+    "code": "quotations.convert",
+    "name": "Convert Quotations",
+    "description": "Convert accepted quotation into sales order",
+    "category": "Sales"
+  },
+  {
+    "_id": "perm_sales_orders_view",
+    "module": "Sales Orders",
+    "action": "View",
+    "code": "sales_orders.view",
+    "name": "View Sales Orders",
+    "description": "View approved client sales orders",
+    "category": "Sales"
+  },
+  {
+    "_id": "perm_sales_orders_create",
+    "module": "Sales Orders",
+    "action": "Create",
+    "code": "sales_orders.create",
+    "name": "Create Sales Orders",
+    "description": "Generate confirmed sales orders",
+    "category": "Sales"
+  },
+  {
+    "_id": "perm_sales_orders_update",
+    "module": "Sales Orders",
+    "action": "Update",
+    "code": "sales_orders.update",
+    "name": "Update Sales Orders",
+    "description": "Edit sales order records",
+    "category": "Sales"
+  },
+  {
+    "_id": "perm_sales_orders_approve",
+    "module": "Sales Orders",
+    "action": "Approve",
+    "code": "sales_orders.approve",
+    "name": "Approve Sales Orders",
+    "description": "Approve orders for warehouse fulfillment",
+    "category": "Sales"
+  },
+  {
+    "_id": "perm_follow_ups_view",
+    "module": "Follow-ups",
+    "action": "View",
+    "code": "follow_ups.view",
+    "name": "View Follow-ups",
+    "description": "View reminders and scheduled callbacks",
+    "category": "Sales"
+  },
+  {
+    "_id": "perm_follow_ups_create",
+    "module": "Follow-ups",
+    "action": "Create",
+    "code": "follow_ups.create",
+    "name": "Schedule Follow-ups",
+    "description": "Add new follow-up reminders and calls",
+    "category": "Sales"
+  },
+  {
+    "_id": "perm_follow_ups_update",
+    "module": "Follow-ups",
+    "action": "Update",
+    "code": "follow_ups.update",
+    "name": "Complete Follow-ups",
+    "description": "Mark follow-up activities completed",
+    "category": "Sales"
+  },
+  {
+    "_id": "perm_sales_reports_view",
+    "module": "Sales Reports",
+    "action": "View",
+    "code": "sales_reports.view",
+    "name": "View Sales Reports",
+    "description": "View sales velocity and conversion metrics",
+    "category": "Sales"
+  },
+  {
+    "_id": "perm_calls_view",
+    "module": "Call Logs",
+    "action": "View",
+    "code": "calls.view",
+    "name": "View Call Logs",
+    "description": "View phone call recordings and logs",
+    "category": "Sales"
+  },
+  {
+    "_id": "perm_calls_create",
+    "module": "Call Logs",
+    "action": "Create",
+    "code": "calls.create",
+    "name": "Log Calls",
+    "description": "Initiate and record customer calls",
+    "category": "Sales"
+  },
+  {
+    "_id": "perm_messages_view",
+    "module": "Messages",
+    "action": "View",
+    "code": "messages.view",
+    "name": "View Messages",
+    "description": "View WhatsApp and SMS messages",
+    "category": "Sales"
+  },
+  {
+    "_id": "perm_messages_create",
+    "module": "Messages",
+    "action": "Create",
+    "code": "messages.create",
+    "name": "Send Messages",
+    "description": "Dispatch WhatsApp and SMS templates",
+    "category": "Sales"
+  },
+  {
+    "_id": "perm_tasks_view",
+    "module": "Tasks",
+    "action": "View",
+    "code": "tasks.view",
+    "name": "View Tasks",
+    "description": "View assigned operational tasks",
+    "category": "Sales"
+  },
+  {
+    "_id": "perm_tasks_update",
+    "module": "Tasks",
+    "action": "Update",
+    "code": "tasks.update",
+    "name": "Update Tasks",
+    "description": "Update task progress and checklist",
+    "category": "Sales"
+  },
+  {
+    "_id": "perm_campaigns_view",
+    "module": "Campaigns",
+    "action": "View",
+    "code": "campaigns.view",
+    "name": "View Campaigns",
+    "description": "View multi-channel marketing campaigns",
+    "category": "Marketing"
+  },
+  {
+    "_id": "perm_campaigns_create",
+    "module": "Campaigns",
+    "action": "Create",
+    "code": "campaigns.create",
+    "name": "Create Campaigns",
+    "description": "Launch new marketing campaigns",
+    "category": "Marketing"
+  },
+  {
+    "_id": "perm_campaigns_update",
+    "module": "Campaigns",
+    "action": "Update",
+    "code": "campaigns.update",
+    "name": "Update Campaigns",
+    "description": "Manage campaigns and budget",
+    "category": "Marketing"
+  },
+  {
+    "_id": "perm_lead_sources_view",
+    "module": "Lead Sources",
+    "action": "View",
+    "code": "lead_sources.view",
+    "name": "View Lead Sources",
+    "description": "Track lead channels and inbound sources",
+    "category": "Marketing"
+  },
+  {
+    "_id": "perm_tradeindia_view",
+    "module": "TradeIndia",
+    "action": "View",
+    "code": "tradeindia.view",
+    "name": "View TradeIndia Leads",
+    "description": "View TradeIndia portal synced leads",
+    "category": "Marketing"
+  },
+  {
+    "_id": "perm_website_leads_view",
+    "module": "Website Leads",
+    "action": "View",
+    "code": "website_leads.view",
+    "name": "View Website Leads",
+    "description": "View website contact and landing page leads",
+    "category": "Marketing"
+  },
+  {
+    "_id": "perm_whatsapp_view",
+    "module": "WhatsApp",
+    "action": "View",
+    "code": "whatsapp.view",
+    "name": "View WhatsApp Chat",
+    "description": "Monitor WhatsApp Business conversations",
+    "category": "Marketing"
+  },
+  {
+    "_id": "perm_marketing_reports_view",
+    "module": "Marketing Reports",
+    "action": "View",
+    "code": "marketing_reports.view",
+    "name": "View Marketing Analytics",
+    "description": "Analyze ROI and campaign attribution",
+    "category": "Marketing"
+  },
+  {
+    "_id": "perm_products_view",
+    "module": "Products",
+    "action": "View",
+    "code": "products.view",
+    "name": "View Products",
+    "description": "Access product catalog and SKU details",
+    "category": "Inventory"
+  },
+  {
+    "_id": "perm_products_create",
+    "module": "Products",
+    "action": "Create",
+    "code": "products.create",
+    "name": "Create Products",
+    "description": "Add new items and SKUs to catalog",
+    "category": "Inventory"
+  },
+  {
+    "_id": "perm_products_update",
+    "module": "Products",
+    "action": "Update",
+    "code": "products.update",
+    "name": "Update Products",
+    "description": "Edit item prices, specs and stock rules",
+    "category": "Inventory"
+  },
+  {
+    "_id": "perm_products_delete",
+    "module": "Products",
+    "action": "Delete",
+    "code": "products.delete",
+    "name": "Delete Products",
+    "description": "Remove products from catalog",
+    "category": "Inventory"
+  },
+  {
+    "_id": "perm_categories_view",
+    "module": "Categories",
+    "action": "View",
+    "code": "categories.view",
+    "name": "View Categories",
+    "description": "View product category hierarchy",
+    "category": "Inventory"
+  },
+  {
+    "_id": "perm_categories_create",
+    "module": "Categories",
+    "action": "Create",
+    "code": "categories.create",
+    "name": "Create Categories",
+    "description": "Create product categories and groups",
+    "category": "Inventory"
+  },
+  {
+    "_id": "perm_inventory_view",
+    "module": "Inventory",
+    "action": "View",
+    "code": "inventory.view",
+    "name": "View Inventory",
+    "description": "View warehouse stock counts and alerts",
+    "category": "Inventory"
+  },
+  {
+    "_id": "perm_inventory_update",
+    "module": "Inventory",
+    "action": "Update",
+    "code": "inventory.update",
+    "name": "Update Inventory",
+    "description": "Adjust physical stock levels",
+    "category": "Inventory"
+  },
+  {
+    "_id": "perm_inventory_adjust",
+    "module": "Inventory",
+    "action": "Adjust",
+    "code": "inventory.adjust",
+    "name": "Stock Reconcile",
+    "description": "Perform warehouse inventory audits",
+    "category": "Inventory"
+  },
+  {
+    "_id": "perm_warehouses_view",
+    "module": "Warehouses",
+    "action": "View",
+    "code": "warehouses.view",
+    "name": "View Warehouses",
+    "description": "View physical storage facilities",
+    "category": "Inventory"
+  },
+  {
+    "_id": "perm_warehouses_create",
+    "module": "Warehouses",
+    "action": "Create",
+    "code": "warehouses.create",
+    "name": "Create Warehouses",
+    "description": "Add new warehouse locations",
+    "category": "Inventory"
+  },
+  {
+    "_id": "perm_stock_in_view",
+    "module": "Stock In",
+    "action": "View",
+    "code": "stock_in.view",
+    "name": "View Stock In",
+    "description": "View inbound shipment logs",
+    "category": "Inventory"
+  },
+  {
+    "_id": "perm_stock_in_create",
+    "module": "Stock In",
+    "action": "Create",
+    "code": "stock_in.create",
+    "name": "Process Stock In",
+    "description": "Receive goods and increase physical inventory",
+    "category": "Inventory"
+  },
+  {
+    "_id": "perm_stock_out_view",
+    "module": "Stock Out",
+    "action": "View",
+    "code": "stock_out.view",
+    "name": "View Stock Out",
+    "description": "View dispatch and shipment history",
+    "category": "Inventory"
+  },
+  {
+    "_id": "perm_stock_out_create",
+    "module": "Stock Out",
+    "action": "Create",
+    "code": "stock_out.create",
+    "name": "Process Stock Out",
+    "description": "Dispatch stock against verified sales orders",
+    "category": "Inventory"
+  },
+  {
+    "_id": "perm_purchase_view",
+    "module": "Purchase",
+    "action": "View",
+    "code": "purchase.view",
+    "name": "View Purchase Orders",
+    "description": "View vendor purchase orders",
+    "category": "Inventory"
+  },
+  {
+    "_id": "perm_purchase_create",
+    "module": "Purchase",
+    "action": "Create",
+    "code": "purchase.create",
+    "name": "Create Purchase Orders",
+    "description": "Issue purchase orders to suppliers",
+    "category": "Inventory"
+  },
+  {
+    "_id": "perm_purchase_receive",
+    "module": "Purchase",
+    "action": "Receive",
+    "code": "purchase.receive",
+    "name": "Receive Purchases",
+    "description": "Mark supplier shipments received",
+    "category": "Inventory"
+  },
+  {
+    "_id": "perm_suppliers_view",
+    "module": "Suppliers",
+    "action": "View",
+    "code": "suppliers.view",
+    "name": "View Suppliers",
+    "description": "View vendor directories and contracts",
+    "category": "Inventory"
+  },
+  {
+    "_id": "perm_suppliers_create",
+    "module": "Suppliers",
+    "action": "Create",
+    "code": "suppliers.create",
+    "name": "Create Suppliers",
+    "description": "Onboard new raw material suppliers",
+    "category": "Inventory"
+  },
+  {
+    "_id": "perm_suppliers_update",
+    "module": "Suppliers",
+    "action": "Update",
+    "code": "suppliers.update",
+    "name": "Update Suppliers",
+    "description": "Edit supplier info and payment terms",
+    "category": "Inventory"
+  },
+  {
+    "_id": "perm_invoices_view",
+    "module": "Invoices",
+    "action": "View",
+    "code": "invoices.view",
+    "name": "View Invoices",
+    "description": "View GST tax invoices and billing history",
+    "category": "Accounts"
+  },
+  {
+    "_id": "perm_invoices_create",
+    "module": "Invoices",
+    "action": "Create",
+    "code": "invoices.create",
+    "name": "Generate Invoices",
+    "description": "Generate GST billing invoices for orders",
+    "category": "Accounts"
+  },
+  {
+    "_id": "perm_invoices_update",
+    "module": "Invoices",
+    "action": "Update",
+    "code": "invoices.update",
+    "name": "Edit Invoices",
+    "description": "Modify invoice items or discount terms",
+    "category": "Accounts"
+  },
+  {
+    "_id": "perm_payments_view",
+    "module": "Payments",
+    "action": "View",
+    "code": "payments.view",
+    "name": "View Payments",
+    "description": "View incoming and outgoing receipts",
+    "category": "Accounts"
+  },
+  {
+    "_id": "perm_payments_create",
+    "module": "Payments",
+    "action": "Create",
+    "code": "payments.create",
+    "name": "Record Payments",
+    "description": "Log client payments and bank transfers",
+    "category": "Accounts"
+  },
+  {
+    "_id": "perm_expenses_view",
+    "module": "Expenses",
+    "action": "View",
+    "code": "expenses.view",
+    "name": "View Expenses",
+    "description": "View operational and branch expenses",
+    "category": "Accounts"
+  },
+  {
+    "_id": "perm_expenses_create",
+    "module": "Expenses",
+    "action": "Create",
+    "code": "expenses.create",
+    "name": "Record Expenses",
+    "description": "Submit expense vouchers and bills",
+    "category": "Accounts"
+  },
+  {
+    "_id": "perm_expenses_update",
+    "module": "Expenses",
+    "action": "Update",
+    "code": "expenses.update",
+    "name": "Approve Expenses",
+    "description": "Approve and audit operational expenses",
+    "category": "Accounts"
+  },
+  {
+    "_id": "perm_receivables_view",
+    "module": "Receivables",
+    "action": "View",
+    "code": "receivables.view",
+    "name": "View Receivables",
+    "description": "Track outstanding client receivables and aging",
+    "category": "Accounts"
+  },
+  {
+    "_id": "perm_payables_view",
+    "module": "Payables",
+    "action": "View",
+    "code": "payables.view",
+    "name": "View Payables",
+    "description": "Track outstanding supplier payables",
+    "category": "Accounts"
+  },
+  {
+    "_id": "perm_credit_notes_view",
+    "module": "Credit Notes",
+    "action": "View",
+    "code": "credit_notes.view",
+    "name": "View Credit Notes",
+    "description": "View customer credit notes and returns",
+    "category": "Accounts"
+  },
+  {
+    "_id": "perm_credit_notes_create",
+    "module": "Credit Notes",
+    "action": "Create",
+    "code": "credit_notes.create",
+    "name": "Issue Credit Notes",
+    "description": "Generate credit adjustments and return slips",
+    "category": "Accounts"
+  },
+  {
+    "_id": "perm_accounts_reports_view",
+    "module": "Accounts Reports",
+    "action": "View",
+    "code": "accounts_reports.view",
+    "name": "View Financial Reports",
+    "description": "Access P&L and GST summary ledger reports",
+    "category": "Accounts"
+  },
+  {
+    "_id": "perm_employees_view",
+    "module": "Employees",
+    "action": "View",
+    "code": "employees.view",
+    "name": "View Employees",
+    "description": "View staff directory and profiles",
+    "category": "People"
+  },
+  {
+    "_id": "perm_employees_create",
+    "module": "Employees",
+    "action": "Create",
+    "code": "employees.create",
+    "name": "Add Employees",
+    "description": "Onboard new staff and assign credentials",
+    "category": "People"
+  },
+  {
+    "_id": "perm_employees_update",
+    "module": "Employees",
+    "action": "Update",
+    "code": "employees.update",
+    "name": "Update Employees",
+    "description": "Edit staff profiles, department, and CTC",
+    "category": "People"
+  },
+  {
+    "_id": "perm_employees_delete",
+    "module": "Employees",
+    "action": "Delete",
+    "code": "employees.delete",
+    "name": "Deactivate Employees",
+    "description": "Terminate or archive employee profiles",
+    "category": "People"
+  },
+  {
+    "_id": "perm_attendance_view",
+    "module": "Attendance",
+    "action": "View",
+    "code": "attendance.view",
+    "name": "View Attendance Logs",
+    "description": "View attendance logs and timesheets",
+    "category": "People"
+  },
+  {
+    "_id": "perm_attendance_create",
+    "module": "Attendance",
+    "action": "Create",
+    "code": "attendance.create",
+    "name": "Log Attendance",
+    "description": "Record manual staff attendance entries",
+    "category": "People"
+  },
+  {
+    "_id": "perm_attendance_update",
+    "module": "Attendance",
+    "action": "Update",
+    "code": "attendance.update",
+    "name": "Update Attendance",
+    "description": "Correct attendance and overtime hours",
+    "category": "People"
+  },
+  {
+    "_id": "perm_attendance_clockin",
+    "module": "Attendance",
+    "action": "Clock In",
+    "code": "attendance.clockin",
+    "name": "Self Clock-In",
+    "description": "Self-service geo-verified clock in",
+    "category": "People"
+  },
+  {
+    "_id": "perm_attendance_clockout",
+    "module": "Attendance",
+    "action": "Clock Out",
+    "code": "attendance.clockout",
+    "name": "Self Clock-Out",
+    "description": "Self-service clock out with day summary",
+    "category": "People"
+  },
+  {
+    "_id": "perm_salary_view",
+    "module": "Salary",
+    "action": "View",
+    "code": "salary.view",
+    "name": "View Payroll",
+    "description": "View company payroll registers and slips",
+    "category": "People"
+  },
+  {
+    "_id": "perm_salary_create",
+    "module": "Salary",
+    "action": "Create",
+    "code": "salary.create",
+    "name": "Generate Payroll",
+    "description": "Process monthly salaries and generate pay slips",
+    "category": "People"
+  },
+  {
+    "_id": "perm_salary_update",
+    "module": "Salary",
+    "action": "Update",
+    "code": "salary.update",
+    "name": "Update Payroll",
+    "description": "Adjust salary bonuses and deductions",
+    "category": "People"
+  },
+  {
+    "_id": "perm_salary_view_self",
+    "module": "Salary",
+    "action": "View Self",
+    "code": "salary.view.self",
+    "name": "View Own Salary",
+    "description": "View personal salary slips and breakdown",
+    "category": "People"
+  },
+  {
+    "_id": "perm_leave_view_self",
+    "module": "Leave",
+    "action": "View Self",
+    "code": "leave.view.self",
+    "name": "View Own Leaves",
+    "description": "Check personal leave quota and history",
+    "category": "People"
+  },
+  {
+    "_id": "perm_leave_create",
+    "module": "Leave",
+    "action": "Create",
+    "code": "leave.create",
+    "name": "Apply For Leave",
+    "description": "Submit leave request applications",
+    "category": "People"
+  },
+  {
+    "_id": "perm_performance_view",
+    "module": "Performance",
+    "action": "View",
+    "code": "performance.view",
+    "name": "View All Appraisals",
+    "description": "View team performance reviews and KPI rankings",
+    "category": "People"
+  },
+  {
+    "_id": "perm_performance_create",
+    "module": "Performance",
+    "action": "Create",
+    "code": "performance.create",
+    "name": "Conduct Appraisal",
+    "description": "Submit employee appraisals and review scores",
+    "category": "People"
+  },
+  {
+    "_id": "perm_performance_view_self",
+    "module": "Performance",
+    "action": "View Self",
+    "code": "performance.view.self",
+    "name": "View Own Performance",
+    "description": "View personal KPI scores and targets",
+    "category": "People"
+  },
+  {
+    "_id": "perm_profile_view_self",
+    "module": "Profile",
+    "action": "View Self",
+    "code": "profile.view.self",
+    "name": "View Own Profile",
+    "description": "View personal employee profile",
+    "category": "People"
+  },
+  {
+    "_id": "perm_profile_update_self",
+    "module": "Profile",
+    "action": "Update Self",
+    "code": "profile.update.self",
+    "name": "Update Own Profile",
+    "description": "Update personal emergency contacts & details",
+    "category": "People"
+  },
+  {
+    "_id": "perm_notifications_view",
+    "module": "Notifications",
+    "action": "View",
+    "code": "notifications.view",
+    "name": "View Notifications",
+    "description": "Receive system and task notifications",
+    "category": "People"
+  },
+  {
+    "_id": "perm_reports_view",
+    "module": "Reports",
+    "action": "View",
+    "code": "reports.view",
+    "name": "Access All Analytics",
+    "description": "View centralized business intelligence dashboards",
+    "category": "Reports"
+  },
+  {
+    "_id": "perm_integrations_view",
+    "module": "Integrations",
+    "action": "View",
+    "code": "integrations.view",
+    "name": "View Integrations",
+    "description": "View connected external APIs and webhooks",
+    "category": "Integrations"
+  },
+  {
+    "_id": "perm_integrations_manage",
+    "module": "Integrations",
+    "action": "Manage",
+    "code": "integrations.manage",
+    "name": "Manage Integrations",
+    "description": "Configure API keys, test webhooks, and trigger manual syncs",
+    "category": "Integrations"
+  },
+  {
+    "_id": "perm_tracking_view_live",
+    "module": "Live Tracking",
+    "action": "View",
+    "code": "employee_tracking.view_live",
+    "name": "View Live Tracking Map",
+    "description": "Access realtime employee GPS map, status, and battery telemetry",
+    "category": "People"
+  },
+  {
+    "_id": "perm_tracking_view_history",
+    "module": "Live Tracking",
+    "action": "View History",
+    "code": "employee_tracking.view_history",
+    "name": "View Route History",
+    "description": "Inspect daily route polylines, travel stops, and movement timelines",
+    "category": "People"
+  },
+  {
+    "_id": "perm_tracking_manage",
+    "module": "Live Tracking",
+    "action": "Manage",
+    "code": "employee_tracking.manage",
+    "name": "Manage Tracking Policies",
+    "description": "Configure working hours tracking rules, intervals, and employee overrides",
+    "category": "People"
+  },
+  {
+    "_id": "perm_tracking_manage_geofence",
+    "module": "Live Tracking",
+    "action": "Manage Geofences",
+    "code": "employee_tracking.manage_geofence",
+    "name": "Manage Geofence Sites",
+    "description": "Create and edit office, warehouse, and client site geofence perimeters",
+    "category": "People"
+  },
+  {
+    "_id": "perm_tracking_export",
+    "module": "Live Tracking",
+    "action": "Export",
+    "code": "employee_tracking.export",
+    "name": "Export Tracking Reports",
+    "description": "Export daily distance, field duration, and geofence audit summaries to CSV",
+    "category": "People"
+  },
+  {
+    "_id": "perm_users_view",
+    "module": "Users",
+    "action": "View",
+    "code": "users.view",
+    "name": "View Users",
+    "description": "View system users and access list",
+    "category": "Administration"
+  },
+  {
+    "_id": "perm_users_create",
+    "module": "Users",
+    "action": "Create",
+    "code": "users.create",
+    "name": "Create Users",
+    "description": "Provision new admin and staff user accounts",
+    "category": "Administration"
+  },
+  {
+    "_id": "perm_users_update",
+    "module": "Users",
+    "action": "Update",
+    "code": "users.update",
+    "name": "Update Users",
+    "description": "Edit user accounts and reset credentials",
+    "category": "Administration"
+  },
+  {
+    "_id": "perm_roles_view",
+    "module": "Roles",
+    "action": "View",
+    "code": "roles.view",
+    "name": "View Roles",
+    "description": "View role definitions and permissions matrix",
+    "category": "Administration"
+  },
+  {
+    "_id": "perm_roles_create",
+    "module": "Roles",
+    "action": "Create",
+    "code": "roles.create",
+    "name": "Create Roles",
+    "description": "Define custom access roles",
+    "category": "Administration"
+  },
+  {
+    "_id": "perm_roles_update",
+    "module": "Roles",
+    "action": "Update",
+    "code": "roles.update",
+    "name": "Update Roles",
+    "description": "Modify role permission assignments",
+    "category": "Administration"
+  },
+  {
+    "_id": "perm_audit_logs_view",
+    "module": "Audit Logs",
+    "action": "View",
+    "code": "audit_logs.view",
+    "name": "View Audit Logs",
+    "description": "Inspect system security event trails and change logs",
+    "category": "Administration"
+  },
+  {
+    "_id": "perm_settings_manage",
+    "module": "Settings",
+    "action": "Manage",
+    "code": "settings.manage",
+    "name": "System Settings",
+    "description": "Global organization parameters and configurations",
+    "category": "Administration"
+  }
+]

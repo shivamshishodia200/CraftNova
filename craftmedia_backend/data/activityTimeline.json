@@ -1114,6 +1114,8 @@
     "description": "New lead auto-ingested from TradeIndia Lead Sync Connector (Protective Sticker Buyer - Protective Sticker)",
     "performedBy": "TradeIndia Lead Sync Connector Gateway",
     "timestamp": "2026-09-05T14:06:58.817Z",
-    "_id": "act_1788617218822_82pyr"
+    "_id": "act_1788617218822_82pyr",
+    "organizationId": "org_craftmedia",
+    "updatedAt": "2026-09-09T07:04:56.904Z"
   }
 ]

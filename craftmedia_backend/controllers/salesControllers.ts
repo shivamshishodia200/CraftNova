@@ -2,7 +2,7 @@ import { Response } from 'express';
 import { db } from '../database/db';
 import { AuthenticatedRequest } from '../middleware/auth';
 import { recordAuditLog } from '../middleware/audit';
-import { filterByWorkspace, attachWorkspaceContext } from '../middleware/workspace';
+import { filterByWorkspace, attachWorkspaceContext, assertTenantOwnership } from '../middleware/workspace';
 
 // ==========================================
 // 1. LEADS CONTROLLERS
@@ -207,7 +207,7 @@ export async function updateLead(req: AuthenticatedRequest, res: Response) {
   try {
     const id = req.params.id;
     const existing = db.leads.findById(id);
-    if (!existing) return res.status(404).json({ success: false, message: 'Lead not found' });
+    if (!assertTenantOwnership(existing, req, res, 'Lead')) return;
 
     const updated = db.leads.updateById(id, {
       ...req.body,
@@ -298,7 +298,7 @@ export async function assignLead(req: AuthenticatedRequest, res: Response) {
     }
 
     const existing = db.leads.findById(id);
-    if (!existing) return res.status(404).json({ success: false, message: 'Lead not found' });
+    if (!assertTenantOwnership(existing, req, res, 'Lead')) return;
 
     const prevAssigned = existing.assignedTo || 'Unassigned';
 
@@ -357,6 +357,10 @@ export async function bulkAssignLeads(req: AuthenticatedRequest, res: Response) 
     leadIds.forEach(id => {
       const existing = db.leads.findById(id);
       if (existing) {
+        // Enforce tenant boundary on bulk items
+        if (req.user?.role !== 'SUPER_ADMIN' && req.user?.organizationId && existing.organizationId && existing.organizationId !== req.user.organizationId) {
+          return;
+        }
         db.leads.updateById(id, {
           assignedTo,
           assignedToId: employeeId,
@@ -391,7 +395,7 @@ export async function deleteLead(req: AuthenticatedRequest, res: Response) {
   try {
     const id = req.params.id;
     const existing = db.leads.findById(id);
-    if (!existing) return res.status(404).json({ success: false, message: 'Lead not found' });
+    if (!assertTenantOwnership(existing, req, res, 'Lead')) return;
 
     db.leads.deleteById(id);
     recordAuditLog(req, 'DELETE', 'leads', 'Lead', id, existing);
@@ -405,18 +409,18 @@ export async function convertLead(req: AuthenticatedRequest, res: Response) {
   try {
     const id = req.params.id;
     const lead = db.leads.findById(id);
-    if (!lead) return res.status(404).json({ success: false, message: 'Lead not found' });
+    if (!assertTenantOwnership(lead, req, res, 'Lead')) return;
 
     if (lead.status === 'CONVERTED' || lead.convertedCustomerId) {
       return res.status(400).json({ success: false, message: 'Lead has already been converted to a Customer account.' });
     }
 
-    let customer = db.customers.findOne(c => c.phone === lead.phone || (lead.email && c.email === lead.email));
+    let customer = db.customers.findOne(c => (c.phone === lead.phone || (lead.email && c.email === lead.email)) && (!req.user?.organizationId || c.organizationId === req.user.organizationId));
 
     if (!customer) {
       const custCount = db.customers.countDocuments();
       const customerCode = `CUST-${new Date().getFullYear()}-${String(custCount + 1).padStart(4, '0')}`;
-      customer = db.customers.insertOne({
+      customer = db.customers.insertOne(attachWorkspaceContext({
         customerCode,
         name: lead.name,
         companyName: lead.companyName || lead.name,
@@ -447,7 +451,7 @@ export async function convertLead(req: AuthenticatedRequest, res: Response) {
         status: 'ACTIVE',
         createdAt: new Date().toISOString(),
         updatedAt: new Date().toISOString()
-      });
+      }, req));
     }
 
     const updatedLead = db.leads.updateById(id, {
@@ -541,7 +545,7 @@ export async function getCustomerDetails(req: AuthenticatedRequest, res: Respons
   try {
     const id = req.params.id;
     const customer = db.customers.findById(id);
-    if (!customer) return res.status(404).json({ success: false, message: 'Customer not found' });
+    if (!assertTenantOwnership(customer, req, res, 'Customer')) return;
 
     const quotations = db.quotations.find(q => q.customerId === id);
     const salesOrders = db.salesOrders.find(s => s.customerId === id);
@@ -579,7 +583,7 @@ export async function createCustomer(req: AuthenticatedRequest, res: Response) {
       return res.status(400).json({ success: false, message: 'Customer name and phone are required' });
     }
 
-    const existing = db.customers.findOne(c => c.phone === phone);
+    const existing = db.customers.findOne(c => c.phone === phone && (!req.user?.organizationId || c.organizationId === req.user.organizationId));
     if (existing) {
       return res.status(400).json({ success: false, message: `A customer account with phone ${phone} already exists (${existing.name}).` });
     }
@@ -628,7 +632,7 @@ export async function updateCustomer(req: AuthenticatedRequest, res: Response) {
   try {
     const id = req.params.id;
     const existing = db.customers.findById(id);
-    if (!existing) return res.status(404).json({ success: false, message: 'Customer not found' });
+    if (!assertTenantOwnership(existing, req, res, 'Customer')) return;
 
     const updated = db.customers.updateById(id, {
       ...req.body,
@@ -646,7 +650,7 @@ export async function deleteCustomer(req: AuthenticatedRequest, res: Response) {
   try {
     const id = req.params.id;
     const existing = db.customers.findById(id);
-    if (!existing) return res.status(404).json({ success: false, message: 'Customer not found' });
+    if (!assertTenantOwnership(existing, req, res, 'Customer')) return;
 
     db.customers.deleteById(id);
     recordAuditLog(req, 'DELETE', 'customers', 'Customer', id, existing);
@@ -784,7 +788,7 @@ export async function approveQuotation(req: AuthenticatedRequest, res: Response)
   try {
     const id = req.params.id;
     const quote = db.quotations.findById(id);
-    if (!quote) return res.status(404).json({ success: false, message: 'Quotation not found' });
+    if (!assertTenantOwnership(quote, req, res, 'Quotation')) return;
 
     const updated = db.quotations.updateById(id, {
       status: 'APPROVED',
@@ -814,7 +818,7 @@ export async function convertQuotationToSalesOrder(req: AuthenticatedRequest, re
   try {
     const id = req.params.id;
     const quote = db.quotations.findById(id);
-    if (!quote) return res.status(404).json({ success: false, message: 'Quotation not found' });
+    if (!assertTenantOwnership(quote, req, res, 'Quotation')) return;
 
     if (quote.status === 'CONVERTED' && quote.convertedSalesOrderId) {
       return res.status(400).json({ success: false, message: 'Quotation has already been converted to a Sales Order' });
@@ -880,9 +884,7 @@ export async function convertQuotationToSalesOrder(req: AuthenticatedRequest, re
   }
 }
 
-// ==========================================
-// 4. SALES ORDERS CONTROLLERS
-// ==========================================
+// ==================== SALES ORDERS CONTROLLERS ====================
 
 export async function getSalesOrders(req: AuthenticatedRequest, res: Response) {
   try {
@@ -1017,7 +1019,7 @@ export async function updateSalesOrderStatus(req: AuthenticatedRequest, res: Res
     const id = req.params.id;
     const { status, trackingNumber, transporterName } = req.body;
     const existing = db.salesOrders.findById(id);
-    if (!existing) return res.status(404).json({ success: false, message: 'Sales order not found' });
+    if (!assertTenantOwnership(existing, req, res, 'Sales order')) return;
 
     const previousStatus = existing.status;
 
@@ -1069,7 +1071,7 @@ export async function approveSalesOrder(req: AuthenticatedRequest, res: Response
   try {
     const id = req.params.id;
     const existing = db.salesOrders.findById(id);
-    if (!existing) return res.status(404).json({ success: false, message: 'Sales order not found' });
+    if (!assertTenantOwnership(existing, req, res, 'Sales order')) return;
 
     const updated = db.salesOrders.updateById(id, {
       status: 'APPROVED',
@@ -1089,7 +1091,7 @@ export async function generateOrderInvoice(req: AuthenticatedRequest, res: Respo
   try {
     const id = req.params.id;
     const order = db.salesOrders.findById(id);
-    if (!order) return res.status(404).json({ success: false, message: 'Sales order not found' });
+    if (!assertTenantOwnership(order, req, res, 'Sales order')) return;
 
     if (order.isInvoiced && order.invoiceId) {
       const existingInv = db.invoices.findById(order.invoiceId);
@@ -1099,7 +1101,7 @@ export async function generateOrderInvoice(req: AuthenticatedRequest, res: Respo
     const invCount = db.invoices.countDocuments();
     const invoiceNumber = `INV-${new Date().getFullYear()}-${String(invCount + 1).padStart(4, '0')}`;
 
-    const newInvoice = db.invoices.insertOne({
+    const newInvoice = db.invoices.insertOne(attachWorkspaceContext({
       invoiceNumber,
       salesOrderId: order._id,
       customerId: order.customerId,
@@ -1119,7 +1121,7 @@ export async function generateOrderInvoice(req: AuthenticatedRequest, res: Respo
       notes: `Generated from Sales Order ${order.salesOrderNumber}`,
       createdAt: new Date().toISOString(),
       updatedAt: new Date().toISOString()
-    });
+    }, req));
 
     db.salesOrders.updateById(id, {
       isInvoiced: true,
@@ -1241,7 +1243,7 @@ export async function completeFollowUp(req: AuthenticatedRequest, res: Response)
     const id = req.params.id;
     const { outcomeNotes } = req.body;
     const existing = db.followUps.findById(id);
-    if (!existing) return res.status(404).json({ success: false, message: 'Follow-up not found' });
+    if (!assertTenantOwnership(existing, req, res, 'Follow-up')) return;
 
     const updated = db.followUps.updateById(id, {
       status: 'COMPLETED',
@@ -1368,12 +1370,12 @@ export async function logLeadCall(req: AuthenticatedRequest, res: Response) {
     const { durationSeconds, outcome, notes, recordingUrl, recordingName, followUpDate, followUpNotes, direction, updateLeadStatus } = req.body;
 
     const lead = db.leads.findById(leadId);
-    if (!lead) return res.status(404).json({ success: false, message: 'Target Lead record not found' });
+    if (!assertTenantOwnership(lead, req, res, 'Lead')) return;
 
     const callerName = req.user?.name || 'Sales Representative';
     const callerId = req.user?.userId || 'usr_emp_1';
 
-    const newCallLog = db.callLogs.insertOne({
+    const newCallLog = db.callLogs.insertOne(attachWorkspaceContext({
       leadId,
       leadName: lead.name,
       leadPhone: lead.phone,
@@ -1389,7 +1391,7 @@ export async function logLeadCall(req: AuthenticatedRequest, res: Response) {
       followUpNotes: followUpNotes || '',
       timestamp: new Date().toISOString(),
       createdAt: new Date().toISOString()
-    });
+    }, req));
 
     let newStatus = lead.status;
     if (updateLeadStatus) {
@@ -1409,7 +1411,7 @@ export async function logLeadCall(req: AuthenticatedRequest, res: Response) {
 
     let scheduledFollowUp = null;
     if (followUpDate) {
-      scheduledFollowUp = db.followUps.insertOne({
+      scheduledFollowUp = db.followUps.insertOne(attachWorkspaceContext({
         leadId,
         type: 'Call',
         title: `Follow-up with ${lead.name} (${lead.companyName || lead.phone})`,
@@ -1419,7 +1421,7 @@ export async function logLeadCall(req: AuthenticatedRequest, res: Response) {
         assignedTo: lead.assignedTo || callerName,
         createdAt: new Date().toISOString(),
         updatedAt: new Date().toISOString()
-      });
+      }, req));
     }
 
     recordAuditLog(req, 'CREATE', 'call_logs', 'Lead Call', newCallLog._id, undefined, {
@@ -1445,7 +1447,10 @@ export async function logLeadCall(req: AuthenticatedRequest, res: Response) {
 export async function getLeadCallLogs(req: AuthenticatedRequest, res: Response) {
   try {
     const leadId = req.params.id;
-    let logs = db.callLogs.find(c => c.leadId === leadId);
+    const lead = db.leads.findById(leadId);
+    if (!assertTenantOwnership(lead, req, res, 'Lead')) return;
+
+    let logs = filterByWorkspace(db.callLogs.find(c => c.leadId === leadId), req);
     logs.sort((a, b) => new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime());
     return res.json({ success: true, data: logs });
   } catch (err: any) {
@@ -1456,7 +1461,7 @@ export async function getLeadCallLogs(req: AuthenticatedRequest, res: Response) 
 export async function getAllCallLogs(req: AuthenticatedRequest, res: Response) {
   try {
     const { employeeId, outcome, leadId } = req.query;
-    let logs = db.callLogs.getAll();
+    let logs = filterByWorkspace(db.callLogs.getAll(), req);
 
     if (leadId) logs = logs.filter(c => c.leadId === leadId);
     if (employeeId) logs = logs.filter(c => c.employeeId === employeeId);
@@ -1473,7 +1478,7 @@ export async function deleteCallLog(req: AuthenticatedRequest, res: Response) {
   try {
     const id = req.params.id;
     const existing = db.callLogs.findById(id);
-    if (!existing) return res.status(404).json({ success: false, message: 'Call log not found' });
+    if (!assertTenantOwnership(existing, req, res, 'Call log')) return;
 
     db.callLogs.deleteById(id);
     recordAuditLog(req, 'DELETE', 'call_logs', 'Call Log', id, existing);

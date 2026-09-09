@@ -97,7 +97,7 @@
     "storageUsedBytes": 10485760,
     "createdBy": "usr_superadmin",
     "createdAt": "2026-01-01T00:00:00.000Z",
-    "updatedAt": "2026-09-05T10:13:41.445Z",
+    "updatedAt": "2026-09-09T08:19:01.778Z",
     "brandingVersion": 7
   },
   {
@@ -338,5 +338,430 @@
     "createdBy": "usr_superadmin",
     "createdAt": "2026-09-05T07:24:35.681Z",
     "updatedAt": "2026-09-05T07:24:35.681Z"
+  },
+  {
+    "_id": "org_deliveryplus",
+    "name": "DeliveryPlus Logistics",
+    "slug": "deliveryplus",
+    "clientCode": "DP01",
+    "status": "ACTIVE",
+    "contactEmail": "contact@deliveryplus.com",
+    "branding": {
+      "companyName": "DeliveryPlus Logistics",
+      "primaryColor": "#F59E0B",
+      "secondaryColor": "#111827",
+      "accentColor": "#EA580C",
+      "sidebarBackground": "#0F172A",
+      "themeMode": "LIGHT"
+    },
+    "subscription": {
+      "plan": "ENTERPRISE",
+      "status": "ACTIVE",
+      "maxEmployees": 100,
+      "maxAdmins": 10,
+      "storageLimitGB": 50
+    },
+    "adminCount": 1,
+    "employeeCount": 1,
+    "createdAt": "2026-09-09T07:06:08.931Z",
+    "updatedAt": "2026-09-09T07:13:58.930Z"
+  },
+  {
+    "_id": "org_shivshakti",
+    "name": "Shiv Shakti Enterprises",
+    "slug": "shiv-shakti",
+    "clientCode": "SS01",
+    "status": "ACTIVE",
+    "contactEmail": "info@shivshakti.in",
+    "branding": {
+      "companyName": "Shiv Shakti Enterprises",
+      "primaryColor": "#7C3AED",
+      "secondaryColor": "#1F2937",
+      "accentColor": "#8B5CF6",
+      "sidebarBackground": "#1E1B4B",
+      "themeMode": "LIGHT"
+    },
+    "subscription": {
+      "plan": "PROFESSIONAL",
+      "status": "ACTIVE",
+      "maxEmployees": 50,
+      "maxAdmins": 5,
+      "storageLimitGB": 20
+    },
+    "adminCount": 1,
+    "employeeCount": 1,
+    "createdAt": "2026-09-09T07:06:08.931Z",
+    "updatedAt": "2026-09-09T07:13:58.930Z"
+  },
+  {
+    "_id": "test-org-alpha-1788939474155",
+    "name": "Alpha Logistics Enterprise",
+    "slug": "alpha-1788939474155",
+    "clientCode": "ALPHA",
+    "contactEmail": "contact@alpha.com",
+    "status": "ACTIVE",
+    "branding": {
+      "companyName": "Alpha Logistics Enterprise",
+      "primaryColor": "#F59E0B",
+      "secondaryColor": "#111827",
+      "accentColor": "#EA580C",
+      "sidebarBackground": "#080D1A",
+      "themeMode": "DARK"
+    },
+    "features": {
+      "dashboard": true,
+      "crm": {
+        "leads": true,
+        "customers": true,
+        "followUps": true
+      },
+      "sales": {
+        "quotations": true,
+        "salesOrders": true,
+        "reports": true
+      },
+      "inventory": {
+        "products": true,
+        "stockInOut": true
+      },
+      "hr": {
+        "employees": true,
+        "attendance": true,
+        "liveTracking": true,
+        "workRecording": true
+      },
+      "marketing": {
+        "campaigns": true,
+        "tradeIndia": true,
+        "whatsApp": true
+      }
+    },
+    "createdAt": "2026-09-09T07:37:54.155Z"
+  },
+  {
+    "_id": "test-org-beta-1788939474155",
+    "name": "Beta Global Tech",
+    "slug": "beta-1788939474156",
+    "clientCode": "BETA",
+    "contactEmail": "contact@beta.com",
+    "status": "ACTIVE",
+    "branding": {
+      "companyName": "Beta Global Tech",
+      "primaryColor": "#2563EB",
+      "secondaryColor": "#0F172A",
+      "accentColor": "#06B6D4",
+      "sidebarBackground": "#0F172A",
+      "themeMode": "LIGHT"
+    },
+    "features": {
+      "dashboard": true,
+      "crm": {
+        "leads": true,
+        "customers": true,
+        "followUps": true
+      }
+    },
+    "createdAt": "2026-09-09T07:37:54.156Z"
+  },
+  {
+    "_id": "test-org-alpha-1788939570543",
+    "name": "Alpha Logistics Enterprise",
+    "slug": "alpha-1788939570543",
+    "clientCode": "ALPHA",
+    "contactEmail": "contact@alpha.com",
+    "status": "ACTIVE",
+    "branding": {
+      "companyName": "Alpha Logistics Enterprise",
+      "primaryColor": "#F59E0B",
+      "secondaryColor": "#111827",
+      "accentColor": "#EA580C",
+      "sidebarBackground": "#080D1A",
+      "themeMode": "DARK"
+    },
+    "features": {
+      "dashboard": true,
+      "crm": {
+        "leads": true,
+        "customers": true,
+        "followUps": true
+      },
+      "sales": {
+        "quotations": true,
+        "salesOrders": true,
+        "reports": true
+      },
+      "inventory": {
+        "products": true,
+        "stockInOut": true
+      },
+      "hr": {
+        "employees": true,
+        "attendance": true,
+        "liveTracking": true,
+        "workRecording": true
+      },
+      "marketing": {
+        "campaigns": true,
+        "tradeIndia": true,
+        "whatsApp": true
+      }
+    },
+    "createdAt": "2026-09-09T07:39:30.543Z",
+    "adminCount": 2,
+    "updatedAt": "2026-09-09T07:39:36.484Z",
+    "employeeCount": 1
+  },
+  {
+    "_id": "test-org-beta-1788939570543",
+    "name": "Beta Global Tech",
+    "slug": "beta-1788939570551",
+    "clientCode": "BETA",
+    "contactEmail": "contact@beta.com",
+    "status": "ACTIVE",
+    "branding": {
+      "companyName": "Beta Global Tech",
+      "primaryColor": "#2563EB",
+      "secondaryColor": "#0F172A",
+      "accentColor": "#06B6D4",
+      "sidebarBackground": "#0F172A",
+      "themeMode": "LIGHT"
+    },
+    "features": {
+      "dashboard": true,
+      "crm": {
+        "leads": true,
+        "customers": true,
+        "followUps": true
+      }
+    },
+    "createdAt": "2026-09-09T07:39:30.551Z"
+  },
+  {
+    "_id": "test-org-alpha-1788941507220",
+    "name": "Alpha Logistics Enterprise",
+    "slug": "alpha-1788941507220",
+    "clientCode": "ALPHA",
+    "contactEmail": "contact@alpha.com",
+    "status": "ACTIVE",
+    "branding": {
+      "companyName": "Alpha Logistics Enterprise",
+      "primaryColor": "#F59E0B",
+      "secondaryColor": "#111827",
+      "accentColor": "#EA580C",
+      "sidebarBackground": "#080D1A",
+      "themeMode": "DARK"
+    },
+    "features": {
+      "dashboard": true,
+      "crm": {
+        "leads": true,
+        "customers": true,
+        "followUps": true
+      },
+      "sales": {
+        "quotations": true,
+        "salesOrders": true,
+        "reports": true
+      },
+      "inventory": {
+        "products": true,
+        "stockInOut": true
+      },
+      "hr": {
+        "employees": true,
+        "attendance": true,
+        "liveTracking": true,
+        "workRecording": true
+      },
+      "marketing": {
+        "campaigns": true,
+        "tradeIndia": true,
+        "whatsApp": true
+      }
+    },
+    "createdAt": "2026-09-09T08:11:47.220Z",
+    "adminCount": 2,
+    "updatedAt": "2026-09-09T08:11:47.687Z",
+    "employeeCount": 1
+  },
+  {
+    "_id": "test-org-beta-1788941507220",
+    "name": "Beta Global Tech",
+    "slug": "beta-1788941507220",
+    "clientCode": "BETA",
+    "contactEmail": "contact@beta.com",
+    "status": "ACTIVE",
+    "branding": {
+      "companyName": "Beta Global Tech",
+      "primaryColor": "#2563EB",
+      "secondaryColor": "#0F172A",
+      "accentColor": "#06B6D4",
+      "sidebarBackground": "#0F172A",
+      "themeMode": "LIGHT"
+    },
+    "features": {
+      "dashboard": true,
+      "crm": {
+        "leads": true,
+        "customers": true,
+        "followUps": true
+      }
+    },
+    "createdAt": "2026-09-09T08:11:47.220Z"
+  },
+  {
+    "_id": "test-org-alpha-1788941769090",
+    "name": "Alpha Logistics Enterprise",
+    "slug": "alpha-1788941769090",
+    "clientCode": "ALPHA",
+    "contactEmail": "director_1788941769174@alpha.com",
+    "status": "ACTIVE",
+    "branding": {
+      "companyName": "Alpha Logistics Enterprise",
+      "primaryColor": "#F59E0B",
+      "secondaryColor": "#111827",
+      "accentColor": "#EA580C",
+      "sidebarBackground": "#080D1A",
+      "themeMode": "DARK"
+    },
+    "features": {
+      "dashboard": true,
+      "crm": {
+        "leads": true,
+        "customers": true,
+        "followUps": true
+      },
+      "sales": {
+        "quotations": true,
+        "salesOrders": true,
+        "reports": true
+      },
+      "inventory": {
+        "products": true,
+        "stockInOut": true
+      },
+      "hr": {
+        "employees": true,
+        "attendance": true,
+        "liveTracking": true,
+        "workRecording": true
+      },
+      "marketing": {
+        "campaigns": true,
+        "tradeIndia": true,
+        "whatsApp": true
+      }
+    },
+    "createdAt": "2026-09-09T08:16:09.090Z",
+    "adminCount": 2,
+    "updatedAt": "2026-09-09T08:16:09.670Z",
+    "settings": {
+      "primaryAdminEmail": "director_1788941769174@alpha.com",
+      "primaryAdminName": "Alpha Primary Director"
+    },
+    "employeeCount": 1
+  },
+  {
+    "_id": "test-org-beta-1788941769090",
+    "name": "Beta Global Tech",
+    "slug": "beta-1788941769090",
+    "clientCode": "BETA",
+    "contactEmail": "contact@beta.com",
+    "status": "ACTIVE",
+    "branding": {
+      "companyName": "Beta Global Tech",
+      "primaryColor": "#2563EB",
+      "secondaryColor": "#0F172A",
+      "accentColor": "#06B6D4",
+      "sidebarBackground": "#0F172A",
+      "themeMode": "LIGHT"
+    },
+    "features": {
+      "dashboard": true,
+      "crm": {
+        "leads": true,
+        "customers": true,
+        "followUps": true
+      }
+    },
+    "createdAt": "2026-09-09T08:16:09.090Z"
+  },
+  {
+    "_id": "test-org-alpha-1788941941792",
+    "name": "Alpha Logistics Enterprise",
+    "slug": "alpha-1788941941792",
+    "clientCode": "ALPHA",
+    "contactEmail": "director_1788941941867@alpha.com",
+    "status": "ACTIVE",
+    "branding": {
+      "companyName": "Alpha Logistics Enterprise",
+      "primaryColor": "#F59E0B",
+      "secondaryColor": "#111827",
+      "accentColor": "#EA580C",
+      "sidebarBackground": "#080D1A",
+      "themeMode": "DARK"
+    },
+    "features": {
+      "dashboard": true,
+      "crm": {
+        "leads": true,
+        "customers": true,
+        "followUps": true
+      },
+      "sales": {
+        "quotations": true,
+        "salesOrders": true,
+        "reports": true
+      },
+      "inventory": {
+        "products": true,
+        "stockInOut": true
+      },
+      "hr": {
+        "employees": true,
+        "attendance": true,
+        "liveTracking": true,
+        "workRecording": true
+      },
+      "marketing": {
+        "campaigns": true,
+        "tradeIndia": true,
+        "whatsApp": true
+      }
+    },
+    "createdAt": "2026-09-09T08:19:01.792Z",
+    "updatedAt": "2026-09-09T08:19:02.295Z",
+    "adminCount": 2,
+    "settings": {
+      "primaryAdminEmail": "director_1788941941867@alpha.com",
+      "primaryAdminName": "Alpha Primary Director"
+    },
+    "employeeCount": 1
+  },
+  {
+    "_id": "test-org-beta-1788941941792",
+    "name": "Beta Global Tech",
+    "slug": "beta-1788941941792",
+    "clientCode": "BETA",
+    "contactEmail": "contact@beta.com",
+    "status": "ACTIVE",
+    "branding": {
+      "companyName": "Beta Global Tech",
+      "primaryColor": "#2563EB",
+      "secondaryColor": "#0F172A",
+      "accentColor": "#06B6D4",
+      "sidebarBackground": "#0F172A",
+      "themeMode": "LIGHT"
+    },
+    "features": {
+      "dashboard": true,
+      "crm": {
+        "leads": true,
+        "customers": true,
+        "followUps": true
+      }
+    },
+    "createdAt": "2026-09-09T08:19:01.792Z",
+    "updatedAt": "2026-09-09T08:19:01.792Z"
   }
 ]

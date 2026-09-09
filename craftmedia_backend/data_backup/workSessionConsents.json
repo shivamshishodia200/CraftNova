@@ -1,0 +1,49 @@
+[
+  {
+    "employeeId": "emp_arjun",
+    "employeeName": "Arjun Singh",
+    "policyVersion": "1.0.0",
+    "acceptedAt": "2026-09-04T05:35:06.474Z",
+    "cameraConsent": true,
+    "locationConsent": true,
+    "screenRecordingConsent": true,
+    "microphoneConsent": false,
+    "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/152.0.0.0 Safari/537.36",
+    "browser": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/152.0.0.0 Safari/537.36",
+    "deviceType": "Desktop/Web",
+    "sessionId": "sess_1788500106474",
+    "ipAddress": "127.0.0.1",
+    "_id": "wor_1788500106477_bohmj"
+  },
+  {
+    "employeeId": "emp_arjun",
+    "employeeName": "Arjun Singh",
+    "policyVersion": "1.0.0",
+    "acceptedAt": "2026-09-04T05:46:23.675Z",
+    "cameraConsent": true,
+    "locationConsent": true,
+    "screenRecordingConsent": true,
+    "microphoneConsent": false,
+    "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/152.0.0.0 Safari/537.36",
+    "browser": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/152.0.0.0 Safari/537.36",
+    "deviceType": "Desktop/Web",
+    "sessionId": "sess_1788500783675",
+    "ipAddress": "127.0.0.1",
+    "_id": "wor_1788500783682_n6zj3"
+  },
+  {
+    "employeeId": "emp_arjun",
+    "employeeName": "Arjun Singh",
+    "policyVersion": "1.0.0",
+    "acceptedAt": "2026-09-05T05:52:26.459Z",
+    "cameraConsent": true,
+    "locationConsent": true,
+    "screenRecordingConsent": true,
+    "microphoneConsent": true,
+    "userAgent": "HeadlessTestClient/1.0",
+    "browser": "Automated Test Chrome",
+    "deviceType": "Desktop",
+    "sessionId": "sess_test_1788587546459",
+    "_id": "wor_1788587546459_wuuke"
+  }
+]

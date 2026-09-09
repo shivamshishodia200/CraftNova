@@ -1,0 +1,163 @@
+[
+  {
+    "_id": "geo_noida_hq",
+    "name": "Noida Corporate Office",
+    "code": "HQ-NOIDA",
+    "category": "OFFICE",
+    "latitude": 28.6139,
+    "longitude": 77.209,
+    "radiusMeters": 250,
+    "address": "Plot B-14, Sector 63, Noida, Uttar Pradesh 201301",
+    "city": "Noida",
+    "state": "Uttar Pradesh",
+    "assignedDepartments": [
+      "Sales",
+      "HR",
+      "Management",
+      "Accounts"
+    ],
+    "alertOnEntry": true,
+    "alertOnExit": true,
+    "enabled": true,
+    "createdAt": "2026-01-01T00:00:00.000Z",
+    "updatedAt": "2026-09-04T11:45:05.324Z",
+    "organizationId": "org_craftmedia"
+  },
+  {
+    "_id": "geo_delhi_hub",
+    "name": "Delhi Logistics Depot & Warehouse",
+    "code": "WH-DELHI",
+    "category": "WAREHOUSE",
+    "latitude": 28.5355,
+    "longitude": 77.391,
+    "radiusMeters": 200,
+    "address": "Okhla Industrial Area Phase-2, New Delhi 110020",
+    "city": "New Delhi",
+    "state": "Delhi",
+    "assignedDepartments": [
+      "Store",
+      "Technical"
+    ],
+    "alertOnEntry": true,
+    "alertOnExit": true,
+    "enabled": true,
+    "createdAt": "2026-01-01T00:00:00.000Z",
+    "updatedAt": "2026-09-04T11:45:05.324Z",
+    "organizationId": "org_craftmedia"
+  },
+  {
+    "_id": "geo_ahmedabad_plant",
+    "name": "Ahmedabad Manufacturing Plant",
+    "code": "PLANT-AHMD",
+    "category": "OFFICE",
+    "latitude": 23.0225,
+    "longitude": 72.5714,
+    "radiusMeters": 300,
+    "address": "GIDC Industrial Estate, Vatva, Ahmedabad, Gujarat 382445",
+    "city": "Ahmedabad",
+    "state": "Gujarat",
+    "assignedDepartments": [
+      "Store",
+      "Technical",
+      "Management"
+    ],
+    "alertOnEntry": true,
+    "alertOnExit": true,
+    "enabled": true,
+    "createdAt": "2026-01-01T00:00:00.000Z",
+    "updatedAt": "2026-09-04T11:45:05.324Z",
+    "organizationId": "org_craftmedia"
+  },
+  {
+    "_id": "geo_shree_cement_site",
+    "name": "Shree Cement Infrastructure Site",
+    "code": "CLI-SHREE",
+    "category": "CLIENT_SITE",
+    "latitude": 28.548,
+    "longitude": 77.375,
+    "radiusMeters": 350,
+    "address": "Industrial Plot 8, Sector 132, Noida Expressway",
+    "city": "Noida",
+    "state": "Uttar Pradesh",
+    "assignedDepartments": [
+      "Sales",
+      "Technical"
+    ],
+    "alertOnEntry": true,
+    "alertOnExit": true,
+    "enabled": true,
+    "createdAt": "2026-01-10T00:00:00.000Z",
+    "updatedAt": "2026-09-04T11:45:05.324Z",
+    "organizationId": "org_craftmedia"
+  },
+  {
+    "_id": "geo_tata_chem_site",
+    "name": "Tata Chemical & Fertilizers Site",
+    "code": "CLI-TATA",
+    "category": "CLIENT_SITE",
+    "latitude": 28.625,
+    "longitude": 77.22,
+    "radiusMeters": 200,
+    "address": "Barakhamba Rd, Connaught Place, New Delhi",
+    "city": "New Delhi",
+    "state": "Delhi",
+    "assignedDepartments": [
+      "Sales",
+      "Accounts"
+    ],
+    "alertOnEntry": true,
+    "alertOnExit": true,
+    "enabled": true,
+    "createdAt": "2026-01-15T00:00:00.000Z",
+    "updatedAt": "2026-09-04T11:45:05.324Z",
+    "organizationId": "org_craftmedia"
+  },
+  {
+    "name": "Installation Site - Apollo Hospitals",
+    "code": "GEO_TASK_task_test_1788326532384",
+    "category": "TASK",
+    "latitude": 23.05,
+    "longitude": 72.6,
+    "radiusMeters": 200,
+    "address": "Bhat, Gandhinagar",
+    "assignedEmployees": [
+      "usr_admin_main"
+    ],
+    "taskId": "task_test_1788326532384",
+    "employeeId": "usr_admin_main",
+    "validFrom": "2026-09-02T05:22:12.388Z",
+    "validUntil": "2026-09-02T17:22:12.388Z",
+    "isExpired": true,
+    "alertOnEntry": true,
+    "alertOnExit": true,
+    "enabled": false,
+    "createdAt": "2026-09-02T05:22:12.388Z",
+    "updatedAt": "2026-09-04T11:45:05.324Z",
+    "_id": "geo_1788326532388_x108w",
+    "organizationId": "org_craftmedia"
+  },
+  {
+    "name": "Installation Site - Apollo Hospitals",
+    "code": "GEO_TASK_tas_1788326555531_4rrxd",
+    "category": "TASK",
+    "latitude": 23.05,
+    "longitude": 72.6,
+    "radiusMeters": 200,
+    "address": "Bhat, Gandhinagar",
+    "assignedEmployees": [
+      "usr_admin_main"
+    ],
+    "taskId": "tas_1788326555531_4rrxd",
+    "employeeId": "usr_admin_main",
+    "validFrom": "2026-09-02T05:22:35.536Z",
+    "validUntil": "2026-09-02T17:22:35.536Z",
+    "isExpired": true,
+    "alertOnEntry": true,
+    "alertOnExit": true,
+    "enabled": false,
+    "createdAt": "2026-09-02T05:22:35.536Z",
+    "updatedAt": "2026-09-04T11:45:05.324Z",
+    "_id": "geo_1788326555536_mm29x",
+    "organizationId": "org_craftmedia"
+  }
+]

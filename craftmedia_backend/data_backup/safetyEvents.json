@@ -1,0 +1,22 @@
+[
+  {
+    "employeeId": "emp_arjun",
+    "employeeName": "Arjun Singh",
+    "type": "SOS",
+    "latitude": 23.0225,
+    "longitude": 72.5714,
+    "message": "Vehicle breakdown on SG Highway. Need mechanic support.",
+    "status": "ACTIVE",
+    "timestamp": "2026-09-02T05:22:35.646Z",
+    "_id": "saf_1788326555646_yxwg7"
+  },
+  {
+    "employeeId": "emp_arjun",
+    "employeeName": "Arjun Singh",
+    "type": "CHECK_IN",
+    "message": "Assistance arrived. I am safe.",
+    "status": "RESOLVED",
+    "timestamp": "2026-09-02T05:22:35.654Z",
+    "_id": "saf_1788326555654_khq1v"
+  }
+]

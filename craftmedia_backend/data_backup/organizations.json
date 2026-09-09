@@ -1,0 +1,342 @@
+[
+  {
+    "_id": "org_craftmedia",
+    "name": "Craft Media Hub",
+    "slug": "craft-media-hub",
+    "clientCode": "CMH",
+    "status": "ACTIVE",
+    "contactEmail": "admin@craftmediahub.com",
+    "contactPhone": "+91 98123 45678",
+    "branding": {
+      "companyName": "Craft Media Hub",
+      "logoUrl": "",
+      "logoDarkUrl": "",
+      "faviconUrl": "",
+      "primaryColor": "#F59E0B",
+      "secondaryColor": "#111827",
+      "accentColor": "#EA580C",
+      "backgroundColor": "#F8FAFC",
+      "surfaceColor": "#FFFFFF",
+      "sidebarBackground": "#080D1A",
+      "sidebarTextColor": "#94A3B8",
+      "sidebarActiveColor": "#F59E0B",
+      "headerBackground": "#FFFFFF",
+      "headerTextColor": "#0F172A",
+      "successColor": "#10B981",
+      "warningColor": "#F59E0B",
+      "dangerColor": "#EF4444",
+      "loginBackgroundUrl": "",
+      "loginTitle": "Welcome to Craft Media Hub",
+      "loginSubtitle": "Unified business platform for Sales, Inventory, Accounts & Telemetry",
+      "footerText": "Craft Media Hub CRM Enterprise Suite • Secure Multi-Tenant Architecture",
+      "borderRadius": "12px",
+      "themeMode": "LIGHT",
+      "brandingVersion": 7
+    },
+    "features": {
+      "dashboard": true,
+      "crm": {
+        "leads": true,
+        "customers": true,
+        "followUps": true
+      },
+      "sales": {
+        "quotations": true,
+        "salesOrders": true,
+        "reports": true
+      },
+      "inventory": {
+        "products": true,
+        "categories": true,
+        "warehouses": true,
+        "stockInOut": true,
+        "purchases": true,
+        "suppliers": true
+      },
+      "accounts": {
+        "invoices": true,
+        "payments": true,
+        "expenses": true,
+        "creditNotes": true,
+        "reports": true
+      },
+      "hr": {
+        "employees": true,
+        "attendance": true,
+        "liveTracking": true,
+        "workRecording": true,
+        "leave": true,
+        "salary": true,
+        "performance": true
+      },
+      "marketing": {
+        "campaigns": true,
+        "tradeIndia": true,
+        "whatsApp": true,
+        "reports": true
+      },
+      "integrations": true,
+      "reports": true
+    },
+    "subscription": {
+      "plan": "ENTERPRISE_UNLIMITED",
+      "status": "ACTIVE",
+      "maxEmployees": 100,
+      "maxAdmins": 10,
+      "storageLimitGB": 50,
+      "recordingStorageGB": 50,
+      "maxMonthlyLeads": 10000
+    },
+    "settings": {
+      "timezone": "Asia/Kolkata",
+      "currency": "INR",
+      "dateFormat": "DD/MM/YYYY"
+    },
+    "adminCount": 3,
+    "employeeCount": 9,
+    "storageUsedBytes": 10485760,
+    "createdBy": "usr_superadmin",
+    "createdAt": "2026-01-01T00:00:00.000Z",
+    "updatedAt": "2026-09-05T10:13:41.445Z",
+    "brandingVersion": 7
+  },
+  {
+    "_id": "org_deliv_5442",
+    "name": "DeliveryPlus Logistics",
+    "slug": "deliveryplus",
+    "clientCode": "DELIV",
+    "status": "ACTIVE",
+    "contactEmail": "admin@deliveryplus.com",
+    "contactPhone": "",
+    "branding": {
+      "companyName": "DeliveryPlus Global CRM",
+      "primaryColor": "#2563EB",
+      "secondaryColor": "#0F172A",
+      "accentColor": "#06B6D4",
+      "backgroundColor": "#070B14",
+      "surfaceColor": "#0D1527",
+      "sidebarBackground": "#0F172A",
+      "sidebarTextColor": "#94A3B8",
+      "sidebarActiveColor": "#F59E0B",
+      "headerBackground": "#F8FAFC",
+      "headerTextColor": "#0F172A",
+      "themeMode": "LIGHT",
+      "loginTitle": "DeliveryPlus Portal Sign-In",
+      "loginSubtitle": "Unified business platform for Sales, Inventory, Accounts & Telemetry"
+    },
+    "features": {
+      "dashboard": true,
+      "crm": {
+        "leads": true,
+        "customers": true,
+        "followUps": true
+      },
+      "hr": {
+        "employees": true,
+        "attendance": true,
+        "workRecording": false
+      }
+    },
+    "subscription": {
+      "plan": "STANDARD",
+      "status": "ACTIVE",
+      "maxEmployees": 50,
+      "maxAdmins": 5,
+      "storageLimitGB": 20
+    },
+    "settings": {
+      "timezone": "Asia/Kolkata",
+      "currency": "INR"
+    },
+    "adminCount": 1,
+    "employeeCount": 0,
+    "storageUsedBytes": 0,
+    "createdBy": "usr_superadmin",
+    "createdAt": "2026-09-04T12:01:05.442Z",
+    "updatedAt": "2026-09-04T12:07:59.967Z"
+  },
+  {
+    "_id": "org_s_5265",
+    "name": "Shiv Shakti Crm",
+    "slug": "s",
+    "clientCode": "S",
+    "status": "ACTIVE",
+    "contactEmail": "360admin@gmail.com",
+    "contactPhone": "72627837373",
+    "branding": {
+      "companyName": "Shiv Shakti Crm",
+      "primaryColor": "#2563EB",
+      "secondaryColor": "#0F172A",
+      "accentColor": "#06B6D4",
+      "backgroundColor": "#F8FAFC",
+      "surfaceColor": "#FFFFFF",
+      "sidebarBackground": "#0F172A",
+      "sidebarTextColor": "#94A3B8",
+      "sidebarActiveColor": "#38BDF8",
+      "headerBackground": "#FFFFFF",
+      "headerTextColor": "#0F172A",
+      "themeMode": "LIGHT",
+      "loginTitle": "Sign In to Workspace",
+      "loginSubtitle": "Unified Multi-Tenant CRM & Telemetry Suite",
+      "logoUrl": "https://shivashakti.com/wp-content/uploads/2021/07/smnew.gif",
+      "logoDarkUrl": "",
+      "faviconUrl": "https://shivashakti.com/wp-content/uploads/2021/07/smnew.gif",
+      "footerText": "Secure Enterprise Cloud Infrastructure",
+      "borderRadius": "10px"
+    },
+    "features": {
+      "dashboard": true,
+      "crm": {
+        "leads": true,
+        "customers": true,
+        "followUps": true
+      },
+      "sales": {
+        "quotations": true,
+        "salesOrders": true,
+        "reports": true
+      },
+      "inventory": {
+        "products": true,
+        "categories": true,
+        "warehouses": true,
+        "stockInOut": true,
+        "purchases": true,
+        "suppliers": true
+      },
+      "accounts": {
+        "invoices": true,
+        "payments": true,
+        "expenses": true,
+        "creditNotes": true,
+        "reports": true
+      },
+      "hr": {
+        "employees": true,
+        "attendance": true,
+        "liveTracking": true,
+        "workRecording": true,
+        "leave": true,
+        "salary": true,
+        "performance": true
+      },
+      "marketing": {
+        "campaigns": true,
+        "tradeIndia": true,
+        "whatsApp": true,
+        "reports": true
+      },
+      "integrations": true,
+      "reports": true
+    },
+    "subscription": {
+      "plan": "STANDARD",
+      "status": "ACTIVE",
+      "maxEmployees": 50,
+      "maxAdmins": 5,
+      "storageLimitGB": 20
+    },
+    "settings": {
+      "timezone": "Asia/Kolkata",
+      "currency": "INR"
+    },
+    "adminCount": 1,
+    "employeeCount": 0,
+    "storageUsedBytes": 0,
+    "createdBy": "usr_superadmin",
+    "createdAt": "2026-09-04T12:13:15.265Z",
+    "updatedAt": "2026-09-04T12:13:15.265Z"
+  },
+  {
+    "_id": "org_#_5681",
+    "name": "360Crm",
+    "slug": "3",
+    "clientCode": "#",
+    "status": "ACTIVE",
+    "contactEmail": "shivamshishodia2000@gmail.com",
+    "contactPhone": "2345677654321",
+    "branding": {
+      "companyName": "360Crm",
+      "primaryColor": "#2563EB",
+      "secondaryColor": "#0F172A",
+      "accentColor": "#09849a",
+      "backgroundColor": "#F8FAFC",
+      "surfaceColor": "#FFFFFF",
+      "sidebarBackground": "#0F172A",
+      "sidebarTextColor": "#94A3B8",
+      "sidebarActiveColor": "#19779f",
+      "headerBackground": "#FFFFFF",
+      "headerTextColor": "#0F172A",
+      "themeMode": "LIGHT",
+      "loginTitle": "Sign In to Workspace",
+      "loginSubtitle": "Unified Multi-Tenant CRM & Telemetry Suite",
+      "logoUrl": "http://127.0.0.1:5055/uploads/organizations/common/file_1788592995826.png",
+      "logoDarkUrl": "",
+      "faviconUrl": "http://127.0.0.1:5055/uploads/organizations/common/file_1788593002839.png",
+      "footerText": "Secure Enterprise Cloud Infrastructure",
+      "borderRadius": "10px"
+    },
+    "features": {
+      "dashboard": true,
+      "crm": {
+        "leads": true,
+        "customers": true,
+        "followUps": true
+      },
+      "sales": {
+        "quotations": true,
+        "salesOrders": true,
+        "reports": true
+      },
+      "inventory": {
+        "products": true,
+        "categories": true,
+        "warehouses": true,
+        "stockInOut": true,
+        "purchases": true,
+        "suppliers": true
+      },
+      "accounts": {
+        "invoices": true,
+        "payments": true,
+        "expenses": true,
+        "creditNotes": true,
+        "reports": true
+      },
+      "hr": {
+        "employees": true,
+        "attendance": true,
+        "liveTracking": true,
+        "workRecording": true,
+        "leave": true,
+        "salary": true,
+        "performance": true
+      },
+      "marketing": {
+        "campaigns": true,
+        "tradeIndia": true,
+        "whatsApp": true,
+        "reports": true
+      },
+      "integrations": true,
+      "reports": true
+    },
+    "subscription": {
+      "plan": "STANDARD",
+      "status": "ACTIVE",
+      "maxEmployees": 50,
+      "maxAdmins": 5,
+      "storageLimitGB": 20
+    },
+    "settings": {
+      "timezone": "Asia/Kolkata",
+      "currency": "INR"
+    },
+    "adminCount": 1,
+    "employeeCount": 0,
+    "storageUsedBytes": 0,
+    "createdBy": "usr_superadmin",
+    "createdAt": "2026-09-05T07:24:35.681Z",
+    "updatedAt": "2026-09-05T07:24:35.681Z"
+  }
+]

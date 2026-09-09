@@ -86,5 +86,29 @@
     "updatedAt": "2026-09-04T11:45:05.310Z",
     "_id": "cus_1788005149077_ztnhb",
     "organizationId": "org_craftmedia"
+  },
+  {
+    "_id": "cust_dp_test_01",
+    "organizationId": "org_deliveryplus",
+    "name": "Sydney Logistics Partner",
+    "company": "Sydney Freight Pty Ltd",
+    "email": "ops@sydneyfreight.com.au",
+    "phone": "+61 2 9000 1111",
+    "totalSpent": 45000,
+    "status": "ACTIVE",
+    "createdAt": "2026-09-09T07:04:56.924Z",
+    "updatedAt": "2026-09-09T07:04:56.924Z"
+  },
+  {
+    "_id": "cust_ss_test_01",
+    "organizationId": "org_shivshakti",
+    "name": "Delhi Retail Store",
+    "company": "Shiv Shakti Retail",
+    "email": "owner@shivshaktistore.in",
+    "phone": "+91 98111 22334",
+    "totalSpent": 120000,
+    "status": "ACTIVE",
+    "createdAt": "2026-09-09T07:04:56.924Z",
+    "updatedAt": "2026-09-09T07:04:56.924Z"
   }
 ]

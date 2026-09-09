@@ -74,6 +74,10 @@ export async function getDashboardStats(req: AuthenticatedRequest, res: Response
       { id: 'employees', name: 'Employee Management', subtitle: 'Employees → Attendance → Salary → Performance', status: 'Ready' }
     ];
 
+    const dbMode = (process.env.MONGODB_URI && process.env.USE_MONGODB === 'true') 
+      ? 'MongoDB Atlas (Multi-Tenant Cluster)' 
+      : 'Hybrid JSON-Engine + Persistent Store';
+
     return res.json({
       success: true,
       data: {
@@ -91,7 +95,7 @@ export async function getDashboardStats(req: AuthenticatedRequest, res: Response
         },
         erpModules,
         flowStats,
-        connectedDatabase: 'MongoDB (Memory + Persistence Store)'
+        connectedDatabase: dbMode
       }
     });
   } catch (err: any) {
@@ -108,14 +112,28 @@ export async function getSuperAdminStats(req: AuthenticatedRequest, res: Respons
     const activeAdmins = db.users.countDocuments(u => (u.role === 'ADMIN' || u.role === 'SUPER_ADMIN') && u.status === 'ACTIVE');
     const inactiveAdmins = totalAdmins - activeAdmins;
 
+    const totalOrgs = db.organizations.countDocuments();
+    const activeOrgs = db.organizations.countDocuments(o => o.status === 'ACTIVE');
+    const suspendedOrgs = db.organizations.countDocuments(o => o.status === 'SUSPENDED');
+
     const totalRoles = db.roles.countDocuments();
     const totalPermissions = db.permissions.countDocuments();
     const totalAuditLogs = db.auditLogs.countDocuments();
     const totalIntegrations = db.integrations.countDocuments();
 
+    const mem = process.memoryUsage();
+    const uptimeSec = Math.floor(process.uptime());
+    const hours = Math.floor(uptimeSec / 3600);
+    const minutes = Math.floor((uptimeSec % 3600) / 60);
+    const seconds = uptimeSec % 60;
+    const uptimeFormatted = `${hours}h ${minutes}m ${seconds}s`;
+
     return res.json({
       success: true,
       data: {
+        totalOrganizations: totalOrgs,
+        activeOrganizations: activeOrgs,
+        suspendedOrganizations: suspendedOrgs,
         totalAdmins,
         activeAdmins,
         inactiveAdmins,
@@ -126,7 +144,15 @@ export async function getSuperAdminStats(req: AuthenticatedRequest, res: Respons
         totalAuditLogs,
         totalIntegrations,
         systemHealth: 'OPERATIONAL',
-        uptime: '99.99%',
+        uptime: uptimeFormatted,
+        uptimeSeconds: uptimeSec,
+        memoryUsage: {
+          heapUsedMB: Math.round(mem.heapUsed / 1024 / 1024),
+          heapTotalMB: Math.round(mem.heapTotal / 1024 / 1024),
+          rssMB: Math.round(mem.rss / 1024 / 1024)
+        },
+        nodeVersion: process.version,
+        platform: process.platform,
         serverTime: new Date().toISOString()
       }
     });
@@ -428,7 +454,7 @@ export async function syncIntegrationNow(req: AuthenticatedRequest, res: Respons
 export async function getAuditLogs(req: AuthenticatedRequest, res: Response) {
   try {
     const { action, module: mod, userId, search } = req.query;
-    let logs = db.auditLogs.getAll();
+    let logs = filterByWorkspace(db.auditLogs.getAll(), req);
 
     if (action) logs = logs.filter(l => l.action === action);
     if (mod) logs = logs.filter(l => l.module === mod);

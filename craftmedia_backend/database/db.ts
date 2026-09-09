@@ -357,11 +357,63 @@ export class Database {
     return policy;
   }
 
-  public getAttendanceSecurityConfig(): AttendanceSettingsDoc {
+  public getAttendanceSecurityConfig(orgId?: string): AttendanceSettingsDoc {
+    if (orgId) {
+      const tenantSetting = this.attendanceSettings?.findOne(s => 
+        s.organizationId === orgId || 
+        s._id === `attendance_config_${orgId}` ||
+        s._id === `attendance_security_${orgId}`
+      );
+      if (tenantSetting) {
+        return tenantSetting;
+      }
+
+      const org = this.organizations?.findById(orgId);
+      if (org && org.settings) {
+        const orgLocations = (org.settings as any).officeLocations || [];
+        const orgPolicy = (org.settings as any).attendancePolicy || {};
+        if (orgLocations.length > 0 || Object.keys(orgPolicy).length > 0) {
+          return {
+            _id: `attendance_config_${orgId}`,
+            organizationId: orgId,
+            requireSelfie: orgPolicy.requireSelfie ?? true,
+            requireLocation: orgPolicy.requireLocation ?? true,
+            requireSelfieClockIn: orgPolicy.requireSelfieClockIn ?? true,
+            requireLocationClockIn: orgPolicy.requireLocationClockIn ?? true,
+            requireSelfieClockOut: orgPolicy.requireSelfieClockOut ?? false,
+            requireLocationClockOut: orgPolicy.requireLocationClockOut ?? false,
+            desktopTrackingEnabled: orgPolicy.desktopTrackingEnabled ?? true,
+            trackActiveApplications: orgPolicy.trackActiveApplications ?? true,
+            trackIdleTime: orgPolicy.trackIdleTime ?? true,
+            idleThresholdMinutes: orgPolicy.idleThresholdMinutes ?? 5,
+            activityDetectionIntervalSeconds: orgPolicy.activityDetectionIntervalSeconds ?? 5,
+            activitySyncIntervalSeconds: orgPolicy.activitySyncIntervalSeconds ?? 30,
+            allowOfflineTracking: orgPolicy.allowOfflineTracking ?? true,
+            maxGpsAccuracyMeters: orgPolicy.maxGpsAccuracyMeters ?? 250,
+            allowedLocations: orgLocations.length > 0 ? orgLocations : [
+              {
+                id: `loc_${org.slug}_main`,
+                name: `${org.name} Office`,
+                lat: 28.6139,
+                lng: 77.2090,
+                radiusMeters: 500,
+                maxAccuracyMeters: 100,
+                address: org.name,
+                enabled: true
+              }
+            ],
+            createdAt: org.createdAt || new Date().toISOString(),
+            updatedAt: new Date().toISOString()
+          };
+        }
+      }
+    }
+
     let settings = this.attendanceSettings?.findById('attendance_security_config');
     if (!settings) {
       settings = this.attendanceSettings?.findOne(() => true) || {
         _id: 'attendance_security_config',
+        organizationId: 'org_craftmedia',
         requireSelfie: true,
         requireLocation: true,
         requireSelfieClockIn: true,
@@ -418,6 +470,7 @@ export class Database {
             enabled: true
           }
         ],
+        createdAt: new Date().toISOString(),
         updatedAt: new Date().toISOString()
       };
     }

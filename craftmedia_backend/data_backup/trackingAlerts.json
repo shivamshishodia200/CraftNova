@@ -1,0 +1,14 @@
+[
+  {
+    "_id": "tr_alt_1",
+    "employeeId": "emp_3",
+    "employeeName": "Suresh Patel",
+    "type": "OUTSIDE_GEOFENCE",
+    "severity": "LOW",
+    "message": "Suresh Patel is currently at external location (Connaught Place). Stop duration: 35 min.",
+    "timestamp": "2026-08-29T11:04:00.451Z",
+    "acknowledged": false,
+    "organizationId": "org_craftmedia",
+    "updatedAt": "2026-09-04T11:45:05.325Z"
+  }
+]
