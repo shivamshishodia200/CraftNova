@@ -11,8 +11,8 @@
     "status": "ACTIVE",
     "avatar": "PA",
     "createdAt": "2026-01-01T00:00:00.000Z",
-    "updatedAt": "2026-09-05T10:14:13.492Z",
-    "lastLogin": "2026-09-05T10:14:13.492Z",
+    "updatedAt": "2026-09-09T10:05:46.936Z",
+    "lastLogin": "2026-09-09T10:05:46.933Z",
     "organizationId": null
   },
   {
@@ -127,7 +127,7 @@
   {
     "name": "Shivam",
     "email": "admincraft@gmail.com",
-    "passwordHash": "$2a$10$uflk5qnbYDQcMP9RgTmkLuOrGquOQ3Soio2gB2jPi4lgiN5VA1qS2",
+    "passwordHash": "$2a$10$tvBpkKILO4krSwhiHXd.fOgwyDyiMojpXhAKKCnY//Pr7Y7LoJWpW",
     "phone": "9717208313",
     "role": "ADMIN",
     "roleId": "role_admin",
@@ -230,9 +230,13 @@
     "showOnLogin": true,
     "createdAt": "2026-09-02T06:54:18.896Z",
     "_id": "use_1788332058896_x67o1",
-    "updatedAt": "2026-09-04T11:45:05.301Z",
+    "updatedAt": "2026-09-09T10:07:02.033Z",
     "lastLogin": "2026-09-02T06:56:37.990Z",
-    "organizationId": "org_craftmedia"
+    "organizationId": "org_craftmedia",
+    "mustChangePassword": true,
+    "tokenInvalidBefore": "2026-09-09T10:07:02.033Z",
+    "failedLoginCount": 0,
+    "lastPasswordResetAt": "2026-09-09T10:07:02.033Z"
   },
   {
     "name": "Ramesh Corporate Admin",

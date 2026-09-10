@@ -11,7 +11,9 @@ import {
   ShieldCheck,
   AlertTriangle,
   BadgeCheck,
-  Laptop
+  Laptop,
+  Eye,
+  EyeOff
 } from 'lucide-react';
 import { navigateTo } from '../../utils/routeUtils';
 import { deriveThemeTokens } from '../../utils/colorUtils';
@@ -30,11 +32,12 @@ export const EmployeeLogin: React.FC<EmployeeLoginProps> = ({
   const { login } = useAuth();
   const [identifier, setIdentifier] = useState('');
   const [password, setPassword] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
 
   const tokens = deriveThemeTokens(branding);
-  const companyDisplayName = branding.companyName || organizationName || 'Company';
+  const companyDisplayName = branding?.companyName || organizationName || 'Company';
 
   // Format today's date
   const todayFormatted = new Intl.DateTimeFormat('en-US', {
@@ -104,8 +107,10 @@ export const EmployeeLogin: React.FC<EmployeeLoginProps> = ({
           <div className="text-center space-y-3 pt-2">
             <div className="flex justify-center">
               <DynamicBrandLogo
-                logoUrl={branding.logoUrl}
+                logoUrl={branding?.logoUrl}
                 companyName={companyDisplayName}
+                primaryColor={tokens.brandPrimary}
+                accentColor={tokens.brandAccent}
                 size={48}
                 showText={true}
                 textSize="lg"
@@ -170,17 +175,25 @@ export const EmployeeLogin: React.FC<EmployeeLoginProps> = ({
                 </span>
               </div>
               <div className="relative">
-                <Lock className="w-4 h-4 text-slate-500 absolute left-3.5 top-1/2 -translate-y-1/2" />
+                <Lock className="w-4 h-4 text-slate-500 absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none" />
                 <input
-                  type="password"
+                  type={showPassword ? 'text' : 'password'}
                   required
                   value={password}
                   onChange={e => setPassword(e.target.value)}
                   placeholder="••••••••••••"
-                  className="w-full pl-10 pr-3.5 py-2.5 bg-slate-800/80 text-white placeholder-slate-500 text-xs rounded-xl border border-slate-700 focus:outline-none transition-all"
+                  className="w-full pl-10 pr-10 py-2.5 bg-slate-800/80 text-white placeholder-slate-500 text-xs rounded-xl border border-slate-700 focus:outline-none transition-all"
                   onFocus={e => (e.target.style.borderColor = tokens.brandPrimary)}
                   onBlur={e => (e.target.style.borderColor = '')}
                 />
+                <button
+                  type="button"
+                  onClick={() => setShowPassword(!showPassword)}
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-200 transition-colors cursor-pointer p-1"
+                  tabIndex={-1}
+                >
+                  {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+                </button>
               </div>
             </div>
 

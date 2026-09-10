@@ -9,9 +9,9 @@
     "contactPhone": "+91 98123 45678",
     "branding": {
       "companyName": "Craft Media Hub",
-      "logoUrl": "",
-      "logoDarkUrl": "",
-      "faviconUrl": "",
+      "logoUrl": "/logo.svg",
+      "logoDarkUrl": "/logo.svg",
+      "faviconUrl": "/logo.svg",
       "primaryColor": "#F59E0B",
       "secondaryColor": "#111827",
       "accentColor": "#EA580C",
@@ -97,7 +97,7 @@
     "storageUsedBytes": 10485760,
     "createdBy": "usr_superadmin",
     "createdAt": "2026-01-01T00:00:00.000Z",
-    "updatedAt": "2026-09-09T08:19:01.778Z",
+    "updatedAt": "2026-09-10T09:39:26.915Z",
     "brandingVersion": 7
   },
   {

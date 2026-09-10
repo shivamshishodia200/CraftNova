@@ -24,23 +24,23 @@
       "syncRespondedLeads": true,
       "defaultPriority": "MEDIUM"
     },
-    "lastSyncedAt": "2026-09-05T17:58:53.357Z",
-    "lastSuccessfulSyncAt": "2026-09-05T17:58:53.357Z",
+    "lastSyncedAt": "2026-09-10T09:45:28.883Z",
+    "lastSuccessfulSyncAt": "2026-09-10T09:45:28.883Z",
     "lastSyncStatus": "SUCCESS",
     "lastTestStatus": "FAILED",
-    "lastTestResponse": "Sync error: fetch failed",
-    "totalSyncedEvents": 4034,
-    "totalFetched": 4034,
-    "totalCreated": 192,
-    "totalUpdated": 3842,
+    "lastTestResponse": "Sync error: The operation was aborted due to timeout",
+    "totalSyncedEvents": 4078,
+    "totalFetched": 4078,
+    "totalCreated": 203,
+    "totalUpdated": 3875,
     "totalFailed": 0,
     "createdAt": "2026-01-01T00:00:00.000Z",
-    "updatedAt": "2026-09-05T17:58:53.357Z",
-    "nextSyncAt": "2026-09-05T18:03:53.357Z",
+    "updatedAt": "2026-09-10T09:45:28.884Z",
+    "nextSyncAt": "2026-09-10T09:50:28.883Z",
     "lastSyncResult": {
-      "fetched": 4,
+      "fetched": 0,
       "created": 0,
-      "updated": 4,
+      "updated": 0,
       "skipped": 0,
       "failed": 0
     }
@@ -67,7 +67,7 @@
       "defaultPriority": "MEDIUM",
       "initialSyncDaysBack": 7
     },
-    "lastSyncedAt": "2026-09-05T17:58:51.819Z",
+    "lastSyncedAt": "2026-09-10T09:45:27.296Z",
     "lastSuccessfulSyncAt": "2026-02-16T17:45:00.000Z",
     "lastSyncStatus": "FAILED",
     "lastTestStatus": "FAILED",
@@ -78,7 +78,7 @@
     "totalUpdated": 6,
     "totalFailed": 0,
     "createdAt": "2026-01-01T00:00:00.000Z",
-    "updatedAt": "2026-09-05T17:58:51.819Z",
+    "updatedAt": "2026-09-10T09:45:27.296Z",
     "lastSyncError": "CRM key that you are using is incorrect. Kindly use the correct CRM key visible on the IM Leads API screen."
   },
   {

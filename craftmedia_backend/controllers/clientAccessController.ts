@@ -22,6 +22,12 @@ function generateSecureTempPassword(): string {
   return `Temp@${pass}${num}${spec}`;
 }
 
+function isAdminRole(role?: string | null): boolean {
+  if (!role || typeof role !== 'string') return false;
+  const adminRoles = ['ADMIN', 'SUPER_ADMIN', 'HR_ADMIN', 'SALES_MANAGER', 'INVENTORY_MANAGER', 'ACCOUNTANT'];
+  return adminRoles.includes(role) || role.includes('ADMIN') || role.includes('MANAGER');
+}
+
 // =========================================================================
 // 1. GET ALL USERS FOR AN ORGANIZATION
 // =========================================================================
@@ -46,9 +52,9 @@ export async function getOrganizationUsers(req: AuthenticatedRequest, res: Respo
     if (search) {
       const q = String(search).toLowerCase();
       users = users.filter(u =>
-        u.name.toLowerCase().includes(q) ||
-        u.email.toLowerCase().includes(q) ||
-        (u.phone && u.phone.includes(q))
+        (u.name && String(u.name).toLowerCase().includes(q)) ||
+        (u.email && String(u.email).toLowerCase().includes(q)) ||
+        (u.phone && String(u.phone).includes(q))
       );
     }
 
@@ -64,8 +70,8 @@ export async function getOrganizationUsers(req: AuthenticatedRequest, res: Respo
 
       return {
         ...sanitized,
-        isPrimaryAdmin: u.email.toLowerCase() === primaryAdminEmail?.toLowerCase() || (u as any).isPrimaryAdmin === true,
-        roleName: roleDoc?.name || u.role,
+        isPrimaryAdmin: (u.email && primaryAdminEmail && u.email.toLowerCase() === primaryAdminEmail.toLowerCase()) || (u as any).isPrimaryAdmin === true,
+        roleName: roleDoc?.name || u.role || 'User',
         effectivePermissions,
         effectivePermissionCount: effectivePermissions.length
       };
@@ -96,9 +102,7 @@ export async function getOrganizationAdmins(req: AuthenticatedRequest, res: Resp
       return res.status(404).json({ success: false, message: 'Client organization not found' });
     }
 
-    const adminRoles = ['ADMIN', 'SUPER_ADMIN', 'HR_ADMIN', 'SALES_MANAGER', 'INVENTORY_MANAGER', 'ACCOUNTANT'];
-    const users = db.users.find(u => u.organizationId === orgId && (adminRoles.includes(u.role) || u.role.includes('ADMIN') || u.role.includes('MANAGER')));
-
+    const users = db.users.find(u => u.organizationId === orgId && isAdminRole(u.role));
     const primaryAdminEmail = (org.settings as any)?.primaryAdminEmail || org.contactEmail;
 
     const sanitized = users.map(u => {
@@ -110,8 +114,8 @@ export async function getOrganizationAdmins(req: AuthenticatedRequest, res: Resp
 
       return {
         ...rest,
-        isPrimaryAdmin: u.email.toLowerCase() === primaryAdminEmail?.toLowerCase() || (u as any).isPrimaryAdmin === true,
-        roleName: roleDoc?.name || u.role,
+        isPrimaryAdmin: (u.email && primaryAdminEmail && u.email.toLowerCase() === primaryAdminEmail.toLowerCase()) || (u as any).isPrimaryAdmin === true,
+        roleName: roleDoc?.name || u.role || 'Admin',
         effectivePermissions
       };
     });
@@ -156,10 +160,10 @@ export async function getOrganizationEmployees(req: AuthenticatedRequest, res: R
     if (search) {
       const q = String(search).toLowerCase();
       employees = employees.filter(e =>
-        e.name.toLowerCase().includes(q) ||
-        e.email.toLowerCase().includes(q) ||
-        e.employeeId.toLowerCase().includes(q) ||
-        (e.phone && e.phone.includes(q))
+        (e.name && String(e.name).toLowerCase().includes(q)) ||
+        (e.email && String(e.email).toLowerCase().includes(q)) ||
+        (e.employeeId && String(e.employeeId).toLowerCase().includes(q)) ||
+        (e.phone && String(e.phone).includes(q))
       );
     }
 
@@ -167,7 +171,9 @@ export async function getOrganizationEmployees(req: AuthenticatedRequest, res: R
     const today = new Date().toISOString().split('T')[0];
 
     const enriched = employees.map(emp => {
-      const linkedUser = emp.userId ? db.users.findById(emp.userId) : db.users.findOne(u => u.email.toLowerCase() === emp.email.toLowerCase());
+      const linkedUser = emp.userId
+        ? db.users.findById(emp.userId)
+        : db.users.findOne(u => Boolean(u.email && emp.email && u.email.toLowerCase() === emp.email.toLowerCase()));
       const todayAttendance = db.attendance.findOne(a => a.employeeId === emp._id && a.date === today);
 
       return {
@@ -227,13 +233,13 @@ export async function createOrganizationAdmin(req: AuthenticatedRequest, res: Re
       return res.status(404).json({ success: false, message: 'Client organization not found' });
     }
 
-    const existingUser = db.users.findOne(u => u.email.toLowerCase() === email.toLowerCase());
+    const existingUser = db.users.findOne(u => Boolean(u.email && u.email.toLowerCase() === email.toLowerCase()));
     if (existingUser) {
       return res.status(400).json({ success: false, message: `User with email "${email}" already exists` });
     }
 
-    const existingAdmins = db.users.find(u => u.organizationId === orgId && (u.role === 'ADMIN' || u.role.includes('ADMIN')));
-    const assignedPrimary = isPrimaryAdmin !== undefined ? isPrimaryAdmin : (existingAdmins.length === 0);
+    const existingAdmins = db.users.find(u => u.organizationId === orgId && isAdminRole(u.role));
+    const assignedPrimary = isPrimaryAdmin !== undefined ? Boolean(isPrimaryAdmin) : (existingAdmins.length === 0);
 
     // Generate or use provided temporary password
     const rawTempPassword = temporaryPassword && temporaryPassword.trim().length >= 6
@@ -249,8 +255,8 @@ export async function createOrganizationAdmin(req: AuthenticatedRequest, res: Re
 
     const newUser = {
       _id: userId,
-      name,
-      email: email.toLowerCase(),
+      name: name.trim(),
+      email: email.toLowerCase().trim(),
       phone: phone || '',
       passwordHash,
       role,
@@ -272,12 +278,12 @@ export async function createOrganizationAdmin(req: AuthenticatedRequest, res: Re
     db.users.insertOne(newUser as any);
 
     // Update organization admin count and optionally set as primary admin
-    const currentAdminCount = db.users.find(u => u.organizationId === orgId && (u.role === 'ADMIN' || u.role.includes('ADMIN'))).length;
+    const currentAdminCount = db.users.find(u => u.organizationId === orgId && isAdminRole(u.role)).length;
     const orgUpdates: any = { adminCount: currentAdminCount, updatedAt: new Date().toISOString() };
 
     if (assignedPrimary) {
-      orgUpdates.contactEmail = email.toLowerCase();
-      orgUpdates.settings = { ...(org.settings || {}), primaryAdminEmail: email.toLowerCase(), primaryAdminName: name };
+      orgUpdates.contactEmail = email.toLowerCase().trim();
+      orgUpdates.settings = { ...(org.settings || {}), primaryAdminEmail: email.toLowerCase().trim(), primaryAdminName: name };
     }
     db.organizations.updateById(orgId, orgUpdates);
 

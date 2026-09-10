@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { useOrganization } from '../../context/OrganizationContext';
 
 interface DynamicBrandLogoProps {
@@ -10,6 +10,8 @@ interface DynamicBrandLogoProps {
   forceLight?: boolean;
   logoUrl?: string;
   companyName?: string;
+  primaryColor?: string;
+  accentColor?: string;
 }
 
 export const DynamicBrandLogo: React.FC<DynamicBrandLogoProps> = ({
@@ -20,16 +22,43 @@ export const DynamicBrandLogo: React.FC<DynamicBrandLogoProps> = ({
   className = '',
   forceLight = false,
   logoUrl: propLogoUrl,
-  companyName: propCompanyName
+  companyName: propCompanyName,
+  primaryColor: propPrimaryColor,
+  accentColor: propAccentColor
 }) => {
   const { branding } = useOrganization();
-  const companyName = propCompanyName || branding?.companyName || '360CRM Enterprise';
-  const logoUrl = propLogoUrl !== undefined ? propLogoUrl : branding?.logoUrl;
+  const companyName = propCompanyName || branding?.companyName || 'Craft Media Hub';
+  
+  // Resolve logo URL
+  let resolvedLogoUrl = propLogoUrl !== undefined ? propLogoUrl : (branding?.logoUrl || '');
+  
+  // If company is Craft Media Hub and no logo set, use the official logo.svg
+  if (!resolvedLogoUrl && (companyName.toLowerCase().includes('craft media') || companyName.toLowerCase().includes('craftmedia'))) {
+    resolvedLogoUrl = '/logo.svg';
+  }
 
+  // Normalize local backend port URLs to relative path for seamless Vite proxying
+  if (resolvedLogoUrl && (resolvedLogoUrl.includes('127.0.0.1:5055/uploads') || resolvedLogoUrl.includes('localhost:5055/uploads'))) {
+    try {
+      const parsed = new URL(resolvedLogoUrl);
+      resolvedLogoUrl = parsed.pathname;
+    } catch {
+      // keep as-is if parsing fails
+    }
+  }
+
+  const [imgError, setImgError] = useState(false);
+
+  useEffect(() => {
+    setImgError(false);
+  }, [resolvedLogoUrl]);
+
+  const brandPrimary = propPrimaryColor || branding?.primaryColor || '#F59E0B';
+  const brandAccent = propAccentColor || branding?.accentColor || '#EA580C';
 
   const words = companyName.trim().split(' ');
-  const firstWord = words[0] || '360';
-  const restOfWords = words.slice(1).join(' ') || 'CRM';
+  const firstWord = words[0] || 'Craft';
+  const restOfWords = words.slice(1).join(' ') || 'Media';
 
   const getTextClass = () => {
     switch (textSize) {
@@ -40,19 +69,18 @@ export const DynamicBrandLogo: React.FC<DynamicBrandLogoProps> = ({
     }
   };
 
+  const hasImageLogo = Boolean(resolvedLogoUrl) && !imgError;
+
   return (
-    <div className={`flex items-center gap-2.5 select-none ${className}`}>
+    <div className={`flex items-center gap-3 select-none ${className}`}>
       {/* 1. Logo Icon / Image */}
-      {logoUrl ? (
+      {hasImageLogo ? (
         <img
-          src={logoUrl}
+          src={resolvedLogoUrl}
           alt={companyName}
-          className="object-contain rounded-lg"
+          className="object-contain rounded-lg shrink-0"
           style={{ height: size, width: 'auto', maxHeight: size }}
-          onError={(e) => {
-            // Fallback to SVG on image load error
-            (e.target as HTMLElement).style.display = 'none';
-          }}
+          onError={() => setImgError(true)}
         />
       ) : (
         <div
@@ -60,7 +88,7 @@ export const DynamicBrandLogo: React.FC<DynamicBrandLogoProps> = ({
           style={{
             width: size,
             height: size,
-            background: 'linear-gradient(135deg, var(--brand-primary, #F59E0B) 0%, var(--brand-accent, #EA580C) 100%)'
+            background: `linear-gradient(135deg, ${brandPrimary} 0%, ${brandAccent} 100%)`
           }}
         >
           <svg
@@ -89,7 +117,7 @@ export const DynamicBrandLogo: React.FC<DynamicBrandLogoProps> = ({
             {restOfWords && (
               <span
                 className={`font-black tracking-tight uppercase truncate ${getTextClass()}`}
-                style={{ color: 'var(--brand-primary, #F59E0B)' }}
+                style={{ color: brandPrimary }}
               >
                 {restOfWords}
               </span>

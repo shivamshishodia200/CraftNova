@@ -2,7 +2,7 @@ services:
   - type: web
     name: 360crm-api
     runtime: node
-    rootDir: 360_backend
+    rootDir: craftmedia_backend
     buildCommand: npm ci && npm run build
     startCommand: npm start
     healthCheckPath: /api/health

@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useAuth } from '../../context/AuthContext';
 import { OrganizationBranding, useOrganization } from '../../context/OrganizationContext';
 import { DynamicBrandLogo } from '../common/DynamicBrandLogo';
-import { Lock, Mail, ArrowRight, ShieldCheck, Building2, AlertTriangle, Shield, Sparkles } from 'lucide-react';
+import { Lock, Mail, ArrowRight, ShieldCheck, Building2, AlertTriangle, Eye, EyeOff } from 'lucide-react';
 import { navigateTo } from '../../utils/routeUtils';
 import { deriveThemeTokens } from '../../utils/colorUtils';
 
@@ -17,66 +17,66 @@ export const AdminLogin: React.FC<AdminLoginProps> = ({
   organizationName,
   branding
 }) => {
-  const { login, user } = useAuth();
+  const { login } = useAuth();
   const { setPreviewOrg } = useOrganization();
-  const [email, setEmail] = useState(() => {
-    if (organizationSlug === '3' || organizationSlug === '360crm') {
-      return '360crm@admin.com';
-    }
-    if (organizationSlug === 's') {
-      return '360admin@gmail.com';
-    }
-    if (organizationSlug === 'deliveryplus') {
-      return 'admin@deliveryplus.com';
-    }
-    return `admin@${organizationSlug}.com`;
-  });
-  const [password, setPassword] = useState('admin123');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
   const [rememberMe, setRememberMe] = useState(true);
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
 
   const tokens = deriveThemeTokens(branding);
-  const companyDisplayName = branding.companyName || organizationName || 'Company';
+  const companyDisplayName = branding?.companyName || organizationName || 'Organization';
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (!email.trim() || !password) {
+      setError('Please enter both administrator email and password.');
+      return;
+    }
+
     setError('');
     setLoading(true);
 
-    const res = await login({
-      email,
-      password,
-      expectedPortal: 'ADMIN',
-      organizationSlug
-    });
+    try {
+      const res = await login({
+        email: email.trim(),
+        password,
+        expectedPortal: 'ADMIN',
+        organizationSlug
+      });
 
-    if (!res.success) {
-      setError(res.message || 'Login failed. Please check your administrator credentials.');
+      if (!res.success) {
+        setError(res.message || 'Login failed. Please check your administrator credentials.');
+        setLoading(false);
+      } else {
+        // Clear previewOrg so real organization branding from login session takes precedence
+        setPreviewOrg(null);
+        navigateTo('/');
+      }
+    } catch (err: any) {
+      setError(err.message || 'An unexpected error occurred during sign in.');
       setLoading(false);
-    } else {
-      // Clear previewOrg so real organization branding from login takes precedence
-      setPreviewOrg(null);
-      navigateTo('/');
     }
   };
 
-  const panelBg = branding.sidebarBackground || '#080D1A';
+  const panelBg = branding?.sidebarBackground || '#080D1A';
 
   return (
     <div className="min-h-screen bg-slate-950 flex items-center justify-center p-4 sm:p-6 lg:p-8 font-sans select-none">
-      <div className="w-full max-w-5xl bg-slate-900/90 border border-slate-800/90 rounded-3xl shadow-2xl overflow-hidden grid grid-cols-1 lg:grid-cols-12 min-h-[580px]">
-        {/* LEFT: Client Organization Branding Panel */}
+      <div className="w-full max-w-5xl bg-slate-900/90 border border-slate-800/90 rounded-3xl shadow-2xl overflow-hidden grid grid-cols-1 lg:grid-cols-12 min-h-[560px]">
+        {/* LEFT: Client Organization Branding Panel (Configured by Super Admin) */}
         <div
           className="lg:col-span-5 p-8 sm:p-10 flex flex-col justify-between relative overflow-hidden text-white"
           style={{
             backgroundColor: panelBg,
-            backgroundImage: branding.loginBackgroundUrl ? `url(${branding.loginBackgroundUrl})` : undefined,
+            backgroundImage: branding?.loginBackgroundUrl ? `url(${branding.loginBackgroundUrl})` : undefined,
             backgroundSize: 'cover',
             backgroundPosition: 'center'
           }}
         >
-          {/* Subtle Ambient Radial Glow */}
+          {/* Ambient Brand Glow */}
           <div
             className="absolute top-10 right-10 w-72 h-72 rounded-full blur-[100px] pointer-events-none opacity-25"
             style={{ backgroundColor: tokens.brandPrimary }}
@@ -90,13 +90,15 @@ export const AdminLogin: React.FC<AdminLoginProps> = ({
           <div className="relative z-10 space-y-6">
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-semibold bg-white/10 backdrop-blur-md border border-white/15 text-slate-200">
               <Building2 className="w-3.5 h-3.5" style={{ color: tokens.brandPrimary }} />
-              <span>Verified Client Workspace</span>
+              <span>Verified Organization Workspace</span>
             </div>
 
             <div className="pt-2">
               <DynamicBrandLogo
-                logoUrl={branding.logoUrl}
+                logoUrl={branding?.logoUrl}
                 companyName={companyDisplayName}
+                primaryColor={tokens.brandPrimary}
+                accentColor={tokens.brandAccent}
                 size={44}
                 showText={true}
                 textSize="lg"
@@ -106,32 +108,33 @@ export const AdminLogin: React.FC<AdminLoginProps> = ({
 
             <div className="space-y-2 pt-2">
               <h2 className="text-2xl sm:text-3xl font-black text-white tracking-tight leading-tight">
-                {branding.loginTitle || `Welcome to ${companyDisplayName}`}
+                {branding?.loginTitle || `Welcome to ${companyDisplayName}`}
               </h2>
               <p className="text-xs sm:text-sm text-slate-300 leading-relaxed font-normal">
-                {branding.loginSubtitle ||
-                  'Centralized administration desk for CRM, Sales, Inventory, Accounts, and Team Governance.'}
+                {branding?.loginSubtitle ||
+                  'Unified platform for CRM, Sales Pipeline, Inventory, Accounts, and Team Operations.'}
               </p>
             </div>
           </div>
 
-          {/* Bottom Security / Architecture Badge */}
+          {/* Bottom Security / Workspace Badge */}
           <div className="relative z-10 pt-8 mt-auto border-t border-white/10 space-y-2">
             <div className="flex items-center gap-2 text-xs text-slate-300">
               <ShieldCheck className="w-4 h-4 text-emerald-400 shrink-0" />
-              <span>Dedicated Organization Tenant: <strong className="font-mono text-white">{organizationSlug}</strong></span>
+              <span>Dedicated Client Portal: <strong className="font-semibold text-white">{companyDisplayName}</strong></span>
             </div>
             <p className="text-[11px] text-slate-400">
-              {branding.footerText || 'Enterprise Cloud Infrastructure • Single Codebase SaaS'}
+              {branding?.footerText || 'Enterprise Cloud Infrastructure • Secure Dedicated Portal'}
             </p>
           </div>
         </div>
 
-        {/* RIGHT: Administrator Sign-In Form */}
+        {/* RIGHT: Administrator Sign-In Form (Clean fields only) */}
         <div className="lg:col-span-7 p-8 sm:p-12 bg-slate-900 flex flex-col justify-center relative">
           <div className="max-w-md w-full mx-auto space-y-6">
             <div>
-              <div className="inline-block px-2.5 py-0.5 rounded text-[10px] font-mono font-bold uppercase tracking-wider mb-2"
+              <div
+                className="inline-block px-2.5 py-0.5 rounded text-[10px] font-mono font-bold uppercase tracking-wider mb-2"
                 style={{
                   backgroundColor: tokens.brandPrimarySoft,
                   color: tokens.brandPrimary,
@@ -141,70 +144,11 @@ export const AdminLogin: React.FC<AdminLoginProps> = ({
                 Administrator Portal
               </div>
               <h3 className="text-2xl font-bold text-white tracking-tight">
-                Welcome Back
+                Sign In
               </h3>
               <p className="text-xs text-slate-400 mt-1">
-                Sign in with your verified administrator credentials to manage {companyDisplayName}.
+                Enter your administrator credentials to access <span className="text-slate-300 font-semibold">{companyDisplayName}</span>.
               </p>
-            </div>
-
-            {/* Active Super Admin Session Notification Banner */}
-            {user?.role === 'SUPER_ADMIN' && (
-              <div className="p-3 bg-blue-500/10 border border-blue-500/30 rounded-xl text-xs flex flex-col sm:flex-row sm:items-center justify-between gap-2.5">
-                <div className="flex items-center gap-2">
-                  <ShieldCheck className="w-4 h-4 text-blue-400 shrink-0" />
-                  <span className="text-slate-300">
-                    Active Session: <strong className="text-white">{user.name}</strong> (Super Admin)
-                  </span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <button
-                    type="button"
-                    onClick={() => {
-                      setPreviewOrg({
-                        id: organizationSlug,
-                        name: companyDisplayName,
-                        branding
-                      });
-                      navigateTo('/');
-                    }}
-                    className="px-2.5 py-1 rounded-lg text-white font-bold text-[11px] shadow-xs cursor-pointer transition-all shrink-0 flex items-center gap-1"
-                    style={{ backgroundColor: tokens.brandPrimary }}
-                  >
-                    <Sparkles className="w-3 h-3" />
-                    <span>Enter Workspace Directly</span>
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => navigateTo('/super-admin')}
-                    className="px-2 py-1 rounded-lg text-slate-400 hover:text-white bg-slate-800 text-[11px] border border-slate-700 cursor-pointer"
-                  >
-                    Super Admin
-                  </button>
-                </div>
-              </div>
-            )}
-
-            {/* Quick Demo Fill Helper */}
-            <div className="flex items-center justify-between gap-2 p-2.5 bg-slate-800/60 rounded-xl border border-slate-700/60 text-[11px]">
-              <span className="text-slate-400">
-                Demo Admin: <code className="text-slate-200 font-mono">360crm@admin.com</code> / <code className="text-slate-200 font-mono">admin123</code>
-              </span>
-              <button
-                type="button"
-                onClick={() => {
-                  setEmail('360crm@admin.com');
-                  setPassword('admin123');
-                }}
-                className="px-2 py-0.5 rounded text-[10px] font-bold cursor-pointer transition-colors shrink-0"
-                style={{
-                  backgroundColor: tokens.brandPrimarySoft,
-                  color: tokens.brandPrimary,
-                  border: `1px solid ${tokens.brandPrimaryBorder}`
-                }}
-              >
-                Auto Fill
-              </button>
             </div>
 
             {error && (
@@ -220,17 +164,15 @@ export const AdminLogin: React.FC<AdminLoginProps> = ({
                   Administrator Email
                 </label>
                 <div className="relative">
-                  <Mail className="w-4 h-4 text-slate-500 absolute left-3.5 top-1/2 -translate-y-1/2" />
+                  <Mail className="w-4 h-4 text-slate-500 absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none" />
                   <input
                     type="email"
                     required
+                    autoFocus
                     value={email}
                     onChange={e => setEmail(e.target.value)}
-                    placeholder={`admin@${organizationSlug}.com`}
+                    placeholder={`e.g. admin@${organizationSlug}.com`}
                     className="w-full pl-10 pr-3.5 py-2.5 bg-slate-800/80 text-white placeholder-slate-500 text-xs rounded-xl border border-slate-700 focus:outline-none transition-all font-mono"
-                    style={{
-                      borderColor: undefined
-                    }}
                     onFocus={e => (e.target.style.borderColor = tokens.brandPrimary)}
                     onBlur={e => (e.target.style.borderColor = '')}
                   />
@@ -242,22 +184,27 @@ export const AdminLogin: React.FC<AdminLoginProps> = ({
                   <label className="block text-xs font-semibold text-slate-300">
                     Password
                   </label>
-                  <span className="text-[11px] text-slate-400 hover:text-slate-300 cursor-pointer">
-                    Forgot password?
-                  </span>
                 </div>
                 <div className="relative">
-                  <Lock className="w-4 h-4 text-slate-500 absolute left-3.5 top-1/2 -translate-y-1/2" />
+                  <Lock className="w-4 h-4 text-slate-500 absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none" />
                   <input
-                    type="password"
+                    type={showPassword ? 'text' : 'password'}
                     required
                     value={password}
                     onChange={e => setPassword(e.target.value)}
-                    placeholder="••••••••••••"
-                    className="w-full pl-10 pr-3.5 py-2.5 bg-slate-800/80 text-white placeholder-slate-500 text-xs rounded-xl border border-slate-700 focus:outline-none transition-all"
+                    placeholder="Enter your password"
+                    className="w-full pl-10 pr-10 py-2.5 bg-slate-800/80 text-white placeholder-slate-500 text-xs rounded-xl border border-slate-700 focus:outline-none transition-all"
                     onFocus={e => (e.target.style.borderColor = tokens.brandPrimary)}
                     onBlur={e => (e.target.style.borderColor = '')}
                   />
+                  <button
+                    type="button"
+                    onClick={() => setShowPassword(!showPassword)}
+                    className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-200 transition-colors cursor-pointer p-1"
+                    tabIndex={-1}
+                  >
+                    {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+                  </button>
                 </div>
               </div>
 
@@ -267,14 +214,14 @@ export const AdminLogin: React.FC<AdminLoginProps> = ({
                     type="checkbox"
                     checked={rememberMe}
                     onChange={e => setRememberMe(e.target.checked)}
-                    className="rounded border-slate-700 bg-slate-800 text-amber-500 focus:ring-0"
+                    className="rounded border-slate-700 bg-slate-800 text-amber-500 focus:ring-0 cursor-pointer"
                   />
-                  <span>Remember my session</span>
+                  <span className="text-slate-400 hover:text-slate-300 text-xs">Remember my session</span>
                 </label>
                 <button
                   type="button"
                   onClick={() => navigateTo(`/employee/login/${organizationSlug}`)}
-                  className="text-[11px] hover:underline transition-colors"
+                  className="text-[11px] hover:underline transition-colors font-medium"
                   style={{ color: tokens.brandPrimary }}
                 >
                   Employee Portal &rarr;
@@ -295,7 +242,7 @@ export const AdminLogin: React.FC<AdminLoginProps> = ({
                 {loading ? (
                   <>
                     <div className="w-4 h-4 border-2 border-current border-t-transparent rounded-full animate-spin" />
-                    <span>Authorizing Admin Access...</span>
+                    <span>Signing in...</span>
                   </>
                 ) : (
                   <>
@@ -306,15 +253,9 @@ export const AdminLogin: React.FC<AdminLoginProps> = ({
               </button>
             </form>
 
-            <div className="pt-4 border-t border-slate-800 flex items-center justify-between text-[11px] text-slate-500">
-              <span>Tenant: <code className="text-slate-400 font-mono">{organizationSlug}</code></span>
-              <button
-                type="button"
-                onClick={() => navigateTo('/super-admin/login')}
-                className="hover:text-slate-400 transition-colors"
-              >
-                Super Admin Access
-              </button>
+            {/* Clean subtle footer */}
+            <div className="pt-4 border-t border-slate-800/80 text-center text-[11px] text-slate-500">
+              <span>&copy; {new Date().getFullYear()} {companyDisplayName}. All rights reserved.</span>
             </div>
           </div>
         </div>
