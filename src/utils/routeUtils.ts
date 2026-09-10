@@ -134,9 +134,10 @@ export function navigateTo(path: string, options?: { replace?: boolean }) {
  * Get active application origin (supports live base URL override via VITE_APP_URL)
  */
 export function getAppOrigin(): string {
+  const metaEnv = (typeof import.meta !== 'undefined' && import.meta.env) as any;
   const envAppUrl = (
-    (typeof import.meta !== 'undefined' && import.meta.env?.VITE_APP_URL) ||
-    (typeof import.meta !== 'undefined' && import.meta.env?.VITE_PUBLIC_URL) ||
+    metaEnv?.VITE_APP_URL ||
+    metaEnv?.VITE_PUBLIC_URL ||
     ''
   ).trim().replace(/\/+$/, '');
 
