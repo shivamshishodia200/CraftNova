@@ -120,10 +120,21 @@ export function parseRoute(path?: string): ParsedRoute {
 export function navigateTo(path: string, options?: { replace?: boolean }) {
   if (typeof window === 'undefined') return;
 
-  if (options?.replace) {
-    window.history.replaceState({}, '', path);
+  const cleanPath = path.startsWith('/') ? path : `/${path}`;
+
+  // If already on a hash-based path or standard SPA, update location
+  if (window.location.hash || window.location.protocol.startsWith('http')) {
+    if (options?.replace) {
+      window.location.replace(`/#${cleanPath}`);
+    } else {
+      window.location.hash = cleanPath;
+    }
   } else {
-    window.history.pushState({}, '', path);
+    if (options?.replace) {
+      window.history.replaceState({}, '', cleanPath);
+    } else {
+      window.history.pushState({}, '', cleanPath);
+    }
   }
 
   // Dispatch event so React components re-render immediately
@@ -149,19 +160,19 @@ export function getAppOrigin(): string {
 }
 
 /**
- * Generate canonical login URLs
+ * Generate canonical login URLs (uses SPA-safe hash to prevent 404 on static hosts)
  */
 export function getSuperAdminLoginUrl(): string {
   const origin = getAppOrigin();
-  return `${origin}/super-admin/login`;
+  return `${origin}/#/super-admin/login`;
 }
 
 export function getAdminLoginUrl(orgSlug: string): string {
   const origin = getAppOrigin();
-  return `${origin}/admin/login/${encodeURIComponent(orgSlug)}`;
+  return `${origin}/#/admin/login/${encodeURIComponent(orgSlug)}`;
 }
 
 export function getEmployeeLoginUrl(orgSlug: string): string {
   const origin = getAppOrigin();
-  return `${origin}/employee/login/${encodeURIComponent(orgSlug)}`;
+  return `${origin}/#/employee/login/${encodeURIComponent(orgSlug)}`;
 }
