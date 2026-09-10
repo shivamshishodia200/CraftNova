@@ -131,19 +131,36 @@ export function navigateTo(path: string, options?: { replace?: boolean }) {
 }
 
 /**
+ * Get active application origin (supports live base URL override via VITE_APP_URL)
+ */
+export function getAppOrigin(): string {
+  const envAppUrl = (
+    (typeof import.meta !== 'undefined' && import.meta.env?.VITE_APP_URL) ||
+    (typeof import.meta !== 'undefined' && import.meta.env?.VITE_PUBLIC_URL) ||
+    ''
+  ).trim().replace(/\/+$/, '');
+
+  if (envAppUrl) {
+    return envAppUrl;
+  }
+
+  return typeof window !== 'undefined' ? window.location.origin : '';
+}
+
+/**
  * Generate canonical login URLs
  */
 export function getSuperAdminLoginUrl(): string {
-  const origin = typeof window !== 'undefined' ? window.location.origin : '';
+  const origin = getAppOrigin();
   return `${origin}/super-admin/login`;
 }
 
 export function getAdminLoginUrl(orgSlug: string): string {
-  const origin = typeof window !== 'undefined' ? window.location.origin : '';
+  const origin = getAppOrigin();
   return `${origin}/admin/login/${encodeURIComponent(orgSlug)}`;
 }
 
 export function getEmployeeLoginUrl(orgSlug: string): string {
-  const origin = typeof window !== 'undefined' ? window.location.origin : '';
+  const origin = getAppOrigin();
   return `${origin}/employee/login/${encodeURIComponent(orgSlug)}`;
 }
