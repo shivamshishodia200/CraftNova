@@ -111,7 +111,17 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
       const res = await api.post(endpoint, credentials);
       if (res.success && res.data) {
-        const { token: newToken, user: newUser } = res.data;
+        const { token: newToken, user: newUser, organization: orgData } = res.data;
+        const resolvedSlug = credentials.organizationSlug || orgData?.slug || newUser?.organizationSlug;
+        if (resolvedSlug) {
+          localStorage.setItem('craftmedia_last_org_slug', resolvedSlug);
+          if (credentials.expectedPortal === 'EMPLOYEE' || newUser.role === 'EMPLOYEE' || newUser.role === 'HR_EMPLOYEE') {
+            localStorage.setItem('craftmedia_last_portal', 'EMPLOYEE');
+          } else {
+            localStorage.setItem('craftmedia_last_portal', 'ADMIN');
+          }
+        }
+
         setToken(newToken);
         setUser(newUser);
         api.setToken(newToken);
@@ -164,6 +174,10 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   };
 
   const logout = () => {
+    const savedOrgSlug = localStorage.getItem('craftmedia_last_org_slug') || (user as any)?.organizationSlug;
+    const savedPortal = localStorage.getItem('craftmedia_last_portal');
+    const isSuperAdminUser = user?.role === 'SUPER_ADMIN' && !savedOrgSlug;
+
     setToken(null);
     setUser(null);
     api.setToken(null);
@@ -177,7 +191,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       const keysToRemove: string[] = [];
       for (let i = 0; i < localStorage.length; i++) {
         const key = localStorage.key(i);
-        if (key && key.startsWith('theme:')) {
+        if (key && key.startsWith('theme:') && key !== `theme:${savedOrgSlug}`) {
           keysToRemove.push(key);
         }
       }
@@ -187,7 +201,16 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     }
 
     setActivePortalState('admin');
-    navigateTo('/login');
+
+    if (savedOrgSlug && !isSuperAdminUser) {
+      if (savedPortal === 'EMPLOYEE') {
+        navigateTo(`/?org=${encodeURIComponent(savedOrgSlug)}&portal=employee`);
+      } else {
+        navigateTo(`/?org=${encodeURIComponent(savedOrgSlug)}`);
+      }
+    } else {
+      navigateTo('/login');
+    }
   };
 
   const hasPermission = (permissionCode: string): boolean => {

@@ -40,6 +40,12 @@ export const LoginRouter: React.FC = () => {
       setLoadingBrand(true);
       setBrandError(null);
 
+      // Persist last visited organization slug for logout redirect
+      localStorage.setItem('craftmedia_last_org_slug', route.organizationSlug);
+      if (route.portal) {
+        localStorage.setItem('craftmedia_last_portal', route.portal);
+      }
+
       // Check local cache first for 0ms render
       const cacheKey = `theme:${route.organizationSlug}`;
       const cached = localStorage.getItem(cacheKey);
