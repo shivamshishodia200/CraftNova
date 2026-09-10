@@ -726,7 +726,7 @@ export const IntegrationsView: React.FC = () => {
       category: int.category || 'CUSTOM',
       connectionMode: int.connectionMode || 'POLLING',
       status: int.status || 'ACTIVE',
-      endpointUrl: int.endpointUrl || '',
+      endpointUrl: int.endpointUrl || cfg.apiUrl || '',
       method: int.method || 'GET',
       authType: int.authType || 'API_KEY',
       apiKey: effectiveApiKey,
@@ -736,6 +736,7 @@ export const IntegrationsView: React.FC = () => {
       description: int.description || '',
       fieldMappingJson: JSON.stringify(int.fieldMapping || {}, null, 2),
       config: {
+        apiUrl: int.endpointUrl || cfg.apiUrl || '',
         userId: cfg.userId || cfg.userid || '',
         profileId: cfg.profileId || cfg.profile_id || '',
         crmKey: cfg.crmKey || '',
@@ -938,7 +939,7 @@ export const IntegrationsView: React.FC = () => {
       if (formData.fieldMappingJson && formData.fieldMappingJson.trim()) {
         parsedFieldMapping = JSON.parse(formData.fieldMappingJson);
       }
-    } catch {}
+    } catch { }
 
     const payload = {
       _id: editingId || undefined,
@@ -1139,11 +1140,10 @@ export const IntegrationsView: React.FC = () => {
             <button
               key={tab.id}
               onClick={() => setFilterCategory(tab.id)}
-              className={`px-3 py-1.5 rounded-xl font-semibold transition-all whitespace-nowrap ${
-                filterCategory === tab.id
+              className={`px-3 py-1.5 rounded-xl font-semibold transition-all whitespace-nowrap ${filterCategory === tab.id
                   ? 'bg-blue-600 text-white shadow-xs'
                   : 'bg-slate-100 text-slate-600 hover:bg-slate-200/80'
-              }`}
+                }`}
             >
               {tab.label}
             </button>
@@ -1175,25 +1175,23 @@ export const IntegrationsView: React.FC = () => {
           return (
             <div
               key={int._id}
-              className={`bg-white rounded-3xl p-6 border transition-all duration-200 hover:shadow-md flex flex-col justify-between space-y-4 ${
-                int.status === 'ACTIVE'
+              className={`bg-white rounded-3xl p-6 border transition-all duration-200 hover:shadow-md flex flex-col justify-between space-y-4 ${int.status === 'ACTIVE'
                   ? 'border-slate-200/90 shadow-2xs'
                   : 'border-slate-200/60 bg-slate-50/50 opacity-90'
-              }`}
+                }`}
             >
               {/* Header: Icon, Category, Status & Toggle */}
               <div>
                 <div className="flex items-start justify-between gap-3">
                   <div className="flex items-center gap-3">
-                    <div className={`w-11 h-11 rounded-2xl flex items-center justify-center font-bold ${
-                      int.category === 'PORTAL'
+                    <div className={`w-11 h-11 rounded-2xl flex items-center justify-center font-bold ${int.category === 'PORTAL'
                         ? 'bg-blue-50 text-blue-600'
                         : int.category === 'COMMUNICATION'
-                        ? 'bg-emerald-50 text-emerald-600'
-                        : int.category === 'PAYMENT'
-                        ? 'bg-indigo-50 text-indigo-600'
-                        : 'bg-amber-50 text-amber-600'
-                    }`}>
+                          ? 'bg-emerald-50 text-emerald-600'
+                          : int.category === 'PAYMENT'
+                            ? 'bg-indigo-50 text-indigo-600'
+                            : 'bg-amber-50 text-amber-600'
+                      }`}>
                       {int.code === 'whatsapp' ? (
                         <Smartphone className="w-5 h-5" />
                       ) : int.category === 'PAYMENT' ? (
@@ -1316,12 +1314,10 @@ export const IntegrationsView: React.FC = () => {
                   {int.lastTestStatus && (
                     <div className="flex justify-between items-center pt-1 border-t border-slate-200/50">
                       <span>Gateway Health:</span>
-                      <span className={`text-[10px] font-bold flex items-center gap-1 ${
-                        int.lastTestStatus === 'SUCCESS' ? 'text-emerald-600' : 'text-amber-600'
-                      }`}>
-                        <span className={`w-1.5 h-1.5 rounded-full ${
-                          int.lastTestStatus === 'SUCCESS' ? 'bg-emerald-500' : 'bg-amber-500'
-                        }`} />
+                      <span className={`text-[10px] font-bold flex items-center gap-1 ${int.lastTestStatus === 'SUCCESS' ? 'text-emerald-600' : 'text-amber-600'
+                        }`}>
+                        <span className={`w-1.5 h-1.5 rounded-full ${int.lastTestStatus === 'SUCCESS' ? 'bg-emerald-500' : 'bg-amber-500'
+                          }`} />
                         {int.lastTestStatus === 'SUCCESS' ? 'Operational & Ready' : 'Warning / Error'}
                       </span>
                     </div>
@@ -1330,11 +1326,10 @@ export const IntegrationsView: React.FC = () => {
 
                 {/* Inline Test Result Toast if recently tested */}
                 {currentTest && (
-                  <div className={`p-2.5 rounded-xl text-[11px] border font-medium animate-in fade-in ${
-                    currentTest.success
+                  <div className={`p-2.5 rounded-xl text-[11px] border font-medium animate-in fade-in ${currentTest.success
                       ? 'bg-emerald-50 border-emerald-200 text-emerald-800'
                       : 'bg-rose-50 border-rose-200 text-rose-800'
-                  }`}>
+                    }`}>
                     <div className="flex items-center gap-1.5 font-bold">
                       {currentTest.success ? <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600" /> : <AlertCircle className="w-3.5 h-3.5 text-rose-600" />}
                       <span>{currentTest.success ? `Connected (${currentTest.latency}ms)` : 'Connection Failed'}</span>
@@ -1450,11 +1445,10 @@ export const IntegrationsView: React.FC = () => {
                     key={preset.code}
                     type="button"
                     onClick={() => handleApplyPreset(preset)}
-                    className={`p-2 rounded-xl border text-left transition-all group ${
-                      formData.code === preset.code
+                    className={`p-2 rounded-xl border text-left transition-all group ${formData.code === preset.code
                         ? 'border-blue-600 bg-blue-50/70 shadow-xs'
                         : 'border-slate-200 hover:border-blue-400 hover:bg-slate-50'
-                    }`}
+                      }`}
                   >
                     <div className="font-bold text-slate-800 text-[11px] group-hover:text-blue-600 truncate">{preset.label}</div>
                     <div className="text-[9px] text-slate-400 uppercase font-mono">{preset.category}</div>
@@ -1477,11 +1471,10 @@ export const IntegrationsView: React.FC = () => {
                 key={tab.id}
                 type="button"
                 onClick={() => setModalTab(tab.id as any)}
-                className={`px-3 py-1.5 rounded-lg font-bold text-xs transition-all ${
-                  modalTab === tab.id
+                className={`px-3 py-1.5 rounded-lg font-bold text-xs transition-all ${modalTab === tab.id
                     ? 'bg-blue-600 text-white shadow-xs'
                     : 'text-slate-600 hover:bg-slate-100'
-                }`}
+                  }`}
               >
                 {tab.label}
               </button>
@@ -1518,6 +1511,44 @@ export const IntegrationsView: React.FC = () => {
                       className="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:ring-2 focus:ring-blue-500/20 font-mono text-xs"
                     />
                   </div>
+                </div>
+
+                <div>
+                  <div className="flex items-center justify-between mb-1">
+                    <label className="block font-semibold text-slate-700 text-xs">API Endpoint URL / Webhook Path *</label>
+                    {formData.code === 'tradeindia' && (
+                      <div className="flex gap-1.5">
+                        <button
+                          type="button"
+                          onClick={() => {
+                            const url = 'https://www.tradeindia.com/utils/my_inquiry.html';
+                            setFormData({ ...formData, endpointUrl: url, config: { ...formData.config, apiUrl: url } });
+                          }}
+                          className="px-2 py-0.5 bg-blue-100 hover:bg-blue-200 text-blue-800 text-[10px] font-semibold rounded-md transition-colors"
+                        >
+                          Use my_inquiry.html (Inquiries)
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => {
+                            const url = 'https://www.tradeindia.com/utils/my_buy_leads.html';
+                            setFormData({ ...formData, endpointUrl: url, config: { ...formData.config, apiUrl: url } });
+                          }}
+                          className="px-2 py-0.5 bg-slate-200 hover:bg-slate-300 text-slate-700 text-[10px] font-semibold rounded-md transition-colors"
+                        >
+                          Use my_buy_leads.html (Buy Leads)
+                        </button>
+                      </div>
+                    )}
+                  </div>
+                  <input
+                    type="text"
+                    required
+                    value={formData.endpointUrl}
+                    onChange={e => setFormData({ ...formData, endpointUrl: e.target.value, config: { ...formData.config, apiUrl: e.target.value } })}
+                    placeholder="https://www.tradeindia.com/utils/my_inquiry.html"
+                    className="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:ring-2 focus:ring-blue-500/20 font-mono text-xs font-semibold text-slate-900"
+                  />
                 </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
@@ -2088,9 +2119,8 @@ export const IntegrationsView: React.FC = () => {
                   </div>
 
                   {modalTestResult && (
-                    <div className={`p-3 rounded-xl border text-xs space-y-2 ${
-                      modalTestResult.success ? 'bg-emerald-50 border-emerald-200 text-emerald-900' : 'bg-rose-50 border-rose-200 text-rose-900'
-                    }`}>
+                    <div className={`p-3 rounded-xl border text-xs space-y-2 ${modalTestResult.success ? 'bg-emerald-50 border-emerald-200 text-emerald-900' : 'bg-rose-50 border-rose-200 text-rose-900'
+                      }`}>
                       <div className="flex items-center gap-2 font-bold">
                         {modalTestResult.success ? <CheckCircle2 className="w-4 h-4 text-emerald-600" /> : <AlertCircle className="w-4 h-4 text-rose-600" />}
                         <span>{modalTestResult.success ? `Handshake Successful (${modalTestResult.latency}ms)` : 'Handshake Failed'}</span>
@@ -2171,9 +2201,8 @@ export const IntegrationsView: React.FC = () => {
                 <div key={log._id} className="p-3 bg-white hover:bg-slate-50/80 transition-colors space-y-1.5">
                   <div className="flex items-center justify-between">
                     <div className="flex items-center gap-2">
-                      <span className={`px-2 py-0.5 rounded text-[10px] font-bold font-mono ${
-                        log.status === 'SUCCESS' ? 'bg-emerald-100 text-emerald-800' : 'bg-rose-100 text-rose-800'
-                      }`}>
+                      <span className={`px-2 py-0.5 rounded text-[10px] font-bold font-mono ${log.status === 'SUCCESS' ? 'bg-emerald-100 text-emerald-800' : 'bg-rose-100 text-rose-800'
+                        }`}>
                         {log.status}
                       </span>
                       <span className="font-bold text-slate-800 text-[11px]">{log.integrationName}</span>
