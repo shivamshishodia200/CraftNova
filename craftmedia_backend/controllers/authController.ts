@@ -157,8 +157,17 @@ export async function adminLogin(req: Request, res: Response) {
       });
     }
 
-    // STRICT SECURITY: Must be ADMIN
-    if (user.role !== 'ADMIN') {
+    const isSuperAdmin = user.role === 'SUPER_ADMIN';
+
+    // Role check: Must be ADMIN or SUPER_ADMIN
+    if (user.role !== 'ADMIN' && !isSuperAdmin) {
+      if (user.role === 'EMPLOYEE' || user.role === 'HR_EMPLOYEE') {
+        return res.status(403).json({
+          success: false,
+          code: 'ROLE_MISMATCH',
+          message: 'This account is registered as an Employee. Please switch to the Employee Portal to log in.'
+        });
+      }
       return res.status(403).json({
         success: false,
         code: 'ROLE_MISMATCH',
@@ -166,8 +175,8 @@ export async function adminLogin(req: Request, res: Response) {
       });
     }
 
-    // STRICT TENANT ISOLATION: Must belong to THIS organization
-    if (user.organizationId !== org._id) {
+    // STRICT TENANT ISOLATION: For regular admins, must belong to THIS organization
+    if (!isSuperAdmin && user.organizationId !== org._id) {
       const userOrg = db.organizations.findById(user.organizationId || '')?.name || 'another organization';
       return res.status(403).json({
         success: false,
@@ -181,24 +190,25 @@ export async function adminLogin(req: Request, res: Response) {
     const roleDoc = db.roles.findById(user.roleId) || db.roles.findOne(r => r.code === user.role);
     const rolePerms = user.permissionMode === 'REPLACE' ? [] : (roleDoc?.permissions || []);
     const customPerms = user.customPermissions || [];
-    const permissions = Array.from(new Set([...rolePerms, ...customPerms]));
+    const permissions = isSuperAdmin ? ['*'] : Array.from(new Set([...rolePerms, ...customPerms]));
 
     const authenticatedUser = {
       userId: user._id,
       email: user.email,
       name: user.name,
-      role: 'ADMIN',
+      role: isSuperAdmin ? 'SUPER_ADMIN' : 'ADMIN',
       roleId: user.roleId,
       permissions,
       organizationId: org._id,
       organization: org.name,
-      avatar: user.avatar
+      avatar: user.avatar,
+      isSuperAdmin
     };
 
     const token = generateToken(authenticatedUser);
     const authReq = req as AuthenticatedRequest;
     authReq.user = authenticatedUser;
-    recordAuditLog(authReq, 'LOGIN', 'Authentication', `Admin ${user.name} logged into ${org.name} Workspace`);
+    recordAuditLog(authReq, 'LOGIN', 'Authentication', `${isSuperAdmin ? 'Super Admin' : 'Admin'} ${user.name} logged into ${org.name} Workspace`);
 
     return res.json({
       success: true,
