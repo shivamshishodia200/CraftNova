@@ -321,8 +321,18 @@ export async function getAttendance(req: AuthenticatedRequest, res: Response) {
   try {
     const { date, employeeId } = req.query;
     let records = filterByWorkspace(db.attendance.getAll(), req);
+
+    const isEmployeeRole = req.user?.role === 'EMPLOYEE' || req.user?.role === 'SALES_EMPLOYEE' || req.user?.role === 'STORE_EMPLOYEE';
+    const currentEmpId = (req.user as any)?.employeeId || req.user?.userId;
+
     if (date) records = records.filter(r => r.date === date);
-    if (employeeId) records = records.filter(r => r.employeeId === employeeId);
+
+    if (employeeId) {
+      records = records.filter(r => r.employeeId === employeeId);
+    } else if (isEmployeeRole && currentEmpId) {
+      records = records.filter(r => r.employeeId === currentEmpId || (r as any).employeeEmail === req.user?.email);
+    }
+
     records.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
     return res.json({ success: true, data: records });
   } catch (err: any) {
@@ -860,9 +870,15 @@ export async function getTodayAttendanceStatus(req: AuthenticatedRequest, res: R
   try {
     const { employeeId } = req.query;
     const empId = (employeeId as string) || (req.user as any)?.employeeId || req.user?.userId;
+    const userEmail = req.user?.email;
 
     const today = new Date().toISOString().split('T')[0];
-    const record = db.attendance.findOne(a => (a.employeeId === empId || (req.user?.name && a.employeeName.toLowerCase().includes(req.user.name.toLowerCase()))) && a.date === today);
+    const record = db.attendance.findOne(a => {
+      if (a.date !== today) return false;
+      if (empId && a.employeeId === empId) return true;
+      if (userEmail && (a as any).employeeEmail === userEmail) return true;
+      return false;
+    });
 
     return res.json({
       success: true,
@@ -884,8 +900,18 @@ export async function getSalaries(req: AuthenticatedRequest, res: Response) {
   try {
     const { month, employeeId } = req.query;
     let salaries = filterByWorkspace(db.salaries.getAll(), req);
+
+    const isEmployeeRole = req.user?.role === 'EMPLOYEE' || req.user?.role === 'SALES_EMPLOYEE' || req.user?.role === 'STORE_EMPLOYEE';
+    const currentEmpId = (req.user as any)?.employeeId || req.user?.userId;
+
     if (month) salaries = salaries.filter(s => s.month === month);
-    if (employeeId) salaries = salaries.filter(s => s.employeeId === employeeId);
+
+    if (employeeId) {
+      salaries = salaries.filter(s => s.employeeId === employeeId);
+    } else if (isEmployeeRole && currentEmpId) {
+      salaries = salaries.filter(s => s.employeeId === currentEmpId || (s as any).employeeEmail === req.user?.email);
+    }
+
     return res.json({ success: true, data: salaries });
   } catch (err: any) {
     return res.status(500).json({ success: false, message: err.message });
