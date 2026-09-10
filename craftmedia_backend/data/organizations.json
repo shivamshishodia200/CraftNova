@@ -5,8 +5,8 @@
     "slug": "craft-media-hub",
     "clientCode": "CMH",
     "status": "ACTIVE",
-    "contactEmail": "admin@craftmediahub.com",
-    "contactPhone": "+91 98123 45678",
+    "contactEmail": "shivamadmin@gmail.com",
+    "contactPhone": "928298393",
     "branding": {
       "companyName": "Craft Media Hub",
       "logoUrl": "/logo.svg",
@@ -90,7 +90,9 @@
     "settings": {
       "timezone": "Asia/Kolkata",
       "currency": "INR",
-      "dateFormat": "DD/MM/YYYY"
+      "dateFormat": "DD/MM/YYYY",
+      "primaryAdminEmail": "shivamadmin@gmail.com",
+      "primaryAdminName": "Raj"
     },
     "adminCount": 3,
     "employeeCount": 9,

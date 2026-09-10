@@ -1,5 +1,25 @@
 [
   {
+    "_id": "usr_shivamadmin_raj",
+    "name": "Raj",
+    "email": "shivamadmin@gmail.com",
+    "passwordHash": "$2a$10$8IsYnj4DiyfrkG1ugQCFv.jU037tk7HO67Vy9eT2BOcZFEpBAhlQu",
+    "phone": "928298393",
+    "role": "ADMIN",
+    "roleId": "role_admin",
+    "department": "Management",
+    "designation": "Client Administrator",
+    "organization": "Craft Media Hub",
+    "organizationId": "org_craftmedia",
+    "status": "ACTIVE",
+    "avatar": "R",
+    "isPrimaryAdmin": true,
+    "mustChangePassword": false,
+    "failedLoginCount": 0,
+    "createdAt": "2026-09-10T11:20:07.323Z",
+    "updatedAt": "2026-09-10T11:20:07.332Z"
+  },
+  {
     "_id": "usr_superadmin",
     "name": "Priyanshu Agrawal",
     "email": "shivamshishodia5541@gmail.com",
