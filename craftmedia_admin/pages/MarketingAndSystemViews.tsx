@@ -482,7 +482,56 @@ export const IntegrationsView: React.FC = () => {
   const [actionMessage, setActionMessage] = useState<string | null>(null);
 
   // Form State
-  const initialFormState = {
+  interface IntegrationFormConfig {
+    apiUrl?: string;
+    userId?: string;
+    profileId?: string;
+    crmKey?: string;
+    glusrMobile?: string;
+    phoneNumberId?: string;
+    businessAccountId?: string;
+    verifyToken?: string;
+    appSecret?: string;
+    keyId?: string;
+    keySecret?: string;
+    publishableKey?: string;
+    secretKey?: string;
+    webhookSecret?: string;
+    responseRootPath?: string;
+    paginationType?: string;
+    pageParam?: string;
+    limitParam?: string;
+    limit?: number;
+    defaultSource?: string;
+    defaultChannel?: string;
+    defaultPriority?: string;
+    autoAssignLead?: boolean;
+    autoSettleInvoice?: boolean;
+    initialSyncDaysBack?: number;
+    syncRespondedLeads?: boolean;
+    [key: string]: any;
+  }
+
+  interface IntegrationFormState {
+    name: string;
+    code: string;
+    provider: string;
+    category: string;
+    connectionMode: string;
+    status: string;
+    endpointUrl: string;
+    method: string;
+    authType: string;
+    apiKey: string;
+    apiSecret: string;
+    webhookSecret: string;
+    syncFrequency: string;
+    description: string;
+    fieldMappingJson: string;
+    config: IntegrationFormConfig;
+  }
+
+  const initialFormState: IntegrationFormState = {
     name: '',
     code: 'custom_rest_api',
     provider: 'Custom REST',
@@ -499,6 +548,7 @@ export const IntegrationsView: React.FC = () => {
     description: '',
     fieldMappingJson: '{\n  "customer_name": "name",\n  "contact_number": "phone",\n  "email_address": "email",\n  "organization": "companyName",\n  "inquiry_notes": "requirement",\n  "location_city": "city"\n}',
     config: {
+      apiUrl: '',
       userId: '',
       profileId: '',
       crmKey: '',
@@ -527,7 +577,7 @@ export const IntegrationsView: React.FC = () => {
     }
   };
 
-  const [formData, setFormData] = useState(initialFormState);
+  const [formData, setFormData] = useState<IntegrationFormState>(initialFormState);
 
   // Presets list for quick creation
   const integrationPresets = [
