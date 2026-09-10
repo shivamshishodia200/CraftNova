@@ -19,7 +19,9 @@ services:
     staticPublishPath: ./dist
     envVars:
       - key: VITE_API_URL
-        value: https://360crm-api.onrender.com/api
+        value: https://craftnova-backend-v2n3.onrender.com/api
+      - key: VITE_APP_URL
+        value: https://craftnova-crm.onrender.com
     routes:
       - type: rewrite
         source: /*
